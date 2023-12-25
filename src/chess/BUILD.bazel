@@ -3,17 +3,22 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "chess",
     srcs = [
+        "generator.go",
         "peace.go",
         "position.go",
         "result.go",
+        "text.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
+    deps = ["//src/math"],
 )
 
 go_test(
     name = "chess_test",
     srcs = [
+        "generator_test.go",
+        "position_peaces_count_test.go",
         "position_test.go",
         "position_valid__kings_test.go",
     ],

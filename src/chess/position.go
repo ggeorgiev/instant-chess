@@ -38,14 +38,23 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 	for y := 0; y < 8; y++ {
 		for x := 0; x < 8; x++ {
 			peace := matrix[x][y]
+			if peace.Type == Empty {
+				continue
+			}
+
+			if peace.Color == PeaceColorWhite {
+				position.WhitePeaces++
+			} else {
+				position.BlackPeaces++
+			}
+
 			if peace.Type == King {
 				if peace.Color == PeaceColorWhite {
 					whiteKings++
 				} else {
 					blackKings++
 				}
-			}
-			if peace.Type == Pawn {
+			} else if peace.Type == Pawn {
 				if peace.Color == PeaceColorWhite {
 					whitePawns++
 				} else {
@@ -59,18 +68,6 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 		(whitePawns <= 8 && blackPawns <= 8)
 
 	return position
-}
-
-func runes(row string) []rune {
-	runes := []rune(row)
-
-	var result []rune
-	for _, r := range runes {
-		if r != 65038 {
-			result = append(result, r)
-		}
-	}
-	return result
 }
 
 func ParsePosition(text string) *Position {

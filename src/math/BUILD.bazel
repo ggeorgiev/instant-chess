@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "math",
+    srcs = [
+        "combination.go",
+        "permutation.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/math",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "math_test",
+    srcs = [
+        "combination_test.go",
+        "permutation_test.go",
+    ],
+    embed = [":math"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)
