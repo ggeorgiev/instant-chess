@@ -13,7 +13,10 @@ go_library(
 
 go_test(
     name = "chess_test",
-    srcs = ["position_test.go"],
+    srcs = [
+        "position_test.go",
+        "position_valid__kings_test.go",
+    ],
     embed = [":chess"],
     deps = ["@com_github_stretchr_testify//assert"],
 )

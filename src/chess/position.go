@@ -14,6 +14,8 @@ type Position struct {
 
 	WhitePeaces int8
 	BlackPeaces int8
+
+	Valid bool
 }
 
 func CreatePosition(matrix [8][8]Peace) *Position {
@@ -27,6 +29,34 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 		WhitePeaces: 0,
 		BlackPeaces: 0,
 	}
+
+	whiteKings := 0
+	blackKings := 0
+	whitePawns := 0
+	blackPawns := 0
+
+	for y := 0; y < 8; y++ {
+		for x := 0; x < 8; x++ {
+			peace := matrix[x][y]
+			if peace.Type == King {
+				if peace.Color == PeaceColorWhite {
+					whiteKings++
+				} else {
+					blackKings++
+				}
+			}
+			if peace.Type == Pawn {
+				if peace.Color == PeaceColorWhite {
+					whitePawns++
+				} else {
+					blackPawns++
+				}
+			}
+		}
+	}
+
+	position.Valid = (whiteKings == 1 && blackKings == 1) &&
+		(whitePawns <= 8 && blackPawns <= 8)
 
 	return position
 }
@@ -55,7 +85,6 @@ func ParsePosition(text string) *Position {
 
 	for y := 8; y > 0; y-- {
 		row += 2
-		fmt.Printf("%s\n", rows[row])
 		runes := runes(rows[row])
 
 		for x := 0; x < 8; x++ {

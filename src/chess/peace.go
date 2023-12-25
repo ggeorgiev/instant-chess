@@ -5,8 +5,8 @@ import "fmt"
 type PeaceColor bool
 
 const (
-	PeaceColorWhite = true
-	PeaceColorBlack = false
+	PeaceColorWhite PeaceColor = true
+	PeaceColorBlack PeaceColor = false
 )
 
 type PeaceType uint

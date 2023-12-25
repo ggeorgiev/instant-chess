@@ -6,14 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreatePosition(t *testing.T) {
-	position := CreatePosition([8][8]Peace{})
-
-	position.Print()
-
-	assert.True(t, position.VerticalySymetric)
-}
-
 func TestParsePosition(t *testing.T) {
 	position := ParsePosition(`
     a   b   c   d   e   f   g   h
@@ -37,5 +29,5 @@ func TestParsePosition(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.True(t, position.VerticalySymetric)
+	assert.True(t, position.Valid)
 }
