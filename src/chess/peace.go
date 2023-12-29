@@ -9,6 +9,10 @@ const (
 	PeaceColorBlack PeaceColor = false
 )
 
+func (pc PeaceColor) Oponent() PeaceColor {
+	return !pc
+}
+
 type PeaceType uint
 
 const (
@@ -25,6 +29,8 @@ type Peace struct {
 	Color PeaceColor
 	Type  PeaceType
 }
+
+var EmptyPeace = Peace{Type: Empty}
 
 func (p Peace) Symbol() string {
 	switch p.Color {

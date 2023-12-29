@@ -1,33 +1,34 @@
 package chess
 
-import (
-	"fmt"
-	"strings"
-)
-
 type Position struct {
-	VerticalySymetric bool
+	HorizontalySymetric bool
+	VerticalySymetric   bool
 
 	Result Result
 
-	Matrix [8][8]Peace
+	Board Board
 
 	WhitePeaces int8
 	BlackPeaces int8
 
 	Valid bool
+
+	Moves []Move
 }
 
-func CreatePosition(matrix [8][8]Peace) *Position {
+func CreatePosition(board Board) *Position {
 	position := &Position{
-		VerticalySymetric: true,
+		HorizontalySymetric: true,
+		VerticalySymetric:   true,
 
 		Result: UnknownResult,
 
-		Matrix: matrix,
+		Board: board,
 
 		WhitePeaces: 0,
 		BlackPeaces: 0,
+
+		Valid: true,
 	}
 
 	whiteKings := 0
@@ -37,12 +38,13 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 
 	for y := 0; y < 8; y++ {
 		for x := 0; x < 8; x++ {
-			peace := matrix[x][y]
+			peace := board[x][y]
 			if peace.Type == Empty {
 				continue
 			}
 
 			if peace.Color == PeaceColorWhite {
+				position.Moves = append(position.Moves, board.Move(x, y))
 				position.WhitePeaces++
 			} else {
 				position.BlackPeaces++
@@ -52,6 +54,10 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 				if peace.Color == PeaceColorWhite {
 					whiteKings++
 				} else {
+					if board.SquareUnderAttack(x, y, PeaceColorWhite) {
+						position.Valid = false
+					}
+
 					blackKings++
 				}
 			} else if peace.Type == Pawn {
@@ -64,50 +70,18 @@ func CreatePosition(matrix [8][8]Peace) *Position {
 		}
 	}
 
-	position.Valid = (whiteKings == 1 && blackKings == 1) &&
+	position.Valid = position.Valid &&
+		(whiteKings == 1 && blackKings == 1) &&
 		(whitePawns <= 8 && blackPawns <= 8)
 
 	return position
 }
 
 func ParsePosition(text string) *Position {
-	var matrix [8][8]Peace
-
-	rows := strings.Split(text, "\n")
-
-	row := 0
-	if len(rows[row]) == 0 {
-		row++
-	}
-
-	for y := 8; y > 0; y-- {
-		row += 2
-		runes := runes(rows[row])
-
-		for x := 0; x < 8; x++ {
-			matrix[x][y-1] = PeaceFromSymbol(runes[4+x*4])
-		}
-
-	}
-
-	return CreatePosition(matrix)
+	board := ParseBoard(text)
+	return CreatePosition(board)
 }
 
 func (p *Position) Print() {
-	letters := "    a   b   c   d   e   f   g   h  "
-	separator := "  +---+---+---+---+---+---+---+---+"
-
-	fmt.Println(letters)
-	fmt.Println(separator)
-
-	for y := 8; y > 0; y-- {
-		fmt.Printf("%d |", y)
-		for x := 0; x < 8; x++ {
-			fmt.Printf(" %s |", p.Matrix[x][y-1].Symbol())
-		}
-		fmt.Printf(" %d\n", y)
-		fmt.Println(separator)
-	}
-
-	fmt.Println(letters)
+	p.Board.Print()
 }

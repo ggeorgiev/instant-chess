@@ -36,5 +36,5 @@ func Generate(peacesString string) {
 			invalid++
 		}
 	}
-	fmt.Printf("%d", invalid)
+	fmt.Printf("Invalid positions: %d/%d\n", invalid, i)
 }
