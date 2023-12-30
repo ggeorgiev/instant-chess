@@ -32,49 +32,16 @@ func ParseBoard(text string) Board {
 func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 	king := Combine(fromColor, King)
 
+	attackedFromKing := AttackedFromKing[s]
+
+	for _, kingSquare := range attackedFromKing {
+		if board[kingSquare] == king {
+			return true
+		}
+	}
+
 	x := s.X()
 	y := s.Y()
-
-	if x > 0 {
-		if y > 0 {
-			if board[NewSquare(x-1, y-1)] == king {
-				return true
-			}
-		}
-		if board[NewSquare(x-1, y)] == king {
-			return true
-		}
-		if y < 7 {
-			if board[NewSquare(x-1, y+1)] == king {
-				return true
-			}
-		}
-	}
-	if y > 0 {
-		if board[NewSquare(x, y-1)] == king {
-			return true
-		}
-	}
-	if y < 7 {
-		if board[NewSquare(x, y+1)] == king {
-			return true
-		}
-	}
-	if x < 7 {
-		if y > 0 {
-			if board[NewSquare(x+1, y-1)] == king {
-				return true
-			}
-		}
-		if board[NewSquare(x+1, y)] == king {
-			return true
-		}
-		if y < 7 {
-			if board[NewSquare(x+1, y+1)] == king {
-				return true
-			}
-		}
-	}
 
 	rook := Combine(fromColor, Rook)
 	queen := Combine(fromColor, Queen)
