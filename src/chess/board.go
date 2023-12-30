@@ -136,7 +136,7 @@ func (board Board) kingTos(x int, y int) []Square {
 
 	check := func(square Square) {
 		peace := board[square.X][square.Y]
-		if peace.IsEmptyOr(oponentColor) && !board.SquareUnderAttack(square.X, square.Y, oponentColor) {
+		if peace.IsEmptyOrNot(color) && !board.SquareUnderAttack(square.X, square.Y, oponentColor) {
 			tos = append(tos, square)
 		}
 	}
@@ -178,7 +178,7 @@ func (board Board) rookTos(x int, y int, kX int, kY int) []Square {
 
 	check := func(square Square) bool {
 		peace := board[square.X][square.Y]
-		if peace.IsEmptyOr(oponentColor) {
+		if peace.IsEmptyOrNot(color) {
 			original := board[square.X][square.Y]
 			board[square.X][square.Y] = board[x][y]
 			board[x][y] = Empty

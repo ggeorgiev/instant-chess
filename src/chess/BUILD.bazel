@@ -24,6 +24,7 @@ go_test(
         "board_square_under_attack_benchmark_test.go",
         "board_square_under_attack_test.go",
         "generator_test.go",
+        "peace_benchmark_test.go",
         "peace_test.go",
         "position_peaces_count_test.go",
         "position_test.go",

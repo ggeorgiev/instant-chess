@@ -3,8 +3,9 @@ package chess
 import "fmt"
 
 const (
-	White = 0b01
-	Black = 0b10
+	ColorMask = 0b11
+	White     = 0b01
+	Black     = 0b10
 )
 
 type PeaceColor uint8
@@ -15,7 +16,7 @@ const (
 )
 
 func (pc PeaceColor) Oponent() PeaceColor {
-	return pc ^ 0b11
+	return pc ^ ColorMask
 }
 
 type PeaceType uint8
@@ -76,7 +77,11 @@ func (p Peace) IsEmpty() bool {
 }
 
 func (p Peace) IsEmptyOr(color PeaceColor) bool {
-	return uint8(p)&uint8(color.Oponent()) == 0
+	return uint8(p)&ColorMask != uint8(color.Oponent())
+}
+
+func (p Peace) IsEmptyOrNot(color PeaceColor) bool {
+	return uint8(p)&ColorMask != uint8(color)
 }
 
 func (p Peace) IsEmptyOrWhite() bool {
