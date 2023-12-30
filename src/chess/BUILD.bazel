@@ -21,8 +21,10 @@ go_test(
     size = "large",
     srcs = [
         "board_move_test.go",
+        "board_square_under_attack_benchmark_test.go",
         "board_square_under_attack_test.go",
         "generator_test.go",
+        "peace_test.go",
         "position_peaces_count_test.go",
         "position_test.go",
         "position_valid_black_king_under_attack_test.go",

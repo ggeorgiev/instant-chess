@@ -30,109 +30,95 @@ func ParseBoard(text string) Board {
 }
 
 func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
+	king := Combine(fromColor, King)
+
 	if x > 0 {
 		if y > 0 {
-			peace := board[x-1][y-1]
-			if peace.Color == fromColor && peace.Type == King {
+			if board[x-1][y-1] == king {
 				return true
 			}
 		}
-		peace := board[x-1][y]
-		if peace.Color == fromColor && peace.Type == King {
+		if board[x-1][y] == king {
 			return true
 		}
 		if y < 7 {
-			peace := board[x-1][y+1]
-			if peace.Color == fromColor && peace.Type == King {
+			if board[x-1][y+1] == king {
 				return true
 			}
 		}
 	}
 	if y > 0 {
-		peace := board[x][y-1]
-		if peace.Color == fromColor && peace.Type == King {
+		if board[x][y-1] == king {
 			return true
 		}
 	}
 	if y < 7 {
-		peace := board[x][y+1]
-		if peace.Color == fromColor && peace.Type == King {
+		if board[x][y+1] == king {
 			return true
 		}
 	}
 	if x < 7 {
 		if y > 0 {
-			peace := board[x+1][y-1]
-			if peace.Color == fromColor && peace.Type == King {
+			if board[x+1][y-1] == king {
 				return true
 			}
 		}
-		peace := board[x+1][y]
-		if peace.Color == fromColor && peace.Type == King {
+		if board[x+1][y] == king {
 			return true
 		}
 		if y < 7 {
-			peace := board[x+1][y+1]
-			if peace.Color == fromColor && peace.Type == King {
+			if board[x+1][y+1] == king {
 				return true
 			}
 		}
 	}
 
+	rook := Combine(fromColor, Rook)
+	queen := Combine(fromColor, Queen)
+
 	for i := x - 1; i >= 0; i-- {
 		peace := board[i][y]
-		if peace.Color == fromColor && (peace.Type == Rook || peace.Type == Queen) {
+		if peace == rook || peace == queen {
 			return true
 		}
-		if peace.Type != Empty {
+		if peace != Empty {
 			break
 		}
 	}
 	for i := x + 1; i < 8; i++ {
 		peace := board[i][y]
-		if peace.Color == fromColor && (peace.Type == Rook || peace.Type == Queen) {
+		if peace == rook || peace == queen {
 			return true
 		}
-		if peace.Type != Empty {
+		if peace != Empty {
 			break
 		}
 	}
 	for i := y - 1; i >= 0; i-- {
 		peace := board[x][i]
-		if peace.Color == fromColor && (peace.Type == Rook || peace.Type == Queen) {
+		if peace == rook || peace == queen {
 			return true
 		}
-		if peace.Type != Empty {
+		if peace != Empty {
 			break
 		}
 	}
 	for i := y + 1; i < 8; i++ {
 		peace := board[x][i]
-		if peace.Color == fromColor && (peace.Type == Rook || peace.Type == Queen) {
+		if peace == rook || peace == queen {
 			return true
 		}
-		if peace.Type != Empty {
+		if peace != Empty {
 			break
 		}
 	}
 	return false
 }
 
-func (board Board) FindWhiteKing() (int, int) {
+func (board Board) FindPeace(peace Peace) (int, int) {
 	for x := 0; x < 8; x++ {
 		for y := 0; y < 8; y++ {
-			if board[x][y].Color == PeaceColorWhite && board[x][y].Type == King {
-				return x, y
-			}
-		}
-	}
-	return -1, -1
-}
-
-func (board Board) FindBlackKing() (int, int) {
-	for x := 0; x < 8; x++ {
-		for y := 0; y < 8; y++ {
-			if board[x][y].Color == PeaceColorBlack && board[x][y].Type == King {
+			if board[x][y] == peace {
 				return x, y
 			}
 		}
@@ -142,15 +128,15 @@ func (board Board) FindBlackKing() (int, int) {
 
 func (board Board) kingTos(x int, y int) []Square {
 	var tos []Square
-	color := board[x][y].Color
+	color := board[x][y].Color()
 	oponentColor := color.Oponent()
 
 	original := board[x][y]
-	board[x][y] = EmptyPeace
+	board[x][y] = Empty
 
 	check := func(square Square) {
 		peace := board[square.X][square.Y]
-		if (peace.Type == Empty || peace.Color == oponentColor) && !board.SquareUnderAttack(square.X, square.Y, oponentColor) {
+		if peace.IsEmptyOr(oponentColor) && !board.SquareUnderAttack(square.X, square.Y, oponentColor) {
 			tos = append(tos, square)
 		}
 	}
@@ -187,15 +173,15 @@ func (board Board) kingTos(x int, y int) []Square {
 
 func (board Board) rookTos(x int, y int, kX int, kY int) []Square {
 	var tos []Square
-	color := board[x][y].Color
+	color := board[x][y].Color()
 	oponentColor := color.Oponent()
 
 	check := func(square Square) bool {
 		peace := board[square.X][square.Y]
-		if peace.Type == Empty || peace.Color == oponentColor {
+		if peace.IsEmptyOr(oponentColor) {
 			original := board[square.X][square.Y]
 			board[square.X][square.Y] = board[x][y]
-			board[x][y] = EmptyPeace
+			board[x][y] = Empty
 
 			if !board.SquareUnderAttack(kX, kY, oponentColor) {
 				tos = append(tos, square)
@@ -204,7 +190,7 @@ func (board Board) rookTos(x int, y int, kX int, kY int) []Square {
 			board[x][y] = board[square.X][square.Y]
 			board[square.X][square.Y] = original
 		}
-		return peace.Type == Empty
+		return peace.IsEmpty()
 	}
 
 	square := Square{}
@@ -236,10 +222,10 @@ func (board Board) rookTos(x int, y int, kX int, kY int) []Square {
 }
 
 func (board Board) Tos(x int, y int, bkX int, bkY int) []Square {
-	if board[x][y].Type == King {
+	if board[x][y].IsKing() {
 		return board.kingTos(x, y)
 	}
-	if board[x][y].Type == Rook {
+	if board[x][y].IsRook() {
 		return board.rookTos(x, y, bkX, bkY)
 	}
 
@@ -247,24 +233,24 @@ func (board Board) Tos(x int, y int, bkX int, bkY int) []Square {
 }
 
 func (board Board) Move(x int, y int) Move {
-	wkX, wkY := board.FindWhiteKing()
+	wkX, wkY := board.FindPeace(WhiteKing)
 
 	tos := board.Tos(x, y, wkX, wkY)
 
-	bkX, bkY := board.FindBlackKing()
+	bkX, bkY := board.FindPeace(BlackKing)
 
 	var toAnswers []ToAnswer
 	for _, to := range tos {
 		original := board[to.X][to.Y]
 		board[to.X][to.Y] = board[x][y]
-		board[x][y] = EmptyPeace
+		board[x][y] = Empty
 
 		var answers []Answer
 
 		for x := 0; x < 8; x++ {
 			for y := 0; y < 8; y++ {
 				peace := board[x][y]
-				if peace.Type != Empty && peace.Color == PeaceColorBlack {
+				if peace.IsBlack() {
 					blackTos := board.Tos(x, y, bkX, bkY)
 					if len(blackTos) > 0 {
 						answers = append(answers, Answer{
