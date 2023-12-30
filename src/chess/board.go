@@ -103,39 +103,12 @@ func (board Board) kingTos(s Square) []Square {
 	original := board[s]
 	board[s] = Empty
 
-	check := func(square Square) {
+	kingMoves := KingMoves[s]
+
+	for _, square := range kingMoves {
 		peace := board[square]
 		if peace.IsEmptyOrNot(color) && !board.SquareUnderAttack(square, oponentColor) {
 			tos = append(tos, square)
-		}
-	}
-
-	x := s.X()
-	y := s.Y()
-
-	if y < 7 {
-		if x > 0 {
-			check(NewSquare(x-1, y+1))
-		}
-		check(NewSquare(x, y+1))
-		if x < 7 {
-			check(NewSquare(x+1, y+1))
-		}
-	}
-	if x > 0 {
-		check(NewSquare(x-1, y))
-	}
-	if x < 7 {
-		check(NewSquare(x+1, y))
-	}
-
-	if y > 0 {
-		if x > 0 {
-			check(NewSquare(x-1, y-1))
-		}
-		check(NewSquare(x, y-1))
-		if x < 7 {
-			check(NewSquare(x+1, y-1))
 		}
 	}
 
