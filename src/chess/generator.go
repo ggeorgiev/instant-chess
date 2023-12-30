@@ -27,9 +27,9 @@ func Generate(peacesString string) {
 			break // No more permutations
 		}
 
-		var matrix [8][8]Peace
+		var matrix [64]Peace
 		for s, place := range perm {
-			matrix[place%8][place/8] = peaces[s]
+			matrix[place] = peaces[s]
 		}
 
 		position := CreatePosition(matrix)

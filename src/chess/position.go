@@ -36,32 +36,31 @@ func CreatePosition(board Board) *Position {
 	whitePawns := 0
 	blackPawns := 0
 
-	for y := 0; y < 8; y++ {
-		for x := 0; x < 8; x++ {
-			peace := board[x][y]
-			if peace.IsEmpty() {
-				continue
-			}
+	for s := Square(0); s < 64; s++ {
+		peace := board[s]
+		if peace.IsEmpty() {
+			continue
+		}
 
+		if peace.IsWhite() {
+			position.Moves = append(position.Moves, board.Move(s))
+			position.WhitePeaces++
+		} else {
+			position.BlackPeaces++
+		}
+
+		if peace.IsKing() {
 			if peace.IsWhite() {
-				position.Moves = append(position.Moves, board.Move(x, y))
-				position.WhitePeaces++
+				whiteKings++
 			} else {
-				position.BlackPeaces++
-			}
-
-			if peace.IsKing() {
-				if peace.IsWhite() {
-					whiteKings++
-				} else {
-					if board.SquareUnderAttack(x, y, PeaceColorWhite) {
-						position.Valid = false
-					}
-
-					blackKings++
+				if board.SquareUnderAttack(s, PeaceColorWhite) {
+					position.Valid = false
 				}
+
+				blackKings++
 			}
 		}
+
 	}
 
 	position.Valid = position.Valid &&
@@ -85,15 +84,15 @@ func (p *Position) M1() bool {
 		for _, toAnswer := range move.ToAnswers {
 			if len(toAnswer.Answers) == 0 {
 				board := p.Board
-				original := board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y]
-				board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y] = board[move.WhiteForm.X][move.WhiteForm.Y]
-				board[move.WhiteForm.X][move.WhiteForm.Y] = Empty
+				original := board[toAnswer.WhiteTo]
+				board[toAnswer.WhiteTo] = board[move.WhiteForm]
+				board[move.WhiteForm] = Empty
 
-				x, y := board.FindPeace(BlackKing)
-				mate := board.SquareUnderAttack(x, y, PeaceColorWhite)
+				bk := board.FindPeace(BlackKing)
+				mate := board.SquareUnderAttack(bk, PeaceColorWhite)
 
-				board[move.WhiteForm.X][move.WhiteForm.Y] = board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y]
-				board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y] = original
+				board[move.WhiteForm] = board[toAnswer.WhiteTo]
+				board[toAnswer.WhiteTo] = original
 				if mate {
 					return true
 				}

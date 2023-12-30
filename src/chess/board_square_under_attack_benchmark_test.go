@@ -28,20 +28,16 @@ var positionA = ParsePosition(`
 
 func BenchmarkSquareUnderAttackXY_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for x := 0; x < 8; x++ {
-			for y := 0; y < 8; y++ {
-				positionA.Board.SquareUnderAttack(x, y, PeaceColorWhite)
-			}
+		for s := Square(0); s < 64; s++ {
+			positionA.Board.SquareUnderAttack(s, PeaceColorWhite)
 		}
 	}
 }
 
 func BenchmarkSquareUnderAttackYX_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for y := 0; y < 8; y++ {
-			for x := 0; x < 8; x++ {
-				positionA.Board.SquareUnderAttack(x, y, PeaceColorWhite)
-			}
+		for s := Square(0); s < 64; s++ {
+			positionA.Board.SquareUnderAttack(s, PeaceColorWhite)
 		}
 	}
 }

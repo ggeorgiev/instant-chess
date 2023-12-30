@@ -29,7 +29,7 @@ func TestSquareUnderAttackLineOnLeft(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.True(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineOnRight(t *testing.T) {
@@ -55,7 +55,7 @@ func TestSquareUnderAttackLineOnRight(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.True(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
@@ -81,7 +81,7 @@ func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.False(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineOnRightObstructed(t *testing.T) {
@@ -107,7 +107,7 @@ func TestSquareUnderAttackLineOnRightObstructed(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.False(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineUnder(t *testing.T) {
@@ -133,7 +133,7 @@ func TestSquareUnderAttackLineUnder(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.True(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineAbove(t *testing.T) {
@@ -159,7 +159,7 @@ func TestSquareUnderAttackLineAbove(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.True(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
@@ -185,7 +185,7 @@ func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.False(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
@@ -211,5 +211,5 @@ func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
     a   b   c   d   e   f   g   h
 `)
 
-	assert.False(t, position.Board.SquareUnderAttack(3, 3, PeaceColorBlack))
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }

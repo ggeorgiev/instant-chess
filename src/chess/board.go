@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type Board [8][8]Peace
+type Board [64]Peace
 
 func ParseBoard(text string) Board {
 	var board Board
@@ -17,57 +17,60 @@ func ParseBoard(text string) Board {
 		row++
 	}
 
-	for y := 8; y > 0; y-- {
+	for y := int8(8); y > 0; y-- {
 		row += 2
 		runes := runes(rows[row])
 
-		for x := 0; x < 8; x++ {
-			board[x][y-1] = PeaceFromSymbol(runes[4+x*4])
+		for x := int8(0); x < 8; x++ {
+			board[NewSquare(x, y-1)] = PeaceFromSymbol(runes[4+x*4])
 		}
 
 	}
 	return board
 }
 
-func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
+func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 	king := Combine(fromColor, King)
+
+	x := s.X()
+	y := s.Y()
 
 	if x > 0 {
 		if y > 0 {
-			if board[x-1][y-1] == king {
+			if board[NewSquare(x-1, y-1)] == king {
 				return true
 			}
 		}
-		if board[x-1][y] == king {
+		if board[NewSquare(x-1, y)] == king {
 			return true
 		}
 		if y < 7 {
-			if board[x-1][y+1] == king {
+			if board[NewSquare(x-1, y+1)] == king {
 				return true
 			}
 		}
 	}
 	if y > 0 {
-		if board[x][y-1] == king {
+		if board[NewSquare(x, y-1)] == king {
 			return true
 		}
 	}
 	if y < 7 {
-		if board[x][y+1] == king {
+		if board[NewSquare(x, y+1)] == king {
 			return true
 		}
 	}
 	if x < 7 {
 		if y > 0 {
-			if board[x+1][y-1] == king {
+			if board[NewSquare(x+1, y-1)] == king {
 				return true
 			}
 		}
-		if board[x+1][y] == king {
+		if board[NewSquare(x+1, y)] == king {
 			return true
 		}
 		if y < 7 {
-			if board[x+1][y+1] == king {
+			if board[NewSquare(x+1, y+1)] == king {
 				return true
 			}
 		}
@@ -77,7 +80,7 @@ func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
 	queen := Combine(fromColor, Queen)
 
 	for i := x - 1; i >= 0; i-- {
-		peace := board[i][y]
+		peace := board[NewSquare(i, y)]
 		if peace == rook || peace == queen {
 			return true
 		}
@@ -86,7 +89,7 @@ func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
 		}
 	}
 	for i := x + 1; i < 8; i++ {
-		peace := board[i][y]
+		peace := board[NewSquare(i, y)]
 		if peace == rook || peace == queen {
 			return true
 		}
@@ -95,7 +98,7 @@ func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
 		}
 	}
 	for i := y - 1; i >= 0; i-- {
-		peace := board[x][i]
+		peace := board[NewSquare(x, i)]
 		if peace == rook || peace == queen {
 			return true
 		}
@@ -104,7 +107,7 @@ func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
 		}
 	}
 	for i := y + 1; i < 8; i++ {
-		peace := board[x][i]
+		peace := board[NewSquare(x, i)]
 		if peace == rook || peace == queen {
 			return true
 		}
@@ -115,166 +118,164 @@ func (board Board) SquareUnderAttack(x int, y int, fromColor PeaceColor) bool {
 	return false
 }
 
-func (board Board) FindPeace(peace Peace) (int, int) {
-	for x := 0; x < 8; x++ {
-		for y := 0; y < 8; y++ {
-			if board[x][y] == peace {
-				return x, y
-			}
+func (board Board) FindPeace(peace Peace) Square {
+	for s := Square(0); s < 64; s++ {
+		if board[s] == peace {
+			return s
 		}
+
 	}
-	return -1, -1
+	return Square(-1)
 }
 
-func (board Board) kingTos(x int, y int) []Square {
+func (board Board) kingTos(s Square) []Square {
 	var tos []Square
-	color := board[x][y].Color()
+	color := board[s].Color()
 	oponentColor := color.Oponent()
 
-	original := board[x][y]
-	board[x][y] = Empty
+	original := board[s]
+	board[s] = Empty
 
 	check := func(square Square) {
-		peace := board[square.X][square.Y]
-		if peace.IsEmptyOrNot(color) && !board.SquareUnderAttack(square.X, square.Y, oponentColor) {
+		peace := board[square]
+		if peace.IsEmptyOrNot(color) && !board.SquareUnderAttack(square, oponentColor) {
 			tos = append(tos, square)
 		}
 	}
 
+	x := s.X()
+	y := s.Y()
+
 	if y < 7 {
 		if x > 0 {
-			check(Square{X: x - 1, Y: y + 1})
+			check(NewSquare(x-1, y+1))
 		}
-		check(Square{X: x, Y: y + 1})
+		check(NewSquare(x, y+1))
 		if x < 7 {
-			check(Square{X: x + 1, Y: y + 1})
+			check(NewSquare(x+1, y+1))
 		}
 	}
 	if x > 0 {
-		check(Square{X: x - 1, Y: y})
+		check(NewSquare(x-1, y))
 	}
 	if x < 7 {
-		check(Square{X: x + 1, Y: y})
+		check(NewSquare(x+1, y))
 	}
 
 	if y > 0 {
 		if x > 0 {
-			check(Square{X: x - 1, Y: y - 1})
+			check(NewSquare(x-1, y-1))
 		}
-		check(Square{X: x, Y: y - 1})
+		check(NewSquare(x, y-1))
 		if x < 7 {
-			check(Square{X: x + 1, Y: y - 1})
+			check(NewSquare(x+1, y-1))
 		}
 	}
 
-	board[x][y] = original
+	board[s] = original
 	return tos
 }
 
-func (board Board) rookTos(x int, y int, kX int, kY int) []Square {
+func (board Board) rookTos(s Square, ks Square) []Square {
 	var tos []Square
-	color := board[x][y].Color()
+	color := board[s].Color()
 	oponentColor := color.Oponent()
 
 	check := func(square Square) bool {
-		peace := board[square.X][square.Y]
+		peace := board[square]
 		if peace.IsEmptyOrNot(color) {
-			original := board[square.X][square.Y]
-			board[square.X][square.Y] = board[x][y]
-			board[x][y] = Empty
+			original := board[square]
+			board[square] = board[s]
+			board[s] = Empty
 
-			if !board.SquareUnderAttack(kX, kY, oponentColor) {
+			if !board.SquareUnderAttack(ks, oponentColor) {
 				tos = append(tos, square)
 			}
 
-			board[x][y] = board[square.X][square.Y]
-			board[square.X][square.Y] = original
+			board[s] = board[square]
+			board[square] = original
 		}
 		return peace.IsEmpty()
 	}
 
-	square := Square{}
+	x := s.X()
+	y := s.Y()
 
-	square.Y = y
-	for square.X = x - 1; square.X >= 0; square.X-- {
-		if !check(square) {
+	for i := x; i > 0; {
+		i--
+		if !check(NewSquare(i, y)) {
 			break
 		}
 	}
-	for square.X = x + 1; square.X < 8; square.X++ {
-		if !check(square) {
+	for i := x + 1; i < 8; i++ {
+		if !check(NewSquare(i, y)) {
 			break
 		}
 	}
 
-	square.X = x
-	for square.Y = y - 1; square.Y >= 0; square.Y-- {
-		if !check(square) {
+	for i := y; i > 0; {
+		i--
+		if !check(NewSquare(x, i)) {
 			break
 		}
 	}
-	for square.Y = y + 1; square.Y < 8; square.Y++ {
-		if !check(square) {
+	for i := y + 1; i < 8; i++ {
+		if !check(NewSquare(x, i)) {
 			break
 		}
 	}
 	return tos
 }
 
-func (board Board) Tos(x int, y int, bkX int, bkY int) []Square {
-	if board[x][y].IsKing() {
-		return board.kingTos(x, y)
+func (board Board) Tos(s Square, bks Square) []Square {
+	if board[s].IsKing() {
+		return board.kingTos(s)
 	}
-	if board[x][y].IsRook() {
-		return board.rookTos(x, y, bkX, bkY)
+	if board[s].IsRook() {
+		return board.rookTos(s, bks)
 	}
 
 	return nil
 }
 
-func (board Board) Move(x int, y int) Move {
-	wkX, wkY := board.FindPeace(WhiteKing)
+func (board Board) Move(s Square) Move {
+	wks := board.FindPeace(WhiteKing)
+	tos := board.Tos(s, wks)
 
-	tos := board.Tos(x, y, wkX, wkY)
-
-	bkX, bkY := board.FindPeace(BlackKing)
+	bks := board.FindPeace(BlackKing)
 
 	var toAnswers []ToAnswer
 	for _, to := range tos {
-		original := board[to.X][to.Y]
-		board[to.X][to.Y] = board[x][y]
-		board[x][y] = Empty
+		original := board[to]
+		board[to] = board[s]
+		board[s] = Empty
 
 		var answers []Answer
 
-		for x := 0; x < 8; x++ {
-			for y := 0; y < 8; y++ {
-				peace := board[x][y]
-				if peace.IsBlack() {
-					blackTos := board.Tos(x, y, bkX, bkY)
-					if len(blackTos) > 0 {
-						answers = append(answers, Answer{
-							BlackFrom: Square{X: x, Y: y},
-							BlackTos:  blackTos,
-						})
-					}
+		for square := Square(0); square < 64; square++ {
+			peace := board[square]
+			if peace.IsBlack() {
+				blackTos := board.Tos(square, bks)
+				if len(blackTos) > 0 {
+					answers = append(answers, Answer{
+						BlackFrom: square,
+						BlackTos:  blackTos,
+					})
 				}
 			}
+
 		}
 		toAnswers = append(toAnswers, ToAnswer{
 			WhiteTo: to,
 			Answers: answers,
 		})
 
-		board[x][y] = board[to.X][to.Y]
-		board[to.X][to.Y] = original
+		board[s] = board[to]
+		board[to] = original
 	}
 
 	return Move{
-		WhiteForm: Square{
-			X: x,
-			Y: y,
-		},
+		WhiteForm: s,
 		ToAnswers: toAnswers,
 	}
 }
@@ -286,10 +287,10 @@ func (board Board) Print() {
 	fmt.Println(letters)
 	fmt.Println(separator)
 
-	for y := 8; y > 0; y-- {
+	for y := int8(8); y > 0; y-- {
 		fmt.Printf("%d |", y)
-		for x := 0; x < 8; x++ {
-			fmt.Printf(" %s |", board[x][y-1].Symbol())
+		for x := int8(0); x < 8; x++ {
+			fmt.Printf(" %s |", board[NewSquare(x, y-1)].Symbol())
 		}
 		fmt.Printf(" %d\n", y)
 		fmt.Println(separator)
