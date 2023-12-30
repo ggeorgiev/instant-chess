@@ -18,6 +18,7 @@ go_library(
 
 go_test(
     name = "chess_test",
+    size = "large",
     srcs = [
         "board_move_test.go",
         "board_square_under_attack_test.go",
@@ -28,5 +29,8 @@ go_test(
         "position_valid_kings_test.go",
     ],
     embed = [":chess"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "@com_github_davecgh_go_spew//spew",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

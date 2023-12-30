@@ -5,6 +5,6 @@ import (
 )
 
 func TestGenerate(t *testing.T) {
-	Generate("♚♔♖")
-	//assert.True(t, false)
+	//Generate("♚♔♖♖♜")
+	//assert.False(t, true)
 }

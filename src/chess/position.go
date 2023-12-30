@@ -13,7 +13,7 @@ type Position struct {
 
 	Valid bool
 
-	Moves []Move
+	Moves Moves
 }
 
 func CreatePosition(board Board) *Position {
@@ -84,4 +84,27 @@ func ParsePosition(text string) *Position {
 
 func (p *Position) Print() {
 	p.Board.Print()
+}
+
+func (p *Position) M1() bool {
+	for _, move := range p.Moves {
+		for _, toAnswer := range move.ToAnswers {
+			if len(toAnswer.Answers) == 0 {
+				board := p.Board
+				original := board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y]
+				board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y] = board[move.WhiteForm.X][move.WhiteForm.Y]
+				board[move.WhiteForm.X][move.WhiteForm.Y] = EmptyPeace
+
+				x, y := board.FindBlackKing()
+				mate := board.SquareUnderAttack(x, y, PeaceColorWhite)
+
+				board[move.WhiteForm.X][move.WhiteForm.Y] = board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y]
+				board[toAnswer.WhiteTo.X][toAnswer.WhiteTo.Y] = original
+				if mate {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }

@@ -20,7 +20,8 @@ func Generate(peacesString string) {
 	iterator := math.NewPermutationIterator(64, len(runes))
 	i := 0
 	invalid := 0
-	for ; i < 1000000000; i++ {
+	m1 := 0
+	for ; i < 100000000; i++ {
 		perm := iterator.Next()
 		if perm == nil {
 			break // No more permutations
@@ -34,7 +35,10 @@ func Generate(peacesString string) {
 		position := CreatePosition(matrix)
 		if !position.Valid {
 			invalid++
+		} else if position.M1() {
+			m1++
 		}
 	}
+	fmt.Printf("M1 positions: %d/%d\n", m1, i)
 	fmt.Printf("Invalid positions: %d/%d\n", invalid, i)
 }
