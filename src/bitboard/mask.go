@@ -1,6 +1,8 @@
 package bitboard
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Mask uint64
 type Masks []Mask

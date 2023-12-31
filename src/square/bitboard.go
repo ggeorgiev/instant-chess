@@ -1,6 +1,11 @@
 package square
 
-import "github.com/ggeorgiev/instant-chess/src/bitboard"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/ggeorgiev/instant-chess/src/bitboard"
+)
 
 var IndexMask = [64]bitboard.Mask{
 	0b0000000000000000000000000000000000000000000000000000000000000001,
@@ -75,4 +80,35 @@ func ConvertIndexesIntoBitboardMask(indexes Indexes) bitboard.Mask {
 		mask |= IndexMask[index]
 	}
 	return mask
+}
+
+func SprintMask(mask bitboard.Mask) string {
+	letters := "····a···b···c···d···e···f···g···h····\n"
+	separator := "··+---+---+---+---+---+---+---+---+··\n"
+
+	// Calculate the expected size.
+	expectedSize := len(letters)*2 + len(separator)*9 + 8*(9*4+1)
+	var result strings.Builder
+
+	// Initialize the builder with the expected size.
+	result.Grow(expectedSize)
+
+	result.WriteString(letters)
+	result.WriteString(separator)
+
+	for y := int8(7); y >= 0; y-- {
+		result.WriteString(fmt.Sprintf("%d·|", y))
+		for x := int8(0); x < 8; x++ {
+			symbol := " "
+			if IndexMask[NewIndex(x, y)]&mask != 0 {
+				symbol = "●"
+			}
+			result.WriteString(fmt.Sprintf(" %s |", symbol))
+		}
+		result.WriteString(fmt.Sprintf("·%d\n", y))
+		result.WriteString(separator)
+	}
+
+	result.WriteString(letters)
+	return result.String()
 }
