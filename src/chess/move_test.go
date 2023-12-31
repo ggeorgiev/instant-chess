@@ -9,3 +9,7 @@ import (
 func TestKingMovesInternalHelper(t *testing.T) {
 	assert.Equal(t, kingMovesInternalHelper(), KingMoves)
 }
+
+func TestKnightMovesInternalHelper(t *testing.T) {
+	assert.Equal(t, knightMovesInternalHelper(), KnightMoves)
+}

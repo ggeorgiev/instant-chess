@@ -421,3 +421,55 @@ func TestSquareUnderAttackDiagonalUnderRightObstructed(t *testing.T) {
 
 	assert.False(t, position.Board.SquareUnderAttackFromBlack(NewSquare(3, 3)))
 }
+
+func TestSquareUnderAttackKnight_m1m2(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ | ♞ |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttackFromBlack(NewSquare(3, 3)))
+}
+
+func TestSquareUnderAttackKnight_p1m2(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   | ♞ |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttackFromBlack(NewSquare(3, 3)))
+}

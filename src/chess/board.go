@@ -64,7 +64,6 @@ func (board Board) Move(s Square) Move {
 					})
 				}
 			}
-
 		}
 		toAnswers = append(toAnswers, ToAnswer{
 			WhiteTo: to,

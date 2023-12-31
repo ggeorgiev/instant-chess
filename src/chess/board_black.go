@@ -2,9 +2,15 @@ package chess
 
 func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	attackedFromKing := AttackedFromKing[s]
-
 	for _, kingSquare := range attackedFromKing {
 		if board[kingSquare] == BlackKing {
+			return true
+		}
+	}
+
+	attackedFromKnight := AttackedFromKnight[s]
+	for _, knightSquare := range attackedFromKnight {
+		if board[knightSquare] == BlackKnight {
 			return true
 		}
 	}

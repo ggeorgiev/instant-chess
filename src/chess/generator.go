@@ -36,6 +36,7 @@ func Generate(peacesString string) {
 		if !position.Valid {
 			invalid++
 		} else if position.M1() {
+			position.Print()
 			m1++
 		}
 	}
