@@ -133,6 +133,34 @@ func (board Board) {Color}KingTos(s Square) []Square {
 	return tos
 }
 
+func (board Board) {Color}KnightTos(s Square, ks Square) []Square {
+	var tos []Square
+
+	check := func(square Square) {
+		peace := board[square]
+		if peace.IsEmptyOr{OponentColor}() {
+			original := board[square]
+			board[square] = board[s]
+			board[s] = Empty
+
+			if !board.SquareUnderAttackFrom{OponentColor}(ks) {
+				tos = append(tos, square)
+			}
+
+			board[s] = board[square]
+			board[square] = original
+		}
+	}
+
+	knightMoves := KnightMoves[s]
+
+	for _, square := range knightMoves {
+		check(square)
+	}
+
+	return tos
+}
+
 func (board Board) {Color}RookTos(s Square, ks Square) []Square {
 	var tos []Square
 
@@ -184,8 +212,11 @@ func (board Board) {Color}Tos(s Square, kingSquare Square) []Square {
 	if board[s] == {Color}King {
 		return board.{Color}KingTos(s)
 	}
-	if board[s]== {Color}Rook {
+	if board[s] == {Color}Rook {
 		return board.{Color}RookTos(s, kingSquare)
+	}
+	if board[s] == {Color}Knight {
+		return board.{Color}KnightTos(s, kingSquare)
 	}
 	return nil
 }
