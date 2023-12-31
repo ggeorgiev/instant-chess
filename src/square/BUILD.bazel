@@ -2,9 +2,13 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "square",
-    srcs = ["square.go"],
+    srcs = [
+        "bitboard.go",
+        "square.go",
+    ],
     importpath = "github.com/ggeorgiev/instant-chess/src/square",
     visibility = ["//visibility:public"],
+    deps = ["//src/bitboard"],
 )
 
 go_test(

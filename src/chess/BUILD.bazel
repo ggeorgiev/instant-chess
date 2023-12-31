@@ -70,6 +70,7 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
     deps = [
+        "//src/bitboard",
         "//src/math",
         "//src/square",
     ],
@@ -93,5 +94,8 @@ go_test(
         "position_valid_kings_test.go",
     ],
     embed = [":chess"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

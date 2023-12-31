@@ -2,7 +2,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "bitboard",
-    srcs = ["bitboard.go"],
+    srcs = ["mask.go"],
     importpath = "github.com/ggeorgiev/instant-chess/src/bitboard",
     visibility = ["//visibility:public"],
 )
