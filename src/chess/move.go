@@ -3,11 +3,13 @@ package chess
 import (
 	"fmt"
 	"strings"
+
+	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 type Answer struct {
-	BlackFrom Square
-	BlackTos  []Square
+	BlackFrom square.Index
+	BlackTos  square.Indexes
 }
 
 func (a Answer) String() string {
@@ -19,7 +21,7 @@ func (a Answer) String() string {
 }
 
 type ToAnswer struct {
-	WhiteTo Square
+	WhiteTo square.Index
 	Answers []Answer
 }
 
@@ -32,7 +34,7 @@ func (ta ToAnswer) String() string {
 }
 
 type Move struct {
-	WhiteForm Square
+	WhiteForm square.Index
 	ToAnswers []ToAnswer
 }
 
@@ -54,7 +56,7 @@ func (ms Moves) String() string {
 	return strings.Join(mvs, "\n")
 }
 
-var KingMoves = [][]Square{
+var KingMoves = []square.Indexes{
 	{1, 8, 9},
 	{0, 2, 8, 9, 10},
 	{1, 3, 9, 10, 11},
@@ -124,7 +126,7 @@ var KingMoves = [][]Square{
 // King moves are simetrical
 var AttackedFromKing = KingMoves
 
-var KnightMoves = [][]Square{
+var KnightMoves = []square.Indexes{
 	{10, 17},
 	{11, 16, 18},
 	{8, 12, 17, 19},
@@ -194,40 +196,40 @@ var KnightMoves = [][]Square{
 // Knight moves are simetrical
 var AttackedFromKnight = KnightMoves
 
-func kingMovesInternalHelper() [][]Square {
-	var squaresList [][]Square
+func kingMovesInternalHelper() []square.Indexes {
+	var squaresList []square.Indexes
 
-	for s := Square(0); s < 64; s++ {
-		var squares []Square
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+		var squares square.Indexes
 
 		x := s.X()
 		y := s.Y()
 
 		if y > 0 {
 			if x > 0 {
-				squares = append(squares, NewSquare(x-1, y-1))
+				squares = append(squares, square.NewIndex(x-1, y-1))
 			}
-			squares = append(squares, NewSquare(x, y-1))
+			squares = append(squares, square.NewIndex(x, y-1))
 			if x < 7 {
-				squares = append(squares, NewSquare(x+1, y-1))
+				squares = append(squares, square.NewIndex(x+1, y-1))
 			}
 		}
 
 		if x > 0 {
-			squares = append(squares, NewSquare(x-1, y))
+			squares = append(squares, square.NewIndex(x-1, y))
 		}
 
 		if x < 7 {
-			squares = append(squares, NewSquare(x+1, y))
+			squares = append(squares, square.NewIndex(x+1, y))
 		}
 
 		if y < 7 {
 			if x > 0 {
-				squares = append(squares, NewSquare(x-1, y+1))
+				squares = append(squares, square.NewIndex(x-1, y+1))
 			}
-			squares = append(squares, NewSquare(x, y+1))
+			squares = append(squares, square.NewIndex(x, y+1))
 			if x < 7 {
-				squares = append(squares, NewSquare(x+1, y+1))
+				squares = append(squares, square.NewIndex(x+1, y+1))
 			}
 		}
 		squaresList = append(squaresList, squares)
@@ -235,45 +237,45 @@ func kingMovesInternalHelper() [][]Square {
 	return squaresList
 }
 
-func knightMovesInternalHelper() [][]Square {
-	var squaresList [][]Square
+func knightMovesInternalHelper() []square.Indexes {
+	var squaresList []square.Indexes
 
-	for s := Square(0); s < 64; s++ {
-		var squares []Square
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+		var squares square.Indexes
 
 		x := s.X()
 		y := s.Y()
 
 		if y > 1 {
 			if x > 0 {
-				squares = append(squares, NewSquare(x-1, y-2))
+				squares = append(squares, square.NewIndex(x-1, y-2))
 			}
 			if x < 7 {
-				squares = append(squares, NewSquare(x+1, y-2))
+				squares = append(squares, square.NewIndex(x+1, y-2))
 			}
 		}
 		if y > 0 {
 			if x > 1 {
-				squares = append(squares, NewSquare(x-2, y-1))
+				squares = append(squares, square.NewIndex(x-2, y-1))
 			}
 			if x < 6 {
-				squares = append(squares, NewSquare(x+2, y-1))
+				squares = append(squares, square.NewIndex(x+2, y-1))
 			}
 		}
 		if y < 7 {
 			if x > 1 {
-				squares = append(squares, NewSquare(x-2, y+1))
+				squares = append(squares, square.NewIndex(x-2, y+1))
 			}
 			if x < 6 {
-				squares = append(squares, NewSquare(x+2, y+1))
+				squares = append(squares, square.NewIndex(x+2, y+1))
 			}
 		}
 		if y < 6 {
 			if x > 0 {
-				squares = append(squares, NewSquare(x-1, y+2))
+				squares = append(squares, square.NewIndex(x-1, y+2))
 			}
 			if x < 7 {
-				squares = append(squares, NewSquare(x+1, y+2))
+				squares = append(squares, square.NewIndex(x+1, y+2))
 			}
 		}
 

@@ -1,6 +1,8 @@
 package chess
 
-func (board Board) SquareUnderAttackFromBlack(s Square) bool {
+import "github.com/ggeorgiev/instant-chess/src/square"
+
+func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	attackedFromKing := AttackedFromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if board[kingSquare] == BlackKing {
@@ -19,7 +21,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	y := s.Y()
 
 	for i := x - 1; i >= 0; i-- {
-		peace := board[NewSquare(i, y)]
+		peace := board[square.NewIndex(i, y)]
 		if peace.IsBlackLinearMover() {
 			return true
 		}
@@ -28,7 +30,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 		}
 	}
 	for i := x + 1; i < 8; i++ {
-		peace := board[NewSquare(i, y)]
+		peace := board[square.NewIndex(i, y)]
 		if peace.IsBlackLinearMover() {
 			return true
 		}
@@ -37,7 +39,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 		}
 	}
 	for i := y - 1; i >= 0; i-- {
-		peace := board[NewSquare(x, i)]
+		peace := board[square.NewIndex(x, i)]
 		if peace.IsBlackLinearMover() {
 			return true
 		}
@@ -46,7 +48,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 		}
 	}
 	for i := y + 1; i < 8; i++ {
-		peace := board[NewSquare(x, i)]
+		peace := board[square.NewIndex(x, i)]
 		if peace.IsBlackLinearMover() {
 			return true
 		}
@@ -58,7 +60,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	i := x - 1
 	j := y - 1
 	for i >= 0 && j >= 0 {
-		peace := board[NewSquare(i, j)]
+		peace := board[square.NewIndex(i, j)]
 		if peace.IsBlackDiagonalMover() {
 			return true
 		}
@@ -72,7 +74,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	i = x - 1
 	j = y + 1
 	for i >= 0 && j < 8 {
-		peace := board[NewSquare(i, j)]
+		peace := board[square.NewIndex(i, j)]
 		if peace.IsBlackDiagonalMover() {
 			return true
 		}
@@ -86,7 +88,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	i = x + 1
 	j = y - 1
 	for i < 8 && j >= 0 {
-		peace := board[NewSquare(i, j)]
+		peace := board[square.NewIndex(i, j)]
 		if peace.IsBlackDiagonalMover() {
 			return true
 		}
@@ -100,7 +102,7 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	i = x + 1
 	j = y + 1
 	for i < 8 && j < 8 {
-		peace := board[NewSquare(i, j)]
+		peace := board[square.NewIndex(i, j)]
 		if peace.IsBlackDiagonalMover() {
 			return true
 		}
@@ -114,8 +116,8 @@ func (board Board) SquareUnderAttackFromBlack(s Square) bool {
 	return false
 }
 
-func (board Board) BlackKingTos(s Square) []Square {
-	var tos []Square
+func (board Board) BlackKingTos(s square.Index) square.Indexes {
+	var tos square.Indexes
 
 	original := board[s]
 	board[s] = Empty
@@ -133,10 +135,10 @@ func (board Board) BlackKingTos(s Square) []Square {
 	return tos
 }
 
-func (board Board) BlackKnightTos(s Square, ks Square) []Square {
-	var tos []Square
+func (board Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexes {
+	var tos square.Indexes
 
-	check := func(square Square) {
+	check := func(square square.Index) {
 		peace := board[square]
 		if peace.IsEmptyOrWhite() {
 			original := board[square]
@@ -161,10 +163,10 @@ func (board Board) BlackKnightTos(s Square, ks Square) []Square {
 	return tos
 }
 
-func (board Board) BlackRookTos(s Square, ks Square) []Square {
-	var tos []Square
+func (board Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes {
+	var tos square.Indexes
 
-	check := func(square Square) bool {
+	check := func(square square.Index) bool {
 		peace := board[square]
 		if peace.IsEmptyOrWhite() {
 			original := board[square]
@@ -185,30 +187,30 @@ func (board Board) BlackRookTos(s Square, ks Square) []Square {
 	y := s.Y()
 
 	for i := x - 1; i >= 0; i-- {
-		if !check(NewSquare(i, y)) {
+		if !check(square.NewIndex(i, y)) {
 			break
 		}
 	}
 	for i := x + 1; i < 8; i++ {
-		if !check(NewSquare(i, y)) {
+		if !check(square.NewIndex(i, y)) {
 			break
 		}
 	}
 
 	for i := y - 1; i >= 0; i-- {
-		if !check(NewSquare(x, i)) {
+		if !check(square.NewIndex(x, i)) {
 			break
 		}
 	}
 	for i := y + 1; i < 8; i++ {
-		if !check(NewSquare(x, i)) {
+		if !check(square.NewIndex(x, i)) {
 			break
 		}
 	}
 	return tos
 }
 
-func (board Board) BlackTos(s Square, kingSquare Square) []Square {
+func (board Board) BlackTos(s square.Index, kingSquare square.Index) square.Indexes {
 	if board[s] == BlackKing {
 		return board.BlackKingTos(s)
 	}

@@ -1,4 +1,4 @@
-package chess
+package square
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 func TestSquareX(t *testing.T) {
 	for x := int8(0); x < 8; x++ {
 		for y := int8(0); y < 8; y++ {
-			assert.Equal(t, NewSquare(x, y).X(), x)
+			assert.Equal(t, NewIndex(x, y).X(), x)
 		}
 	}
 }
@@ -17,7 +17,7 @@ func TestSquareX(t *testing.T) {
 func TestSquareY(t *testing.T) {
 	for x := int8(0); x < 8; x++ {
 		for y := int8(0); y < 8; y++ {
-			assert.Equal(t, NewSquare(x, y).Y(), y)
+			assert.Equal(t, NewIndex(x, y).Y(), y)
 		}
 	}
 }

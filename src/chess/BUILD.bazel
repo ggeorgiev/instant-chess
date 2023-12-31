@@ -65,12 +65,14 @@ go_library(
         "peace_white.go",
         "position.go",
         "result.go",
-        "square.go",
         "text.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
-    deps = ["//src/math"],
+    deps = [
+        "//src/math",
+        "//src/square",
+    ],
 )
 
 go_test(
@@ -89,7 +91,6 @@ go_test(
         "position_test.go",
         "position_valid_black_king_under_attack_test.go",
         "position_valid_kings_test.go",
-        "square_test.go",
     ],
     embed = [":chess"],
     deps = ["@com_github_stretchr_testify//assert"],

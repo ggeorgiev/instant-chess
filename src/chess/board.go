@@ -3,6 +3,8 @@ package chess
 import (
 	"fmt"
 	"strings"
+
+	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 type Board [64]Peace
@@ -22,24 +24,24 @@ func ParseBoard(text string) Board {
 		runes := runes(rows[row])
 
 		for x := int8(0); x < 8; x++ {
-			board[NewSquare(x, y-1)] = PeaceFromSymbol(runes[4+x*4])
+			board[square.NewIndex(x, y-1)] = PeaceFromSymbol(runes[4+x*4])
 		}
 
 	}
 	return board
 }
 
-func (board Board) FindPeace(peace Peace) Square {
-	for s := Square(0); s < 64; s++ {
+func (board Board) FindPeace(peace Peace) square.Index {
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		if board[s] == peace {
 			return s
 		}
 
 	}
-	return Square(-1)
+	return square.InvalidIndex
 }
 
-func (board Board) Move(s Square) Move {
+func (board Board) Move(s square.Index) Move {
 	wks := board.FindPeace(WhiteKing)
 	tos := board.WhiteTos(s, wks)
 
@@ -53,13 +55,13 @@ func (board Board) Move(s Square) Move {
 
 		var answers []Answer
 
-		for square := Square(0); square < 64; square++ {
-			peace := board[square]
+		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+			peace := board[s]
 			if peace.IsBlack() {
-				blackTos := board.BlackTos(square, bks)
+				blackTos := board.BlackTos(s, bks)
 				if len(blackTos) > 0 {
 					answers = append(answers, Answer{
-						BlackFrom: square,
+						BlackFrom: s,
 						BlackTos:  blackTos,
 					})
 				}
@@ -90,7 +92,7 @@ func (board Board) Print() {
 	for y := int8(8); y > 0; y-- {
 		fmt.Printf("%d |", y)
 		for x := int8(0); x < 8; x++ {
-			fmt.Printf(" %s |", board[NewSquare(x, y-1)].Symbol())
+			fmt.Printf(" %s |", board[square.NewIndex(x, y-1)].Symbol())
 		}
 		fmt.Printf(" %d\n", y)
 		fmt.Println(separator)

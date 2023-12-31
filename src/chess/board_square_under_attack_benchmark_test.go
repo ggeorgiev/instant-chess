@@ -2,6 +2,8 @@ package chess
 
 import (
 	"testing"
+
+	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 var positionA = ParsePosition(`
@@ -28,7 +30,7 @@ var positionA = ParsePosition(`
 
 func BenchmarkSquareUnderAttackXY_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for s := Square(0); s < 64; s++ {
+		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 			positionA.Board.SquareUnderAttackFromWhite(s)
 		}
 	}
@@ -36,7 +38,7 @@ func BenchmarkSquareUnderAttackXY_1k(b *testing.B) {
 
 func BenchmarkSquareUnderAttackYX_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for s := Square(0); s < 64; s++ {
+		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 			positionA.Board.SquareUnderAttackFromWhite(s)
 		}
 	}

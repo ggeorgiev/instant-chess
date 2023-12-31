@@ -1,5 +1,7 @@
 package chess
 
+import "github.com/ggeorgiev/instant-chess/src/square"
+
 type Position struct {
 	HorizontalySymetric bool
 	VerticalySymetric   bool
@@ -36,7 +38,7 @@ func CreatePosition(board Board) *Position {
 	whitePawns := 0
 	blackPawns := 0
 
-	for s := Square(0); s < 64; s++ {
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		peace := board[s]
 		if peace.IsEmpty() {
 			continue
