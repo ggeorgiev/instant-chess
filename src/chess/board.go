@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
@@ -100,4 +101,21 @@ func (board Board) Print() {
 	}
 
 	fmt.Println(letters)
+}
+
+func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
+	attackerOccupiedMask := bitboard.Empty
+	attackMask := bitboard.Empty
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+		figure := board[s]
+		if figure.Color() != color {
+			continue
+		}
+		attackerOccupiedMask |= square.IndexMask[s]
+		if figure.IsKnight() {
+			attackMask |= KnightAttackBitboardMasks[s]
+		}
+	}
+
+	return attackMask & ^attackerOccupiedMask
 }

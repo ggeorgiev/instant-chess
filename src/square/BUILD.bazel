@@ -18,5 +18,8 @@ go_test(
         "square_test.go",
     ],
     embed = [":square"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/bitboard",
+        "@com_github_stretchr_testify//assert",
+    ],
 )
