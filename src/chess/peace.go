@@ -6,6 +6,8 @@ const (
 	ColorMask = 0b11
 	White     = 0b01
 	Black     = 0b10
+
+	LiniarMask = 0b100
 )
 
 type PeaceColor uint8
@@ -25,9 +27,9 @@ const (
 	Pawn   PeaceType = 0b001000
 	Bishop PeaceType = 0b010000
 	Knight PeaceType = 0b011000
-	Rook   PeaceType = 0b100000
-	Queen  PeaceType = 0b101000
-	King   PeaceType = 0b110000
+	Rook   PeaceType = 0b000100
+	Queen  PeaceType = 0b001100
+	King   PeaceType = 0b100000
 )
 
 type Peace uint8
@@ -53,7 +55,7 @@ const (
 )
 
 func (p Peace) Color() PeaceColor {
-	return PeaceColor(uint8(p) & 0b111)
+	return PeaceColor(uint8(p) & ColorMask)
 }
 
 func (p Peace) IsBlack() bool {
@@ -64,12 +66,24 @@ func (p Peace) IsWhite() bool {
 	return p&White == White
 }
 
+func (p Peace) IsLiniar() bool {
+	return uint8(p)&LiniarMask != 0
+}
+
+func (p Peace) IsLiniarFrom(color PeaceColor) bool {
+	return uint8(p)&(LiniarMask|ColorMask) == LiniarMask|uint8(color)
+}
+
 func (p Peace) IsKing() bool {
 	return p == WhiteKing || p == BlackKing
 }
 
 func (p Peace) IsRook() bool {
 	return p == WhiteRook || p == BlackRook
+}
+
+func (p Peace) IsQueen() bool {
+	return p == WhiteQueen || p == BlackQueen
 }
 
 func (p Peace) IsEmpty() bool {
