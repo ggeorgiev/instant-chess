@@ -159,6 +159,35 @@ func TestPeaceIsLinearMover(t *testing.T) {
 	assert.True(t, BlackRook.IsLinearMoverFrom(PeaceColorBlack))
 	assert.True(t, BlackQueen.IsLinearMoverFrom(PeaceColorBlack))
 	assert.False(t, BlackKing.IsLinearMoverFrom(PeaceColorBlack))
+
+	assert.False(t, Empty.IsWhiteLinearMover())
+	assert.False(t, WhitePawn.IsWhiteLinearMover())
+	assert.False(t, WhiteBishop.IsWhiteLinearMover())
+	assert.False(t, WhiteKnight.IsWhiteLinearMover())
+	assert.True(t, WhiteRook.IsWhiteLinearMover())
+	assert.True(t, WhiteQueen.IsWhiteLinearMover())
+	assert.False(t, WhiteKing.IsWhiteLinearMover())
+	assert.False(t, BlackPawn.IsWhiteLinearMover())
+	assert.False(t, BlackBishop.IsWhiteLinearMover())
+	assert.False(t, BlackKnight.IsWhiteLinearMover())
+	assert.False(t, BlackRook.IsWhiteLinearMover())
+	assert.False(t, BlackQueen.IsWhiteLinearMover())
+	assert.False(t, BlackKing.IsWhiteLinearMover())
+
+	assert.False(t, Empty.IsBlackLinearMover())
+	assert.False(t, WhitePawn.IsBlackLinearMover())
+	assert.False(t, WhiteBishop.IsBlackLinearMover())
+	assert.False(t, WhiteKnight.IsBlackLinearMover())
+	assert.False(t, WhiteRook.IsBlackLinearMover())
+	assert.False(t, WhiteQueen.IsBlackLinearMover())
+	assert.False(t, WhiteKing.IsBlackLinearMover())
+	assert.False(t, BlackPawn.IsBlackLinearMover())
+	assert.False(t, BlackBishop.IsBlackLinearMover())
+	assert.False(t, BlackKnight.IsBlackLinearMover())
+	assert.True(t, BlackRook.IsBlackLinearMover())
+	assert.True(t, BlackQueen.IsBlackLinearMover())
+	assert.False(t, BlackKing.IsBlackLinearMover())
+
 }
 
 func TestPeaceIsDiagonalMover(t *testing.T) {

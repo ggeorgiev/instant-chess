@@ -1,12 +1,68 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
+load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
+
+expand_template_rule(
+    name = "peace_white",
+    out = "peace_white.go.gen",
+    substitutions = {
+        "{Color}": "White",
+        "{OpositeColor}": "Black",
+    },
+    template = "templates/peace_color.go.tmpl",
+)
+
+expand_template_rule(
+    name = "peace_black",
+    out = "peace_black.go.gen",
+    substitutions = {
+        "{Color}": "Black",
+        "{OpositeColor}": "White",
+    },
+    template = "templates/peace_color.go.tmpl",
+)
+
+expand_template_rule(
+    name = "board_white",
+    out = "board_white.go.gen",
+    substitutions = {
+        "{Color}": "White",
+        "{OpositeColor}": "Black",
+    },
+    template = "templates/board_color.go.tmpl",
+)
+
+expand_template_rule(
+    name = "board_black",
+    out = "board_black.go.gen",
+    substitutions = {
+        "{Color}": "Black",
+        "{OpositeColor}": "White",
+    },
+    template = "templates/board_color.go.tmpl",
+)
+
+write_source_files(
+    name = "templates",
+    files = {
+        "board_white.go": ":board_white",
+        "board_black.go": ":board_black",
+        "peace_white.go": ":peace_white",
+        "peace_black.go": ":peace_black",
+    },
+)
 
 go_library(
     name = "chess",
     srcs = [
         "board.go",
+        "board_black.go",
+        "board_white.go",
         "generator.go",
         "move.go",
         "peace.go",
+        "peace_black.go",
+        "peace_white.go",
         "position.go",
         "result.go",
         "square.go",

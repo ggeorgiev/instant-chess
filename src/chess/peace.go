@@ -59,14 +59,6 @@ func (p Peace) Color() PeaceColor {
 	return PeaceColor(uint8(p) & ColorMask)
 }
 
-func (p Peace) IsBlack() bool {
-	return p&Black == Black
-}
-
-func (p Peace) IsWhite() bool {
-	return p&White == White
-}
-
 func (p Peace) IsLinearMover() bool {
 	return uint8(p)&LinearMoverMask != 0
 }
@@ -105,14 +97,6 @@ func (p Peace) IsEmptyOr(color PeaceColor) bool {
 
 func (p Peace) IsEmptyOrNot(color PeaceColor) bool {
 	return uint8(p)&ColorMask != uint8(color)
-}
-
-func (p Peace) IsEmptyOrWhite() bool {
-	return uint8(p)&Black == 0
-}
-
-func (p Peace) IsEmptyOrBlack() bool {
-	return uint8(p)&White == 0
 }
 
 func (p Peace) Symbol() string {

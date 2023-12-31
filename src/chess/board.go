@@ -30,56 +30,10 @@ func ParseBoard(text string) Board {
 }
 
 func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
-	king := Combine(fromColor, King)
-
-	attackedFromKing := AttackedFromKing[s]
-
-	for _, kingSquare := range attackedFromKing {
-		if board[kingSquare] == king {
-			return true
-		}
+	if fromColor == White {
+		return board.SquareUnderAttackWhite(s)
 	}
-
-	x := s.X()
-	y := s.Y()
-
-	for i := x - 1; i >= 0; i-- {
-		peace := board[NewSquare(i, y)]
-		if peace.IsLinearMoverFrom(fromColor) {
-			return true
-		}
-		if peace != Empty {
-			break
-		}
-	}
-	for i := x + 1; i < 8; i++ {
-		peace := board[NewSquare(i, y)]
-		if peace.IsLinearMoverFrom(fromColor) {
-			return true
-		}
-		if peace != Empty {
-			break
-		}
-	}
-	for i := y - 1; i >= 0; i-- {
-		peace := board[NewSquare(x, i)]
-		if peace.IsLinearMoverFrom(fromColor) {
-			return true
-		}
-		if peace != Empty {
-			break
-		}
-	}
-	for i := y + 1; i < 8; i++ {
-		peace := board[NewSquare(x, i)]
-		if peace.IsLinearMoverFrom(fromColor) {
-			return true
-		}
-		if peace != Empty {
-			break
-		}
-	}
-	return false
+	return board.SquareUnderAttackBlack(s)
 }
 
 func (board Board) FindPeace(peace Peace) Square {

@@ -1,0 +1,13 @@
+package chess
+
+func (p Peace) Is{Color}() bool {
+	return p&{Color} == {Color}
+}
+
+func (p Peace) IsEmptyOr{Color}() bool {
+	return uint8(p)&{OpositeColor} == 0
+}
+
+func (p Peace) Is{Color}LinearMover() bool {
+	return uint8(p)&(LinearMoverMask|ColorMask) == LinearMoverMask|{Color}
+}
