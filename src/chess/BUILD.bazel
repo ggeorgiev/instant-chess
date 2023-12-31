@@ -7,7 +7,7 @@ expand_template_rule(
     out = "peace_white.go.gen",
     substitutions = {
         "{Color}": "White",
-        "{OpositeColor}": "Black",
+        "{OponentColor}": "Black",
     },
     template = "templates/peace_color.go.tmpl",
 )
@@ -17,7 +17,7 @@ expand_template_rule(
     out = "peace_black.go.gen",
     substitutions = {
         "{Color}": "Black",
-        "{OpositeColor}": "White",
+        "{OponentColor}": "White",
     },
     template = "templates/peace_color.go.tmpl",
 )
@@ -27,7 +27,7 @@ expand_template_rule(
     out = "board_white.go.gen",
     substitutions = {
         "{Color}": "White",
-        "{OpositeColor}": "Black",
+        "{OponentColor}": "Black",
     },
     template = "templates/board_color.go.tmpl",
 )
@@ -37,7 +37,7 @@ expand_template_rule(
     out = "board_black.go.gen",
     substitutions = {
         "{Color}": "Black",
-        "{OpositeColor}": "White",
+        "{OponentColor}": "White",
     },
     template = "templates/board_color.go.tmpl",
 )
@@ -77,6 +77,7 @@ go_test(
     name = "chess_test",
     size = "large",
     srcs = [
+        "board_move_benchmark_test.go",
         "board_move_test.go",
         "board_square_under_attack_benchmark_test.go",
         "board_square_under_attack_test.go",
@@ -91,8 +92,5 @@ go_test(
         "square_test.go",
     ],
     embed = [":chess"],
-    deps = [
-        "@com_github_davecgh_go_spew//spew",
-        "@com_github_stretchr_testify//assert",
-    ],
+    deps = ["@com_github_stretchr_testify//assert"],
 )

@@ -46,92 +46,9 @@ func (board Board) FindPeace(peace Peace) Square {
 	return Square(-1)
 }
 
-func (board Board) kingTos(s Square) []Square {
-	var tos []Square
-	color := board[s].Color()
-	oponentColor := color.Oponent()
-
-	original := board[s]
-	board[s] = Empty
-
-	kingMoves := KingMoves[s]
-
-	for _, square := range kingMoves {
-		peace := board[square]
-		if peace.IsEmptyOrNot(color) && !board.SquareUnderAttack(square, oponentColor) {
-			tos = append(tos, square)
-		}
-	}
-
-	board[s] = original
-	return tos
-}
-
-func (board Board) rookTos(s Square, ks Square) []Square {
-	var tos []Square
-	color := board[s].Color()
-	oponentColor := color.Oponent()
-
-	check := func(square Square) bool {
-		peace := board[square]
-		if peace.IsEmptyOrNot(color) {
-			original := board[square]
-			board[square] = board[s]
-			board[s] = Empty
-
-			if !board.SquareUnderAttack(ks, oponentColor) {
-				tos = append(tos, square)
-			}
-
-			board[s] = board[square]
-			board[square] = original
-		}
-		return peace.IsEmpty()
-	}
-
-	x := s.X()
-	y := s.Y()
-
-	for i := x; i > 0; {
-		i--
-		if !check(NewSquare(i, y)) {
-			break
-		}
-	}
-	for i := x + 1; i < 8; i++ {
-		if !check(NewSquare(i, y)) {
-			break
-		}
-	}
-
-	for i := y; i > 0; {
-		i--
-		if !check(NewSquare(x, i)) {
-			break
-		}
-	}
-	for i := y + 1; i < 8; i++ {
-		if !check(NewSquare(x, i)) {
-			break
-		}
-	}
-	return tos
-}
-
-func (board Board) Tos(s Square, bks Square) []Square {
-	if board[s].IsKing() {
-		return board.kingTos(s)
-	}
-	if board[s].IsRook() {
-		return board.rookTos(s, bks)
-	}
-
-	return nil
-}
-
 func (board Board) Move(s Square) Move {
 	wks := board.FindPeace(WhiteKing)
-	tos := board.Tos(s, wks)
+	tos := board.WhiteTos(s, wks)
 
 	bks := board.FindPeace(BlackKing)
 
@@ -146,7 +63,7 @@ func (board Board) Move(s Square) Move {
 		for square := Square(0); square < 64; square++ {
 			peace := board[square]
 			if peace.IsBlack() {
-				blackTos := board.Tos(square, bks)
+				blackTos := board.BlackTos(square, bks)
 				if len(blackTos) > 0 {
 					answers = append(answers, Answer{
 						BlackFrom: square,

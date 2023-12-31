@@ -3,13 +3,8 @@ package chess
 import (
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
 )
-
-func init() {
-	spew.Config.DisableCapacities = true
-}
 
 func TestBoardMoveKings(t *testing.T) {
 	position := ParsePosition(`

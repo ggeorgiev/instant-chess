@@ -107,3 +107,81 @@ func (board Board) SquareUnderAttack{Color}(s Square) bool {
 
 	return false
 }
+
+func (board Board) {Color}KingTos(s Square) []Square {
+	var tos []Square
+
+	original := board[s]
+	board[s] = Empty
+
+	kingMoves := KingMoves[s]
+
+	for _, square := range kingMoves {
+		peace := board[square]
+		if peace.IsEmptyOr{OponentColor}() && !board.SquareUnderAttack{OponentColor}(square) {
+			tos = append(tos, square)
+		}
+	}
+
+	board[s] = original
+	return tos
+}
+
+func (board Board) {Color}RookTos(s Square, ks Square) []Square {
+	var tos []Square
+
+	check := func(square Square) bool {
+		peace := board[square]
+		if peace.IsEmptyOr{OponentColor}() {
+			original := board[square]
+			board[square] = board[s]
+			board[s] = Empty
+
+			if !board.SquareUnderAttack{OponentColor}(ks) {
+				tos = append(tos, square)
+			}
+
+			board[s] = board[square]
+			board[square] = original
+		}
+		return peace.IsEmpty()
+	}
+
+	x := s.X()
+	y := s.Y()
+
+	for i := x; i > 0; {
+		i--
+		if !check(NewSquare(i, y)) {
+			break
+		}
+	}
+	for i := x + 1; i < 8; i++ {
+		if !check(NewSquare(i, y)) {
+			break
+		}
+	}
+
+	for i := y; i > 0; {
+		i--
+		if !check(NewSquare(x, i)) {
+			break
+		}
+	}
+	for i := y + 1; i < 8; i++ {
+		if !check(NewSquare(x, i)) {
+			break
+		}
+	}
+	return tos
+}
+
+func (board Board) {Color}Tos(s Square, kingSquare Square) []Square {
+	if board[s] == {Color}King {
+		return board.{Color}KingTos(s)
+	}
+	if board[s]== {Color}Rook {
+		return board.{Color}RookTos(s, kingSquare)
+	}
+	return nil
+}
