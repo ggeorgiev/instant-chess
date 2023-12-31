@@ -45,7 +45,7 @@ func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 
 	for i := x - 1; i >= 0; i-- {
 		peace := board[NewSquare(i, y)]
-		if peace.IsLiniarFrom(fromColor) {
+		if peace.IsLinearMoverFrom(fromColor) {
 			return true
 		}
 		if peace != Empty {
@@ -54,7 +54,7 @@ func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 	}
 	for i := x + 1; i < 8; i++ {
 		peace := board[NewSquare(i, y)]
-		if peace.IsLiniarFrom(fromColor) {
+		if peace.IsLinearMoverFrom(fromColor) {
 			return true
 		}
 		if peace != Empty {
@@ -63,7 +63,7 @@ func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 	}
 	for i := y - 1; i >= 0; i-- {
 		peace := board[NewSquare(x, i)]
-		if peace.IsLiniarFrom(fromColor) {
+		if peace.IsLinearMoverFrom(fromColor) {
 			return true
 		}
 		if peace != Empty {
@@ -72,7 +72,7 @@ func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
 	}
 	for i := y + 1; i < 8; i++ {
 		peace := board[NewSquare(x, i)]
-		if peace.IsLiniarFrom(fromColor) {
+		if peace.IsLinearMoverFrom(fromColor) {
 			return true
 		}
 		if peace != Empty {

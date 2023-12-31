@@ -127,23 +127,23 @@ func BenchmarkPeaceIsRook_1m(b *testing.B) {
 	}
 }
 
-func BenchmarkPeaceIsLiniar_1m(b *testing.B) {
+func BenchmarkPeaceIsLinearMover_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.IsLiniar()
+		Empty.IsLinearMover()
 
-		WhitePawn.IsLiniar()
-		WhiteBishop.IsLiniar()
-		WhiteKnight.IsLiniar()
-		WhiteRook.IsLiniar()
-		WhiteQueen.IsLiniar()
-		WhiteKing.IsLiniar()
+		WhitePawn.IsLinearMover()
+		WhiteBishop.IsLinearMover()
+		WhiteKnight.IsLinearMover()
+		WhiteRook.IsLinearMover()
+		WhiteQueen.IsLinearMover()
+		WhiteKing.IsLinearMover()
 
-		BlackPawn.IsLiniar()
-		BlackBishop.IsLiniar()
-		BlackKnight.IsLiniar()
-		BlackRook.IsLiniar()
-		BlackQueen.IsLiniar()
-		BlackKing.IsLiniar()
+		BlackPawn.IsLinearMover()
+		BlackBishop.IsLinearMover()
+		BlackKnight.IsLinearMover()
+		BlackRook.IsLinearMover()
+		BlackQueen.IsLinearMover()
+		BlackKing.IsLinearMover()
 	}
 }
 
@@ -151,20 +151,20 @@ func BenchmarkPeaceIsLiniarFrom_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
 		color := []PeaceColor{PeaceColorWhite, PeaceColorBlack}[i%2]
 
-		Empty.IsLiniarFrom(color)
+		Empty.IsLinearMoverFrom(color)
 
-		WhitePawn.IsLiniarFrom(color)
-		WhiteBishop.IsLiniarFrom(color)
-		WhiteKnight.IsLiniarFrom(color)
-		WhiteRook.IsLiniarFrom(color)
-		WhiteQueen.IsLiniarFrom(color)
-		WhiteKing.IsLiniarFrom(color)
+		WhitePawn.IsLinearMoverFrom(color)
+		WhiteBishop.IsLinearMoverFrom(color)
+		WhiteKnight.IsLinearMoverFrom(color)
+		WhiteRook.IsLinearMoverFrom(color)
+		WhiteQueen.IsLinearMoverFrom(color)
+		WhiteKing.IsLinearMoverFrom(color)
 
-		BlackPawn.IsLiniarFrom(color)
-		BlackBishop.IsLiniarFrom(color)
-		BlackKnight.IsLiniarFrom(color)
-		BlackRook.IsLiniarFrom(color)
-		BlackQueen.IsLiniarFrom(color)
-		BlackKing.IsLiniarFrom(color)
+		BlackPawn.IsLinearMoverFrom(color)
+		BlackBishop.IsLinearMoverFrom(color)
+		BlackKnight.IsLinearMoverFrom(color)
+		BlackRook.IsLinearMoverFrom(color)
+		BlackQueen.IsLinearMoverFrom(color)
+		BlackKing.IsLinearMoverFrom(color)
 	}
 }

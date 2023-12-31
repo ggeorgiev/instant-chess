@@ -7,7 +7,8 @@ const (
 	White     = 0b01
 	Black     = 0b10
 
-	LiniarMask = 0b100
+	LinearMoverMask   = 0b0100
+	DiagonalMoverMask = 0b1000
 )
 
 type PeaceColor uint8
@@ -24,12 +25,12 @@ func (pc PeaceColor) Oponent() PeaceColor {
 type PeaceType uint8
 
 const (
-	Pawn   PeaceType = 0b001000
-	Bishop PeaceType = 0b010000
-	Knight PeaceType = 0b011000
+	Pawn   PeaceType = 0b010000
+	Bishop PeaceType = 0b001000
+	Knight PeaceType = 0b100000
 	Rook   PeaceType = 0b000100
 	Queen  PeaceType = 0b001100
-	King   PeaceType = 0b100000
+	King   PeaceType = 0b110000
 )
 
 type Peace uint8
@@ -66,12 +67,20 @@ func (p Peace) IsWhite() bool {
 	return p&White == White
 }
 
-func (p Peace) IsLiniar() bool {
-	return uint8(p)&LiniarMask != 0
+func (p Peace) IsLinearMover() bool {
+	return uint8(p)&LinearMoverMask != 0
 }
 
-func (p Peace) IsLiniarFrom(color PeaceColor) bool {
-	return uint8(p)&(LiniarMask|ColorMask) == LiniarMask|uint8(color)
+func (p Peace) IsLinearMoverFrom(color PeaceColor) bool {
+	return uint8(p)&(LinearMoverMask|ColorMask) == LinearMoverMask|uint8(color)
+}
+
+func (p Peace) IsDiagonalMover() bool {
+	return uint8(p)&DiagonalMoverMask != 0
+}
+
+func (p Peace) IsDiagonalMoverFrom(color PeaceColor) bool {
+	return uint8(p)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|uint8(color)
 }
 
 func (p Peace) IsKing() bool {
