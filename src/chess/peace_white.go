@@ -11,3 +11,7 @@ func (p Peace) IsEmptyOrWhite() bool {
 func (p Peace) IsWhiteLinearMover() bool {
 	return uint8(p)&(LinearMoverMask|ColorMask) == LinearMoverMask|White
 }
+
+func (p Peace) IsWhiteDiagonalMover() bool {
+	return uint8(p)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|White
+}

@@ -32,32 +32,6 @@ func TestSquareUnderAttackLineOnLeft(t *testing.T) {
 	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
-func TestSquareUnderAttackLineOnRight(t *testing.T) {
-	position := ParsePosition(`
-    a   b   c   d   e   f   g   h
-  +---+---+---+---+---+---+---+---+
-8 |   |   |   |   |   |   |   |   | 8
-  +---+---+---+---+---+---+---+---+
-7 |   |   |   |   |   |   |   |   | 7
-  +---+---+---+---+---+---+---+---+
-6 |   |   |   |   |   |   |   |   | 6
-  +---+---+---+---+---+---+---+---+
-5 |   |   |   |   |   |   |   |   | 5
-  +---+---+---+---+---+---+---+---+
-4 |   |   |   | ♔ |   |   | ♛ |   | 4
-  +---+---+---+---+---+---+---+---+
-3 |   |   |   |   |   |   |   |   | 3
-  +---+---+---+---+---+---+---+---+
-2 |   | ♚ |   |   |   |   |   |   | 2
-  +---+---+---+---+---+---+---+---+
-1 |   |   |   |   |   |   |   |   | 1
-  +---+---+---+---+---+---+---+---+
-    a   b   c   d   e   f   g   h
-`)
-
-	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
-}
-
 func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
 	position := ParsePosition(`
     a   b   c   d   e   f   g   h
@@ -82,6 +56,32 @@ func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
 `)
 
 	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackLineOnRight(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   | ♛ |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
 func TestSquareUnderAttackLineOnRightObstructed(t *testing.T) {
@@ -136,32 +136,6 @@ func TestSquareUnderAttackLineUnder(t *testing.T) {
 	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
-func TestSquareUnderAttackLineAbove(t *testing.T) {
-	position := ParsePosition(`
-    a   b   c   d   e   f   g   h
-  +---+---+---+---+---+---+---+---+
-8 |   |   |   | ♛ |   |   |   |   | 8
-  +---+---+---+---+---+---+---+---+
-7 |   |   |   |   |   |   |   |   | 7
-  +---+---+---+---+---+---+---+---+
-6 |   |   |   |   |   |   |   |   | 6
-  +---+---+---+---+---+---+---+---+
-5 |   |   |   |   |   |   |   |   | 5
-  +---+---+---+---+---+---+---+---+
-4 |   |   |   | ♔ |   |   |   |   | 4
-  +---+---+---+---+---+---+---+---+
-3 |   |   |   |   |   |   |   |   | 3
-  +---+---+---+---+---+---+---+---+
-2 |   | ♚ |   |   |   |   |   |   | 2
-  +---+---+---+---+---+---+---+---+
-1 |   |   |   |   |   |   |   |   | 1
-  +---+---+---+---+---+---+---+---+
-    a   b   c   d   e   f   g   h
-`)
-
-	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
-}
-
 func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
 	position := ParsePosition(`
     a   b   c   d   e   f   g   h
@@ -188,6 +162,32 @@ func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
 	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
 }
 
+func TestSquareUnderAttackLineAbove(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   | ♛ |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
 func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
 	position := ParsePosition(`
     a   b   c   d   e   f   g   h
@@ -205,6 +205,214 @@ func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
 3 |   |   |   |   |   |   |   |   | 3
   +---+---+---+---+---+---+---+---+
 2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalOnAboveLeft(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 | ♝ |   |   |   |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   | ♚ |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   |   | ♔ |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(2, 1), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalOnAboveLeftObstructed(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   | ♝ |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   | ♞ |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalOnAboveRight(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   | ♛ |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalOnAboveRightObstructed(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   | ♛ |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   | ♞ |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalUnderLeft(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   | ♚ |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   |   |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 | ♝ |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalUnderLeftObstructed(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   | ♔ |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   | ♞ |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   | ♛ |   |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   |   |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.False(t, position.Board.SquareUnderAttack(NewSquare(4, 5), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalUnderRight(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   | ♛ |   |   | 2
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   | 1
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+`)
+
+	assert.True(t, position.Board.SquareUnderAttack(NewSquare(3, 3), PeaceColorBlack))
+}
+
+func TestSquareUnderAttackDiagonalUnderRightObstructed(t *testing.T) {
+	position := ParsePosition(`
+    a   b   c   d   e   f   g   h
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   | 8
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   | 7
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   | 6
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   | 5
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   | ♔ |   |   |   |   | 4
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   | ♞ |   |   |   | 3
+  +---+---+---+---+---+---+---+---+
+2 |   | ♚ |   |   |   | ♛ |   |   | 2
   +---+---+---+---+---+---+---+---+
 1 |   |   |   |   |   |   |   |   | 1
   +---+---+---+---+---+---+---+---+

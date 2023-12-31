@@ -51,7 +51,7 @@ func (ms Moves) String() string {
 	for _, m := range ms {
 		mvs = append(mvs, m.String())
 	}
-	return fmt.Sprintf("%s", strings.Join(mvs, "\n"))
+	return strings.Join(mvs, "\n")
 }
 
 var KingMoves = [][]Square{

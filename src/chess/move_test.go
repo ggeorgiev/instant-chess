@@ -6,6 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestkingMovesInternalHelper(t *testing.T) {
+func TestKingMovesInternalHelper(t *testing.T) {
 	assert.Equal(t, kingMovesInternalHelper(), KingMoves)
 }

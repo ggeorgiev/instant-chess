@@ -48,5 +48,62 @@ func (board Board) SquareUnderAttack{Color}(s Square) bool {
 			break
 		}
 	}
+
+	i := x - 1
+	j := y - 1
+	for i >= 0 && j >= 0 {
+		peace := board[NewSquare(i, j)]
+		if peace.Is{Color}DiagonalMover() {
+			return true
+		}
+		if peace != Empty {
+			break
+		}
+		i--
+		j--
+	}
+
+	i = x - 1
+	j = y + 1
+	for i >= 0 && j < 8 {
+		peace := board[NewSquare(i, j)]
+		if peace.Is{Color}DiagonalMover() {
+			return true
+		}
+		if peace != Empty {
+			break
+		}
+		i--
+		j++
+	}
+
+	i = x + 1
+	j = y - 1
+	for i < 8 && j >= 0 {
+		peace := board[NewSquare(i, j)]
+		if peace.Is{Color}DiagonalMover() {
+			return true
+		}
+		if peace != Empty {
+			break
+		}
+		i++
+		j--
+	}
+
+	i = x + 1
+	j = y + 1
+	for i < 8 && j < 8 {
+		peace := board[NewSquare(i, j)]
+		if peace.Is{Color}DiagonalMover() {
+			return true
+		}
+		if peace != Empty {
+			break
+		}
+		i++
+		j++
+	}
+
 	return false
 }
