@@ -1,6 +1,6 @@
 package chess
 
-func (board Board) SquareUnderAttackWhite(s Square) bool {
+func (board Board) SquareUnderAttackFromWhite(s Square) bool {
 	attackedFromKing := AttackedFromKing[s]
 
 	for _, kingSquare := range attackedFromKing {
@@ -118,7 +118,7 @@ func (board Board) WhiteKingTos(s Square) []Square {
 
 	for _, square := range kingMoves {
 		peace := board[square]
-		if peace.IsEmptyOrBlack() && !board.SquareUnderAttackBlack(square) {
+		if peace.IsEmptyOrBlack() && !board.SquareUnderAttackFromBlack(square) {
 			tos = append(tos, square)
 		}
 	}
@@ -137,7 +137,7 @@ func (board Board) WhiteRookTos(s Square, ks Square) []Square {
 			board[square] = board[s]
 			board[s] = Empty
 
-			if !board.SquareUnderAttackBlack(ks) {
+			if !board.SquareUnderAttackFromBlack(ks) {
 				tos = append(tos, square)
 			}
 
@@ -150,8 +150,7 @@ func (board Board) WhiteRookTos(s Square, ks Square) []Square {
 	x := s.X()
 	y := s.Y()
 
-	for i := x; i > 0; {
-		i--
+	for i := x - 1; i >= 0; i-- {
 		if !check(NewSquare(i, y)) {
 			break
 		}
@@ -162,8 +161,7 @@ func (board Board) WhiteRookTos(s Square, ks Square) []Square {
 		}
 	}
 
-	for i := y; i > 0; {
-		i--
+	for i := y - 1; i >= 0; i-- {
 		if !check(NewSquare(x, i)) {
 			break
 		}

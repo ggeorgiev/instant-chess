@@ -1,6 +1,6 @@
 package chess
 
-func (board Board) SquareUnderAttack{Color}(s Square) bool {
+func (board Board) SquareUnderAttackFrom{Color}(s Square) bool {
 	attackedFromKing := AttackedFromKing[s]
 
 	for _, kingSquare := range attackedFromKing {
@@ -118,7 +118,7 @@ func (board Board) {Color}KingTos(s Square) []Square {
 
 	for _, square := range kingMoves {
 		peace := board[square]
-		if peace.IsEmptyOr{OponentColor}() && !board.SquareUnderAttack{OponentColor}(square) {
+		if peace.IsEmptyOr{OponentColor}() && !board.SquareUnderAttackFrom{OponentColor}(square) {
 			tos = append(tos, square)
 		}
 	}
@@ -137,7 +137,7 @@ func (board Board) {Color}RookTos(s Square, ks Square) []Square {
 			board[square] = board[s]
 			board[s] = Empty
 
-			if !board.SquareUnderAttack{OponentColor}(ks) {
+			if !board.SquareUnderAttackFrom{OponentColor}(ks) {
 				tos = append(tos, square)
 			}
 
@@ -150,8 +150,7 @@ func (board Board) {Color}RookTos(s Square, ks Square) []Square {
 	x := s.X()
 	y := s.Y()
 
-	for i := x; i > 0; {
-		i--
+	for i := x - 1; i >= 0; i-- {
 		if !check(NewSquare(i, y)) {
 			break
 		}
@@ -162,8 +161,7 @@ func (board Board) {Color}RookTos(s Square, ks Square) []Square {
 		}
 	}
 
-	for i := y; i > 0; {
-		i--
+	for i := y - 1; i >= 0; i-- {
 		if !check(NewSquare(x, i)) {
 			break
 		}

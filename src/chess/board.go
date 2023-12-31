@@ -29,13 +29,6 @@ func ParseBoard(text string) Board {
 	return board
 }
 
-func (board Board) SquareUnderAttack(s Square, fromColor PeaceColor) bool {
-	if fromColor == White {
-		return board.SquareUnderAttackWhite(s)
-	}
-	return board.SquareUnderAttackBlack(s)
-}
-
 func (board Board) FindPeace(peace Peace) Square {
 	for s := Square(0); s < 64; s++ {
 		if board[s] == peace {
