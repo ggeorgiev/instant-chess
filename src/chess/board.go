@@ -6,6 +6,7 @@ import (
 
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -113,7 +114,7 @@ func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
 		}
 		attackerOccupiedMask |= square.IndexMask[s]
 		if figure.IsKnight() {
-			attackMask |= KnightAttackBitboardMasks[s]
+			attackMask |= peaceattacks.KnightBitboardMasks[s]
 		}
 	}
 

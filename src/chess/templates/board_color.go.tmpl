@@ -2,6 +2,8 @@ package chess
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
+	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -13,7 +15,7 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 		}
 	}
 
-	attackedFromKnight := AttackedFromKnight[s]
+	attackedFromKnight := peaceattacks.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
 		if board[knightSquare] == peace.{Color}Knight {
 			return true
@@ -157,7 +159,7 @@ func (board Board) {Color}KnightTos(s square.Index, ks square.Index) square.Inde
 		}
 	}
 
-	knightMoves := KnightMoves[s]
+	knightMoves := peacemoves.KnightMoves[s]
 
 	for _, square := range knightMoves {
 		check(square)

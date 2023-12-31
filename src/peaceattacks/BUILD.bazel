@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "peaceattacks",
+    srcs = [
+        "knight.go",
+        "knight_helper.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/peaceattacks",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/bitboard",
+        "//src/peacemoves",
+        "//src/square",
+    ],
+)
+
+go_test(
+    name = "peaceattacks_test",
+    srcs = ["knight_test.go"],
+    embed = [":peaceattacks"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)

@@ -48,6 +48,8 @@ go_library(
         "//src/bitboard",
         "//src/math",
         "//src/peace",
+        "//src/peaceattacks",
+        "//src/peacemoves",
         "//src/square",
     ],
 )
