@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-type Board [64]Peace
+type Board [square.Number]peace.Figure
 
 func ParseBoard(text string) Board {
 	var board Board
@@ -24,14 +25,14 @@ func ParseBoard(text string) Board {
 		runes := runes(rows[row])
 
 		for x := int8(0); x < 8; x++ {
-			board[square.NewIndex(x, y-1)] = PeaceFromSymbol(runes[4+x*4])
+			board[square.NewIndex(x, y-1)] = peace.FromSymbol(runes[4+x*4])
 		}
 
 	}
 	return board
 }
 
-func (board Board) FindPeace(peace Peace) square.Index {
+func (board Board) FindPeace(peace peace.Figure) square.Index {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		if board[s] == peace {
 			return s
@@ -42,16 +43,16 @@ func (board Board) FindPeace(peace Peace) square.Index {
 }
 
 func (board Board) Move(s square.Index) Move {
-	wks := board.FindPeace(WhiteKing)
+	wks := board.FindPeace(peace.WhiteKing)
 	tos := board.WhiteTos(s, wks)
 
-	bks := board.FindPeace(BlackKing)
+	bks := board.FindPeace(peace.BlackKing)
 
 	var toAnswers []ToAnswer
 	for _, to := range tos {
 		original := board[to]
 		board[to] = board[s]
-		board[s] = Empty
+		board[s] = peace.NoFigure
 
 		var answers []Answer
 

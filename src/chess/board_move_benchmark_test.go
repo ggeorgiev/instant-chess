@@ -3,6 +3,7 @@ package chess
 import (
 	"testing"
 
+	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -29,7 +30,7 @@ var positionB = ParsePosition(`
 `)
 
 func BenchmarkTos_1k(b *testing.B) {
-	kingSquare := positionB.Board.FindPeace(WhiteKing)
+	kingSquare := positionB.Board.FindPeace(peace.WhiteKing)
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 			positionB.Board.WhiteTos(s, kingSquare)

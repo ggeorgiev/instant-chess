@@ -3,26 +3,6 @@ load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
 load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
 
 expand_template_rule(
-    name = "peace_white",
-    out = "peace_white.go.gen",
-    substitutions = {
-        "{Color}": "White",
-        "{OponentColor}": "Black",
-    },
-    template = "templates/peace_color.go.tmpl",
-)
-
-expand_template_rule(
-    name = "peace_black",
-    out = "peace_black.go.gen",
-    substitutions = {
-        "{Color}": "Black",
-        "{OponentColor}": "White",
-    },
-    template = "templates/peace_color.go.tmpl",
-)
-
-expand_template_rule(
     name = "board_white",
     out = "board_white.go.gen",
     substitutions = {
@@ -47,8 +27,6 @@ write_source_files(
     files = {
         "board_white.go": ":board_white",
         "board_black.go": ":board_black",
-        "peace_white.go": ":peace_white",
-        "peace_black.go": ":peace_black",
     },
 )
 
@@ -60,9 +38,6 @@ go_library(
         "board_white.go",
         "generator.go",
         "move.go",
-        "peace.go",
-        "peace_black.go",
-        "peace_white.go",
         "position.go",
         "result.go",
         "text.go",
@@ -72,6 +47,7 @@ go_library(
     deps = [
         "//src/bitboard",
         "//src/math",
+        "//src/peace",
         "//src/square",
     ],
 )
@@ -86,8 +62,6 @@ go_test(
         "board_square_under_attack_test.go",
         "generator_test.go",
         "move_test.go",
-        "peace_benchmark_test.go",
-        "peace_test.go",
         "position_peaces_count_test.go",
         "position_test.go",
         "position_valid_black_king_under_attack_test.go",
@@ -95,6 +69,7 @@ go_test(
     ],
     embed = [":chess"],
     deps = [
+        "//src/peace",
         "//src/square",
         "@com_github_stretchr_testify//assert",
     ],

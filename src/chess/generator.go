@@ -4,16 +4,17 @@ import (
 	"fmt"
 
 	"github.com/ggeorgiev/instant-chess/src/math"
+	"github.com/ggeorgiev/instant-chess/src/peace"
 )
 
 func Generate(peacesString string) {
 	runes := runes(peacesString)
 	position := make([]int, len(runes))
-	peaces := make([]Peace, len(runes))
+	peaces := make(peace.Figures, len(runes))
 
 	for i, symbol := range runes {
 		position[i] = 0
-		peaces[i] = PeaceFromSymbol(symbol)
+		peaces[i] = peace.FromSymbol(symbol)
 	}
 
 	// Create a new permutation iterator
@@ -27,7 +28,7 @@ func Generate(peacesString string) {
 			break // No more permutations
 		}
 
-		var matrix [64]Peace
+		var matrix [64]peace.Figure
 		for s, place := range perm {
 			matrix[place] = peaces[s]
 		}

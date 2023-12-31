@@ -11,6 +11,7 @@ const (
 	InvalidIndex = Index(-1)
 	ZeroIndex    = Index(0)
 	LastIndex    = Index(63)
+	Number       = 64
 )
 
 func NewIndex(x, y int8) Index {

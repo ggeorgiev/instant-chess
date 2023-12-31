@@ -1,6 +1,9 @@
 package chess
 
-import "github.com/ggeorgiev/instant-chess/src/square"
+import (
+	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/square"
+)
 
 type Position struct {
 	HorizontalySymetric bool
@@ -40,7 +43,7 @@ func CreatePosition(board Board) *Position {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		peace := board[s]
-		if peace.IsEmpty() {
+		if peace.IsNoFigure() {
 			continue
 		}
 
@@ -88,9 +91,9 @@ func (p *Position) M1() bool {
 				board := p.Board
 				original := board[toAnswer.WhiteTo]
 				board[toAnswer.WhiteTo] = board[move.WhiteForm]
-				board[move.WhiteForm] = Empty
+				board[move.WhiteForm] = peace.NoFigure
 
-				bk := board.FindPeace(BlackKing)
+				bk := board.FindPeace(peace.BlackKing)
 				mate := board.SquareUnderAttackFromWhite(bk)
 
 				board[move.WhiteForm] = board[toAnswer.WhiteTo]

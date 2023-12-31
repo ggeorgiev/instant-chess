@@ -1,4 +1,4 @@
-package chess
+package peace
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 
 func BenchmarkPeaceColor_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.Color()
+		NoFigure.Color()
 
 		WhitePawn.Color()
 		WhiteBishop.Color()
@@ -26,7 +26,7 @@ func BenchmarkPeaceColor_1m(b *testing.B) {
 
 func BenchmarkPeaceIsWhite_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.IsWhite()
+		NoFigure.IsWhite()
 
 		WhitePawn.IsWhite()
 		WhiteBishop.IsWhite()
@@ -46,7 +46,7 @@ func BenchmarkPeaceIsWhite_1m(b *testing.B) {
 
 func BenchmarkPeaceIsBlack_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.IsBlack()
+		NoFigure.IsBlack()
 
 		WhitePawn.IsBlack()
 		WhiteBishop.IsBlack()
@@ -64,52 +64,52 @@ func BenchmarkPeaceIsBlack_1m(b *testing.B) {
 	}
 }
 
-func BenchmarkPeaceIsEmptyOr_1m(b *testing.B) {
+func BenchmarkPeaceNoFigureOr_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		color := []PeaceColor{PeaceColorWhite, PeaceColorBlack}[i%2]
-		Empty.IsEmptyOr(color)
+		color := []Color{WhiteColor, BlackColor}[i%2]
+		NoFigure.IsNoFigureOr(color)
 
-		WhitePawn.IsEmptyOr(color)
-		WhiteBishop.IsEmptyOr(color)
-		WhiteKnight.IsEmptyOr(color)
-		WhiteRook.IsEmptyOr(color)
-		WhiteQueen.IsEmptyOr(color)
-		WhiteKing.IsEmptyOr(color)
+		WhitePawn.IsNoFigureOr(color)
+		WhiteBishop.IsNoFigureOr(color)
+		WhiteKnight.IsNoFigureOr(color)
+		WhiteRook.IsNoFigureOr(color)
+		WhiteQueen.IsNoFigureOr(color)
+		WhiteKing.IsNoFigureOr(color)
 
-		BlackPawn.IsEmptyOr(color)
-		BlackBishop.IsEmptyOr(color)
-		BlackKnight.IsEmptyOr(color)
-		BlackRook.IsEmptyOr(color)
-		BlackQueen.IsEmptyOr(color)
-		BlackKing.IsEmptyOr(color)
+		BlackPawn.IsNoFigureOr(color)
+		BlackBishop.IsNoFigureOr(color)
+		BlackKnight.IsNoFigureOr(color)
+		BlackRook.IsNoFigureOr(color)
+		BlackQueen.IsNoFigureOr(color)
+		BlackKing.IsNoFigureOr(color)
 	}
 }
 
-func BenchmarkPeaceIsEmptyOrNot_1m(b *testing.B) {
+func BenchmarkPeaceNoFigureOrNot_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		color := []PeaceColor{PeaceColorWhite, PeaceColorBlack}[i%2]
+		color := []Color{WhiteColor, BlackColor}[i%2]
 
-		Empty.IsEmptyOrNot(color)
+		NoFigure.IsNoFigureOrNot(color)
 
-		WhitePawn.IsEmptyOrNot(color)
-		WhiteBishop.IsEmptyOrNot(color)
-		WhiteKnight.IsEmptyOrNot(color)
-		WhiteRook.IsEmptyOrNot(color)
-		WhiteQueen.IsEmptyOrNot(color)
-		WhiteKing.IsEmptyOrNot(color)
+		WhitePawn.IsNoFigureOrNot(color)
+		WhiteBishop.IsNoFigureOrNot(color)
+		WhiteKnight.IsNoFigureOrNot(color)
+		WhiteRook.IsNoFigureOrNot(color)
+		WhiteQueen.IsNoFigureOrNot(color)
+		WhiteKing.IsNoFigureOrNot(color)
 
-		BlackPawn.IsEmptyOrNot(color)
-		BlackBishop.IsEmptyOrNot(color)
-		BlackKnight.IsEmptyOrNot(color)
-		BlackRook.IsEmptyOrNot(color)
-		BlackQueen.IsEmptyOrNot(color)
-		BlackKing.IsEmptyOrNot(color)
+		BlackPawn.IsNoFigureOrNot(color)
+		BlackBishop.IsNoFigureOrNot(color)
+		BlackKnight.IsNoFigureOrNot(color)
+		BlackRook.IsNoFigureOrNot(color)
+		BlackQueen.IsNoFigureOrNot(color)
+		BlackKing.IsNoFigureOrNot(color)
 	}
 }
 
 func BenchmarkPeaceIsRook_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.IsRook()
+		NoFigure.IsRook()
 
 		WhitePawn.IsRook()
 		WhiteBishop.IsRook()
@@ -129,7 +129,7 @@ func BenchmarkPeaceIsRook_1m(b *testing.B) {
 
 func BenchmarkPeaceIsLinearMover_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		Empty.IsLinearMover()
+		NoFigure.IsLinearMover()
 
 		WhitePawn.IsLinearMover()
 		WhiteBishop.IsLinearMover()
@@ -149,9 +149,9 @@ func BenchmarkPeaceIsLinearMover_1m(b *testing.B) {
 
 func BenchmarkPeaceIsLiniarFrom_1m(b *testing.B) {
 	for i := 1; i < 1000000; i++ {
-		color := []PeaceColor{PeaceColorWhite, PeaceColorBlack}[i%2]
+		color := []Color{WhiteColor, BlackColor}[i%2]
 
-		Empty.IsLinearMoverFrom(color)
+		NoFigure.IsLinearMoverFrom(color)
 
 		WhitePawn.IsLinearMoverFrom(color)
 		WhiteBishop.IsLinearMoverFrom(color)

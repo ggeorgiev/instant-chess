@@ -1,18 +1,21 @@
 package chess
 
-import "github.com/ggeorgiev/instant-chess/src/square"
+import (
+	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/square"
+)
 
 func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	attackedFromKing := AttackedFromKing[s]
 	for _, kingSquare := range attackedFromKing {
-		if board[kingSquare] == {Color}King {
+		if board[kingSquare] == peace.{Color}King {
 			return true
 		}
 	}
 
 	attackedFromKnight := AttackedFromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
-		if board[knightSquare] == {Color}Knight {
+		if board[knightSquare] == peace.{Color}Knight {
 			return true
 		}
 	}
@@ -21,38 +24,38 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	y := s.Y()
 
 	for i := x - 1; i >= 0; i-- {
-		peace := board[square.NewIndex(i, y)]
-		if peace.Is{Color}LinearMover() {
+		figure := board[square.NewIndex(i, y)]
+		if figure.Is{Color}LinearMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 	}
 	for i := x + 1; i < 8; i++ {
-		peace := board[square.NewIndex(i, y)]
-		if peace.Is{Color}LinearMover() {
+		figure := board[square.NewIndex(i, y)]
+		if figure.Is{Color}LinearMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 	}
 	for i := y - 1; i >= 0; i-- {
-		peace := board[square.NewIndex(x, i)]
-		if peace.Is{Color}LinearMover() {
+		figure := board[square.NewIndex(x, i)]
+		if figure.Is{Color}LinearMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 	}
 	for i := y + 1; i < 8; i++ {
-		peace := board[square.NewIndex(x, i)]
-		if peace.Is{Color}LinearMover() {
+		figure := board[square.NewIndex(x, i)]
+		if figure.Is{Color}LinearMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 	}
@@ -60,11 +63,11 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	i := x - 1
 	j := y - 1
 	for i >= 0 && j >= 0 {
-		peace := board[square.NewIndex(i, j)]
-		if peace.Is{Color}DiagonalMover() {
+		figure := board[square.NewIndex(i, j)]
+		if figure.Is{Color}DiagonalMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 		i--
@@ -74,11 +77,11 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	i = x - 1
 	j = y + 1
 	for i >= 0 && j < 8 {
-		peace := board[square.NewIndex(i, j)]
-		if peace.Is{Color}DiagonalMover() {
+		figure := board[square.NewIndex(i, j)]
+		if figure.Is{Color}DiagonalMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 		i--
@@ -88,11 +91,11 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	i = x + 1
 	j = y - 1
 	for i < 8 && j >= 0 {
-		peace := board[square.NewIndex(i, j)]
-		if peace.Is{Color}DiagonalMover() {
+		figure := board[square.NewIndex(i, j)]
+		if figure.Is{Color}DiagonalMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 		i++
@@ -102,11 +105,11 @@ func (board Board) SquareUnderAttackFrom{Color}(s square.Index) bool {
 	i = x + 1
 	j = y + 1
 	for i < 8 && j < 8 {
-		peace := board[square.NewIndex(i, j)]
-		if peace.Is{Color}DiagonalMover() {
+		figure := board[square.NewIndex(i, j)]
+		if figure.Is{Color}DiagonalMover() {
 			return true
 		}
-		if peace != Empty {
+		if figure != peace.NoFigure {
 			break
 		}
 		i++
@@ -120,13 +123,13 @@ func (board Board) {Color}KingTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
 	original := board[s]
-	board[s] = Empty
+	board[s] = peace.NoFigure
 
 	kingMoves := KingMoves[s]
 
 	for _, square := range kingMoves {
-		peace := board[square]
-		if peace.IsEmptyOr{OponentColor}() && !board.SquareUnderAttackFrom{OponentColor}(square) {
+		figure := board[square]
+		if figure.IsNoFigureOr{OponentColor}() && !board.SquareUnderAttackFrom{OponentColor}(square) {
 			tos = append(tos, square)
 		}
 	}
@@ -139,11 +142,11 @@ func (board Board) {Color}KnightTos(s square.Index, ks square.Index) square.Inde
 	var tos square.Indexes
 
 	check := func(square square.Index) {
-		peace := board[square]
-		if peace.IsEmptyOr{OponentColor}() {
+		figure := board[square]
+		if figure.IsNoFigureOr{OponentColor}() {
 			original := board[square]
 			board[square] = board[s]
-			board[s] = Empty
+			board[s] = peace.NoFigure
 
 			if !board.SquareUnderAttackFrom{OponentColor}(ks) {
 				tos = append(tos, square)
@@ -167,11 +170,11 @@ func (board Board) {Color}RookTos(s square.Index, ks square.Index) square.Indexe
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
-		peace := board[square]
-		if peace.IsEmptyOr{OponentColor}() {
+		figure := board[square]
+		if figure.IsNoFigureOr{OponentColor}() {
 			original := board[square]
 			board[square] = board[s]
-			board[s] = Empty
+			board[s] = peace.NoFigure
 
 			if !board.SquareUnderAttackFrom{OponentColor}(ks) {
 				tos = append(tos, square)
@@ -180,7 +183,7 @@ func (board Board) {Color}RookTos(s square.Index, ks square.Index) square.Indexe
 			board[s] = board[square]
 			board[square] = original
 		}
-		return peace.IsEmpty()
+		return figure.IsNoFigure()
 	}
 
 	x := s.X()
@@ -211,13 +214,13 @@ func (board Board) {Color}RookTos(s square.Index, ks square.Index) square.Indexe
 }
 
 func (board Board) {Color}Tos(s square.Index, kingSquare square.Index) square.Indexes {
-	if board[s] == {Color}King {
+	if board[s] == peace.{Color}King {
 		return board.{Color}KingTos(s)
 	}
-	if board[s] == {Color}Rook {
+	if board[s] == peace.{Color}Rook {
 		return board.{Color}RookTos(s, kingSquare)
 	}
-	if board[s] == {Color}Knight {
+	if board[s] == peace.{Color}Knight {
 		return board.{Color}KnightTos(s, kingSquare)
 	}
 	return nil

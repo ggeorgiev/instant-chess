@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "peace",
+    srcs = [
+        "color.go",
+        "figure.go",
+        "kind.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/peace",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "peace_test",
+    srcs = [
+        "color_test.go",
+        "figure_benchmark_test.go",
+        "figure_test.go",
+        "kind_test.go",
+    ],
+    embed = [":peace"],
+    deps = ["@com_github_stretchr_testify//assert"],
+)
