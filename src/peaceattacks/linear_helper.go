@@ -5,7 +5,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func riseLeftSquareIndexesInternalHelper() []square.Indexes {
+func riseSquareIndexesInternalHelper() []square.Indexes {
 	var squaresList []square.Indexes
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
@@ -13,20 +13,15 @@ func riseLeftSquareIndexesInternalHelper() []square.Indexes {
 		x := s.X()
 		y := s.Y()
 
-		i := x
-		j := y
-
-		for i > 0 && j < 7 {
-			i--
-			j++
-			squares = append(squares, square.NewIndex(i, j))
+		for i := y + 1; i < 8; i++ {
+			squares = append(squares, square.NewIndex(x, i))
 		}
 		squaresList = append(squaresList, squares)
 	}
 	return squaresList
 }
 
-func riseRightSquareIndexesInternalHelper() []square.Indexes {
+func rightSquareIndexesInternalHelper() []square.Indexes {
 	var squaresList []square.Indexes
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
@@ -34,20 +29,15 @@ func riseRightSquareIndexesInternalHelper() []square.Indexes {
 		x := s.X()
 		y := s.Y()
 
-		i := x
-		j := y
-
-		for i < 7 && j < 7 {
-			i++
-			j++
-			squares = append(squares, square.NewIndex(i, j))
+		for i := x + 1; i < 8; i++ {
+			squares = append(squares, square.NewIndex(i, y))
 		}
 		squaresList = append(squaresList, squares)
 	}
 	return squaresList
 }
 
-func fallLeftSquareIndexesInternalHelper() []square.Indexes {
+func fallSquareIndexesInternalHelper() []square.Indexes {
 	var squaresList []square.Indexes
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
@@ -55,20 +45,15 @@ func fallLeftSquareIndexesInternalHelper() []square.Indexes {
 		x := s.X()
 		y := s.Y()
 
-		i := x
-		j := y
-
-		for i > 0 && j > 0 {
-			i--
-			j--
-			squares = append(squares, square.NewIndex(i, j))
+		for i := y - 1; i >= 0; i-- {
+			squares = append(squares, square.NewIndex(x, i))
 		}
 		squaresList = append(squaresList, squares)
 	}
 	return squaresList
 }
 
-func fallRightSquareIndexesInternalHelper() []square.Indexes {
+func leftSquareIndexesInternalHelper() []square.Indexes {
 	var squaresList []square.Indexes
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
@@ -76,23 +61,18 @@ func fallRightSquareIndexesInternalHelper() []square.Indexes {
 		x := s.X()
 		y := s.Y()
 
-		i := x
-		j := y
-
-		for i < 7 && j > 0 {
-			i++
-			j--
-			squares = append(squares, square.NewIndex(i, j))
+		for i := x - 1; i >= 0; i-- {
+			squares = append(squares, square.NewIndex(i, y))
 		}
 		squaresList = append(squaresList, squares)
 	}
 	return squaresList
 }
 
-func riseLeftBitboardMasksInternalHelper() bitboard.Masks {
+func riseBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	indexesList := RiseLeftSquareIndexes
+	indexesList := RiseSquareIndexes
 
 	for _, indexes := range indexesList {
 		masks = append(masks, square.ConvertIndexesIntoBitboardMask(indexes))
@@ -101,10 +81,10 @@ func riseLeftBitboardMasksInternalHelper() bitboard.Masks {
 	return masks
 }
 
-func riseRightBitboardMasksInternalHelper() bitboard.Masks {
+func rightBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	indexesList := RiseRightSquareIndexes
+	indexesList := RightSquareIndexes
 
 	for _, indexes := range indexesList {
 		masks = append(masks, square.ConvertIndexesIntoBitboardMask(indexes))
@@ -113,10 +93,10 @@ func riseRightBitboardMasksInternalHelper() bitboard.Masks {
 	return masks
 }
 
-func fallLeftBitboardMasksInternalHelper() bitboard.Masks {
+func fallBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	indexesList := FallLeftSquareIndexes
+	indexesList := FallSquareIndexes
 
 	for _, indexes := range indexesList {
 		masks = append(masks, square.ConvertIndexesIntoBitboardMask(indexes))
@@ -125,10 +105,10 @@ func fallLeftBitboardMasksInternalHelper() bitboard.Masks {
 	return masks
 }
 
-func fallRightBitboardMasksInternalHelper() bitboard.Masks {
+func leftBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	indexesList := FallRightSquareIndexes
+	indexesList := LeftSquareIndexes
 
 	for _, indexes := range indexesList {
 		masks = append(masks, square.ConvertIndexesIntoBitboardMask(indexes))
@@ -137,21 +117,21 @@ func fallRightBitboardMasksInternalHelper() bitboard.Masks {
 	return masks
 }
 
-func diagonalsRiseBitboardMasksInternalHelper() bitboard.Masks {
+func linearsRiseRightBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	for i := range RiseLeftBitboardMasks {
-		masks = append(masks, RiseLeftBitboardMasks[i]|RiseRightBitboardMasks[i])
+	for i := range RiseBitboardMasks {
+		masks = append(masks, RiseBitboardMasks[i]|RightBitboardMasks[i])
 	}
 
 	return masks
 }
 
-func diagonalsFallBitboardMasksInternalHelper() bitboard.Masks {
+func linearsFallLeftBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	for i := range FallLeftBitboardMasks {
-		masks = append(masks, FallLeftBitboardMasks[i]|FallRightBitboardMasks[i])
+	for i := range FallBitboardMasks {
+		masks = append(masks, FallBitboardMasks[i]|LeftBitboardMasks[i])
 	}
 
 	return masks

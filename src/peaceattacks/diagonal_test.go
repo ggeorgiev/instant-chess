@@ -46,12 +46,12 @@ func TestFallRightBitboardMasksInternalHelper(t *testing.T) {
 	assert.Equal(t, masks, FallRightBitboardMasks, masks.String())
 }
 
-func TestRiseBitboardMasksInternalHelper(t *testing.T) {
-	masks := riseBitboardMasksInternalHelper()
-	assert.Equal(t, masks, RiseBitboardMasks, masks.String())
+func TestDiagonalsRiseBitboardMasksInternalHelper(t *testing.T) {
+	masks := diagonalsRiseBitboardMasksInternalHelper()
+	assert.Equal(t, masks, DiagonalsRiseBitboardMasks, masks.String())
 }
 
-func TestFallBitboardMasksInternalHelper(t *testing.T) {
-	masks := fallBitboardMasksInternalHelper()
-	assert.Equal(t, masks, FallBitboardMasks, masks.String())
+func TestDiagonalsFallBitboardMasksInternalHelper(t *testing.T) {
+	masks := diagonalsFallBitboardMasksInternalHelper()
+	assert.Equal(t, masks, DiagonalsFallBitboardMasks, masks.String())
 }
