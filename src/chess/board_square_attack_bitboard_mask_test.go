@@ -3,7 +3,6 @@ package chess
 import (
 	"testing"
 
-	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 	"github.com/stretchr/testify/assert"
 )
@@ -53,7 +52,7 @@ func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFrom(peace.WhiteColor))
+	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -103,7 +102,7 @@ func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFrom(peace.WhiteColor))
+	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -153,7 +152,7 @@ func TestAttackBitboardMaskFromLinears(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFrom(peace.WhiteColor))
+	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -203,7 +202,7 @@ func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFrom(peace.WhiteColor))
+	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
