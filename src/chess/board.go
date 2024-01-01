@@ -115,6 +115,8 @@ func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
 		attackerOccupiedMask |= square.IndexMask[s]
 		if figure.IsKnight() {
 			attackMask |= peaceattacks.KnightBitboardMasks[s]
+		} else if figure.IsKing() {
+			attackMask |= peaceattacks.KingBitboardMasks[s]
 		}
 	}
 

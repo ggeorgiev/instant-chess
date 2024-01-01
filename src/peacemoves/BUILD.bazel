@@ -3,6 +3,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "peacemoves",
     srcs = [
+        "king.go",
+        "king_helper.go",
         "knight.go",
         "knight_helper.go",
     ],
@@ -13,7 +15,10 @@ go_library(
 
 go_test(
     name = "peacemoves_test",
-    srcs = ["knight_test.go"],
+    srcs = [
+        "king_test.go",
+        "knight_test.go",
+    ],
     embed = [":peacemoves"],
     deps = ["@com_github_stretchr_testify//assert"],
 )

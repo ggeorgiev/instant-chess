@@ -8,7 +8,7 @@ import (
 )
 
 func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
-	attackedFromKing := AttackedFromKing[s]
+	attackedFromKing := peaceattacks.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if board[kingSquare] == peace.BlackKing {
 			return true
@@ -127,7 +127,7 @@ func (board Board) BlackKingTos(s square.Index) square.Indexes {
 	original := board[s]
 	board[s] = peace.NoFigure
 
-	kingMoves := KingMoves[s]
+	kingMoves := peacemoves.KingSquareIndexes[s]
 
 	for _, square := range kingMoves {
 		figure := board[square]
@@ -159,7 +159,7 @@ func (board Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexe
 		}
 	}
 
-	knightMoves := peacemoves.KnightMoves[s]
+	knightMoves := peacemoves.KnightSquareIndexes[s]
 
 	for _, square := range knightMoves {
 		check(square)

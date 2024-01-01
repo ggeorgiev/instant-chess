@@ -5,7 +5,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 )
 
-var FromKnight = peacemoves.KnightMoves
+var FromKnight = peacemoves.KnightSquareIndexes
 
 var KnightBitboardMasks = bitboard.Masks{
 	0b0000000000000000000000000000000000000000000000100000010000000000,

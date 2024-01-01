@@ -2,7 +2,7 @@ package peacemoves
 
 import "github.com/ggeorgiev/instant-chess/src/square"
 
-var KnightMoves = []square.Indexes{
+var KnightSquareIndexes = []square.Indexes{
 	{10, 17},
 	{11, 16, 18},
 	{8, 12, 17, 19},

@@ -7,5 +7,5 @@ import (
 )
 
 func TestKnightMovesInternalHelper(t *testing.T) {
-	assert.Equal(t, knightMovesInternalHelper(), KnightMoves)
+	assert.Equal(t, knightMovesInternalHelper(), KnightSquareIndexes)
 }
