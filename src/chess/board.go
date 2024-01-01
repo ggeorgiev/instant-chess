@@ -105,23 +105,46 @@ func (board Board) Print() {
 }
 
 func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
+	fallShadowMask := bitboard.Empty
 	attackerOccupiedMask := bitboard.Empty
 	attackMask := bitboard.Empty
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		figure := board[s]
-		if figure.Color() != color {
+		if figure == peace.NoFigure {
 			continue
 		}
-		attackerOccupiedMask |= square.IndexMask[s]
-		if figure == peace.WhitePawn {
-			attackMask |= peaceattacks.WhitePawnBitboardMasks[s]
-		} else if figure == peace.BlackPawn {
-			attackMask |= peaceattacks.BlackPawnBitboardMasks[s]
-		} else if figure.IsKnight() {
-			attackMask |= peaceattacks.KnightBitboardMasks[s]
-		} else if figure.IsKing() {
-			attackMask |= peaceattacks.KingBitboardMasks[s]
+
+		if figure.Color() == color {
+			attackerOccupiedMask |= square.IndexMask[s]
+			if figure == peace.WhitePawn {
+				attackMask |= peaceattacks.WhitePawnBitboardMasks[s]
+			} else if figure == peace.BlackPawn {
+				attackMask |= peaceattacks.BlackPawnBitboardMasks[s]
+			} else if figure.IsKnight() {
+				attackMask |= peaceattacks.KnightBitboardMasks[s]
+			} else if figure.IsBishop() {
+				attackMask |= peaceattacks.FallBitboardMasks[s] & ^fallShadowMask
+			} else if figure.IsKing() {
+				attackMask |= peaceattacks.KingBitboardMasks[s]
+			}
 		}
+
+		fallShadowMask |= peaceattacks.FallBitboardMasks[s]
+	}
+
+	riseShadowMask := bitboard.Empty
+	for s := square.LastIndex; s >= square.ZeroIndex; s-- {
+		figure := board[s]
+		if figure == peace.NoFigure {
+			continue
+		}
+
+		if figure.Color() == color {
+			if figure.IsBishop() {
+				attackMask |= peaceattacks.RiseBitboardMasks[s] & ^riseShadowMask
+			}
+		}
+		riseShadowMask |= peaceattacks.RiseBitboardMasks[s]
 	}
 
 	return attackMask & ^attackerOccupiedMask

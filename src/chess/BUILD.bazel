@@ -60,6 +60,7 @@ go_test(
     srcs = [
         "board_move_benchmark_test.go",
         "board_move_test.go",
+        "board_square_attack_bitboard_mask_benchmark_test.go",
         "board_square_attack_bitboard_mask_test.go",
         "board_square_under_attack_benchmark_test.go",
         "board_square_under_attack_test.go",

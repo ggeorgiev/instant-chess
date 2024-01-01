@@ -229,6 +229,22 @@ func TestFigureIsDiagonalMover(t *testing.T) {
 	assert.False(t, BlackKing.IsDiagonalMoverFrom(BlackColor))
 }
 
+func TestFigureIsBishop(t *testing.T) {
+	assert.False(t, NoFigure.IsBishop())
+	assert.False(t, WhitePawn.IsBishop())
+	assert.True(t, WhiteBishop.IsBishop())
+	assert.False(t, WhiteKnight.IsBishop())
+	assert.False(t, WhiteRook.IsBishop())
+	assert.False(t, WhiteQueen.IsBishop())
+	assert.False(t, WhiteKing.IsBishop())
+	assert.False(t, BlackPawn.IsBishop())
+	assert.True(t, BlackBishop.IsBishop())
+	assert.False(t, BlackKnight.IsBishop())
+	assert.False(t, BlackRook.IsBishop())
+	assert.False(t, BlackQueen.IsBishop())
+	assert.False(t, BlackKing.IsBishop())
+}
+
 func TestFigureIsKnight(t *testing.T) {
 	assert.False(t, NoFigure.IsKnight())
 	assert.False(t, WhitePawn.IsKnight())

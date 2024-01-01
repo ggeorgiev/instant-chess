@@ -97,7 +97,7 @@ func SprintMask(mask bitboard.Mask) string {
 	result.WriteString(separator)
 
 	for y := int8(7); y >= 0; y-- {
-		result.WriteString(fmt.Sprintf("%d·|", y))
+		result.WriteString(fmt.Sprintf("%d·|", y+1))
 		for x := int8(0); x < 8; x++ {
 			symbol := " "
 			if IndexMask[NewIndex(x, y)]&mask != 0 {
@@ -105,7 +105,7 @@ func SprintMask(mask bitboard.Mask) string {
 			}
 			result.WriteString(fmt.Sprintf(" %s |", symbol))
 		}
-		result.WriteString(fmt.Sprintf("·%d\n", y))
+		result.WriteString(fmt.Sprintf("·%d\n", y+1))
 		result.WriteString(separator)
 	}
 

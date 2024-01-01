@@ -3,6 +3,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "peaceattacks",
     srcs = [
+        "diagonal.go",
+        "diagonal_helper.go",
         "king.go",
         "king_helper.go",
         "knight.go",
@@ -22,6 +24,7 @@ go_library(
 go_test(
     name = "peaceattacks_test",
     srcs = [
+        "diagonal_test.go",
         "king_test.go",
         "knight_test.go",
         "pawn_test.go",

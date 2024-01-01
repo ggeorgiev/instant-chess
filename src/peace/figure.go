@@ -69,6 +69,10 @@ func (f Figure) IsBlackDiagonalMover() bool {
 	return uint8(f)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|Black
 }
 
+func (f Figure) IsBishop() bool {
+	return f == WhiteBishop || f == BlackBishop
+}
+
 func (f Figure) IsKnight() bool {
 	return f == WhiteKnight || f == BlackKnight
 }
