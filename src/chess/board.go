@@ -127,6 +127,9 @@ func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
 				attackMask |= peaceattacks.DiagonalsFallBitboardMasks[s] & ^fallShadowMask
 			} else if figure.IsRook() {
 				attackMask |= peaceattacks.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask
+			} else if figure.IsQueen() {
+				attackMask |= (peaceattacks.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask) |
+					(peaceattacks.DiagonalsFallBitboardMasks[s] & ^fallShadowMask)
 			} else if figure.IsKing() {
 				attackMask |= peaceattacks.KingBitboardMasks[s]
 			}
@@ -149,6 +152,9 @@ func (board Board) AttackBitboardMaskFrom(color peace.Color) bitboard.Mask {
 				attackMask |= peaceattacks.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask
 			} else if figure.IsRook() {
 				attackMask |= peaceattacks.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask
+			} else if figure.IsQueen() {
+				attackMask |= (peaceattacks.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask) |
+					(peaceattacks.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask)
 			}
 		}
 		riseShadowMask |= peaceattacks.DiagonalsRiseBitboardMasks[s]
