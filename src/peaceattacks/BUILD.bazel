@@ -7,6 +7,8 @@ go_library(
         "king_helper.go",
         "knight.go",
         "knight_helper.go",
+        "pawn.go",
+        "pawn_helper.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peaceattacks",
     visibility = ["//visibility:public"],
@@ -22,6 +24,7 @@ go_test(
     srcs = [
         "king_test.go",
         "knight_test.go",
+        "pawn_test.go",
     ],
     embed = [":peaceattacks"],
     deps = ["@com_github_stretchr_testify//assert"],
