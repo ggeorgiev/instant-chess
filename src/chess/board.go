@@ -42,23 +42,30 @@ func (board Board) FindPeace(peace peace.Figure) square.Index {
 	return square.InvalidIndex
 }
 
-func (board Board) Move(s square.Index) Move {
-	wks := board.FindPeace(peace.WhiteKing)
-	tos := board.WhiteTos(s, wks)
+func (board Board) Moves() Moves {
+	var moves Moves
 
+	wks := board.FindPeace(peace.WhiteKing)
 	bks := board.FindPeace(peace.BlackKing)
 
-	var toAnswers []ToAnswer
-	for _, to := range tos {
-		original := board[to]
-		board[to] = board[s]
-		board[s] = peace.NoFigure
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+		tos := board.WhiteTos(s, wks)
+		if len(tos) == 0 {
+			continue
+		}
 
-		var answers []Answer
+		var toAnswers []ToAnswer
+		for _, to := range tos {
+			original := board[to]
+			board[to] = board[s]
+			board[s] = peace.NoFigure
 
-		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			peace := board[s]
-			if peace.IsBlack() {
+			var answers []Answer
+
+			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+				if !board[s].IsBlack() {
+					continue
+				}
 				blackTos := board.BlackTos(s, bks)
 				if len(blackTos) > 0 {
 					answers = append(answers, Answer{
@@ -67,20 +74,19 @@ func (board Board) Move(s square.Index) Move {
 					})
 				}
 			}
+			toAnswers = append(toAnswers, ToAnswer{
+				WhiteTo: to,
+				Answers: answers,
+			})
+
+			board[s] = board[to]
+			board[to] = original
 		}
-		toAnswers = append(toAnswers, ToAnswer{
-			WhiteTo: to,
-			Answers: answers,
-		})
 
-		board[s] = board[to]
-		board[to] = original
+		moves = append(moves, Move{WhiteForm: s, ToAnswers: toAnswers})
 	}
 
-	return Move{
-		WhiteForm: s,
-		ToAnswers: toAnswers,
-	}
+	return moves
 }
 
 func (board Board) Print() {

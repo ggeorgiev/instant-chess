@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "peacealignment",
+    srcs = ["alignment.go"],
+    importpath = "github.com/ggeorgiev/instant-chess/src/peacealignment",
+    visibility = ["//visibility:public"],
+    deps = ["//src/square"],
+)

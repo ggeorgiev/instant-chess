@@ -8,39 +8,39 @@ func knightMovesInternalHelper() []square.Indexes {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
 
-		x := s.X()
-		y := s.Y()
+		file := s.File()
+		rank := s.Rank()
 
-		if y > 1 {
-			if x > 0 {
-				squares = append(squares, square.NewIndex(x-1, y-2))
+		if rank > 1 {
+			if file > 0 {
+				squares = append(squares, square.NewIndex(file-1, rank-2))
 			}
-			if x < 7 {
-				squares = append(squares, square.NewIndex(x+1, y-2))
-			}
-		}
-		if y > 0 {
-			if x > 1 {
-				squares = append(squares, square.NewIndex(x-2, y-1))
-			}
-			if x < 6 {
-				squares = append(squares, square.NewIndex(x+2, y-1))
+			if file < 7 {
+				squares = append(squares, square.NewIndex(file+1, rank-2))
 			}
 		}
-		if y < 7 {
-			if x > 1 {
-				squares = append(squares, square.NewIndex(x-2, y+1))
+		if rank > 0 {
+			if file > 1 {
+				squares = append(squares, square.NewIndex(file-2, rank-1))
 			}
-			if x < 6 {
-				squares = append(squares, square.NewIndex(x+2, y+1))
+			if file < 6 {
+				squares = append(squares, square.NewIndex(file+2, rank-1))
 			}
 		}
-		if y < 6 {
-			if x > 0 {
-				squares = append(squares, square.NewIndex(x-1, y+2))
+		if rank < 7 {
+			if file > 1 {
+				squares = append(squares, square.NewIndex(file-2, rank+1))
 			}
-			if x < 7 {
-				squares = append(squares, square.NewIndex(x+1, y+2))
+			if file < 6 {
+				squares = append(squares, square.NewIndex(file+2, rank+1))
+			}
+		}
+		if rank < 6 {
+			if file > 0 {
+				squares = append(squares, square.NewIndex(file-1, rank+2))
+			}
+			if file < 7 {
+				squares = append(squares, square.NewIndex(file+1, rank+2))
 			}
 		}
 

@@ -48,7 +48,6 @@ func CreatePosition(board Board) *Position {
 		}
 
 		if peace.IsWhite() {
-			position.Moves = append(position.Moves, board.Move(s))
 			position.WhitePeaces++
 		} else {
 			position.BlackPeaces++
@@ -65,8 +64,9 @@ func CreatePosition(board Board) *Position {
 				blackKings++
 			}
 		}
-
 	}
+
+	position.Moves = board.Moves()
 
 	position.Valid = position.Valid &&
 		(whiteKings == 1 && blackKings == 1) &&

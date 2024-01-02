@@ -4,6 +4,8 @@ go_library(
     name = "square",
     srcs = [
         "bitboard.go",
+        "diagonal.go",
+        "diagonal_helper.go",
         "square.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/square",
@@ -15,6 +17,7 @@ go_test(
     name = "square_test",
     srcs = [
         "bitboard_test.go",
+        "diagonal_test.go",
         "square_test.go",
     ],
     embed = [":square"],

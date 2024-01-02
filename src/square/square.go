@@ -14,19 +14,27 @@ const (
 	Number       = 64
 )
 
-func NewIndex(x, y int8) Index {
-	return Index(y<<3 + x)
+func NewIndex(file, rank int8) Index {
+	return Index(rank<<3 + file)
 }
 
-func (s Index) X() int8 {
+func (s Index) File() int8 {
 	return int8(s) & 0b111
 }
 
-func (s Index) Y() int8 {
+func (s Index) Rank() int8 {
 	return int8(s) >> 3
+}
+
+func (s Index) Diagonal() int8 {
+	return Diagonal[s]
+}
+
+func (s Index) AntiDiagonal() int8 {
+	return AntiDiagonal[s]
 }
 
 func (s Index) String() string {
 	letters := "ABCDEFGH"
-	return fmt.Sprintf("%c%d", letters[s.X()], s.Y()+1)
+	return fmt.Sprintf("%c%d", letters[s.File()], s.Rank()+1)
 }

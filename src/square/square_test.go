@@ -7,17 +7,17 @@ import (
 )
 
 func TestSquareX(t *testing.T) {
-	for x := int8(0); x < 8; x++ {
-		for y := int8(0); y < 8; y++ {
-			assert.Equal(t, NewIndex(x, y).X(), x)
+	for f := int8(0); f < 8; f++ {
+		for r := int8(0); r < 8; r++ {
+			assert.Equal(t, NewIndex(f, r).File(), f)
 		}
 	}
 }
 
 func TestSquareY(t *testing.T) {
-	for x := int8(0); x < 8; x++ {
-		for y := int8(0); y < 8; y++ {
-			assert.Equal(t, NewIndex(x, y).Y(), y)
+	for f := int8(0); f < 8; f++ {
+		for r := int8(0); r < 8; r++ {
+			assert.Equal(t, NewIndex(f, r).Rank(), r)
 		}
 	}
 }

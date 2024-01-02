@@ -17,7 +17,7 @@ expand_template_rule(
     out = "board_black.go.gen",
     substitutions = {
         "{Color}": "Black",
-        "{OpositeColor}": "White"
+        "{OpositeColor}": "White",
     },
     template = ":board_color_template",
 )

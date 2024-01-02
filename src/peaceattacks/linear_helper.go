@@ -10,11 +10,8 @@ func riseSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		x := s.X()
-		y := s.Y()
-
-		for i := y + 1; i < 8; i++ {
-			squares = append(squares, square.NewIndex(x, i))
+		for r := s.Rank() + 1; r < 8; r++ {
+			squares = append(squares, square.NewIndex(s.File(), r))
 		}
 		squaresList = append(squaresList, squares)
 	}
@@ -26,11 +23,8 @@ func rightSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		x := s.X()
-		y := s.Y()
-
-		for i := x + 1; i < 8; i++ {
-			squares = append(squares, square.NewIndex(i, y))
+		for f := s.File() + 1; f < 8; f++ {
+			squares = append(squares, square.NewIndex(f, s.Rank()))
 		}
 		squaresList = append(squaresList, squares)
 	}
@@ -42,11 +36,8 @@ func fallSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		x := s.X()
-		y := s.Y()
-
-		for i := y - 1; i >= 0; i-- {
-			squares = append(squares, square.NewIndex(x, i))
+		for r := s.Rank() - 1; r >= 0; r-- {
+			squares = append(squares, square.NewIndex(s.File(), r))
 		}
 		squaresList = append(squaresList, squares)
 	}
@@ -58,11 +49,8 @@ func leftSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		x := s.X()
-		y := s.Y()
-
-		for i := x - 1; i >= 0; i-- {
-			squares = append(squares, square.NewIndex(i, y))
+		for f := s.File() - 1; f >= 0; f-- {
+			squares = append(squares, square.NewIndex(f, s.Rank()))
 		}
 		squaresList = append(squaresList, squares)
 	}
@@ -120,8 +108,8 @@ func leftBitboardMasksInternalHelper() bitboard.Masks {
 func linearsRiseRightBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	for i := range RiseBitboardMasks {
-		masks = append(masks, RiseBitboardMasks[i]|RightBitboardMasks[i])
+	for f := range RiseBitboardMasks {
+		masks = append(masks, RiseBitboardMasks[f]|RightBitboardMasks[f])
 	}
 
 	return masks
@@ -130,8 +118,8 @@ func linearsRiseRightBitboardMasksInternalHelper() bitboard.Masks {
 func linearsFallLeftBitboardMasksInternalHelper() bitboard.Masks {
 	var masks bitboard.Masks
 
-	for i := range FallBitboardMasks {
-		masks = append(masks, FallBitboardMasks[i]|LeftBitboardMasks[i])
+	for f := range FallBitboardMasks {
+		masks = append(masks, FallBitboardMasks[f]|LeftBitboardMasks[f])
 	}
 
 	return masks
