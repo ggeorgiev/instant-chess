@@ -8,18 +8,25 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
+func (board Board) SquareUnderAttackFromBlack(s square.Index, countTo int) int {
+	count := 0
 	attackedFromKing := peaceattacks.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if board[kingSquare] == peace.BlackKing {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 	}
 
 	attackedFromKnight := peaceattacks.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
 		if board[knightSquare] == peace.BlackKnight {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 	}
 
@@ -29,7 +36,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f := file - 1; f >= 0; f-- {
 		figure := board[square.NewIndex(f, rank)]
 		if figure.IsBlackLinearMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -38,7 +48,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f := file + 1; f < 8; f++ {
 		figure := board[square.NewIndex(f, rank)]
 		if figure.IsBlackLinearMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -47,7 +60,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for r := rank - 1; r >= 0; r-- {
 		figure := board[square.NewIndex(file, r)]
 		if figure.IsBlackLinearMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -56,7 +72,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for r := rank + 1; r < 8; r++ {
 		figure := board[square.NewIndex(file, r)]
 		if figure.IsBlackLinearMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -68,7 +87,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f >= 0 && r >= 0 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsBlackDiagonalMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -82,7 +104,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f >= 0 && r < 8 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsBlackDiagonalMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -96,7 +121,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f < 8 && r >= 0 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsBlackDiagonalMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -110,7 +138,10 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 	for f < 8 && r < 8 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsBlackDiagonalMover() {
-			return true
+			count++
+			if count >= countTo {
+				return count
+			}
 		}
 		if figure != peace.NoFigure {
 			break
@@ -119,7 +150,7 @@ func (board Board) SquareUnderAttackFromBlack(s square.Index) bool {
 		r++
 	}
 
-	return false
+	return count
 }
 
 func (board Board) BlackKingTos(s square.Index) square.Indexes {
@@ -132,7 +163,7 @@ func (board Board) BlackKingTos(s square.Index) square.Indexes {
 
 	for _, square := range kingMoves {
 		figure := board[square]
-		if figure.IsNoFigureOrWhite() && !board.SquareUnderAttackFromWhite(square) {
+		if figure.IsNoFigureOrWhite() && board.SquareUnderAttackFromWhite(square, 1) == 0 {
 			tos = append(tos, square)
 		}
 	}
@@ -151,7 +182,7 @@ func (board Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexe
 			board[square] = board[s]
 			board[s] = peace.NoFigure
 
-			if !board.SquareUnderAttackFromWhite(ks) {
+			if board.SquareUnderAttackFromWhite(ks, 1) == 0 {
 				tos = append(tos, square)
 			}
 
@@ -179,7 +210,7 @@ func (board Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes 
 			board[square] = board[s]
 			board[s] = peace.NoFigure
 
-			if !board.SquareUnderAttackFromWhite(ks) {
+			if board.SquareUnderAttackFromWhite(ks, 1) == 0 {
 				tos = append(tos, square)
 			}
 

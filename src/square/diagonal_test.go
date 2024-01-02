@@ -6,10 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDiagonal(t *testing.T) {
-	assert.Equal(t, diagonalInternalHelper(), Diagonal)
+func TestDiagonals(t *testing.T) {
+	assert.Equal(t, diagonalsInternalHelper(), IndexDiagonals)
 }
 
-func TestAntiDiagonal(t *testing.T) {
-	assert.Equal(t, antiDiagonalInternalHelper(), AntiDiagonal)
+func TestCounterDiagonals(t *testing.T) {
+	assert.Equal(t, counterDiagonalsInternalHelper(), IndexCounterDiagonals)
 }

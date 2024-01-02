@@ -26,12 +26,12 @@ func (s Index) Rank() int8 {
 	return int8(s) >> 3
 }
 
-func (s Index) Diagonal() int8 {
-	return Diagonal[s]
+func (s Index) Diagonal() Diagonal {
+	return IndexDiagonals[s]
 }
 
-func (s Index) AntiDiagonal() int8 {
-	return AntiDiagonal[s]
+func (s Index) CounterDiagonal() CounterDiagonal {
+	return IndexCounterDiagonals[s]
 }
 
 func (s Index) String() string {

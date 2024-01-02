@@ -1,7 +1,7 @@
 package square
 
-func diagonalInternalHelper() []int8 {
-	var diagonals []int8
+func diagonalsInternalHelper() []Diagonal {
+	var diagonals []Diagonal
 
 	for s := ZeroIndex; s <= LastIndex; s++ {
 		f := s.File()
@@ -11,13 +11,13 @@ func diagonalInternalHelper() []int8 {
 			f--
 			r--
 		}
-		diagonals = append(diagonals, int8(NewIndex(f, r)))
+		diagonals = append(diagonals, Diagonal(NewIndex(f, r)))
 	}
 	return diagonals
 }
 
-func antiDiagonalInternalHelper() []int8 {
-	var antiDiagonals []int8
+func counterDiagonalsInternalHelper() []CounterDiagonal {
+	var counterDiagonals []CounterDiagonal
 
 	for s := ZeroIndex; s <= LastIndex; s++ {
 		f := s.File()
@@ -27,7 +27,7 @@ func antiDiagonalInternalHelper() []int8 {
 			f++
 			r--
 		}
-		antiDiagonals = append(antiDiagonals, int8(NewIndex(f, r)))
+		counterDiagonals = append(counterDiagonals, CounterDiagonal(NewIndex(f, r)))
 	}
-	return antiDiagonals
+	return counterDiagonals
 }

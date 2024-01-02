@@ -1,7 +1,10 @@
 package square
 
+type Diagonal int8
+type CounterDiagonal int8
+
 var (
-	Diagonal = []int8{
+	IndexDiagonals = []Diagonal{
 		0, 1, 2, 3, 4, 5, 6, 7,
 		8, 0, 1, 2, 3, 4, 5, 6,
 		16, 8, 0, 1, 2, 3, 4, 5,
@@ -12,7 +15,7 @@ var (
 		56, 48, 40, 32, 24, 16, 8, 0,
 	}
 
-	AntiDiagonal = []int8{
+	IndexCounterDiagonals = []CounterDiagonal{
 		0, 1, 2, 3, 4, 5, 6, 7,
 		1, 2, 3, 4, 5, 6, 7, 15,
 		2, 3, 4, 5, 6, 7, 15, 23,

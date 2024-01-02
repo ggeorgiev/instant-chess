@@ -57,7 +57,7 @@ func CreatePosition(board Board) *Position {
 			if peace.IsWhite() {
 				whiteKings++
 			} else {
-				if board.SquareUnderAttackFromWhite(s) {
+				if board.SquareUnderAttackFromWhite(s, 1) > 0 {
 					position.Valid = false
 				}
 
@@ -94,7 +94,7 @@ func (p *Position) M1() bool {
 				board[move.WhiteForm] = peace.NoFigure
 
 				bk := board.FindPeace(peace.BlackKing)
-				mate := board.SquareUnderAttackFromWhite(bk)
+				mate := board.SquareUnderAttackFromWhite(bk, 1) > 0
 
 				board[move.WhiteForm] = board[toAnswer.WhiteTo]
 				board[toAnswer.WhiteTo] = original

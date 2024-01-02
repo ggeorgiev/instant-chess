@@ -14,6 +14,6 @@ func IsSameDiagonal(s1 square.Index, s2 square.Index) bool {
 	return s1.Diagonal() == s2.Diagonal()
 }
 
-func IsSameAntiDiagonal(s1 square.Index, s2 square.Index) bool {
-	return s1.AntiDiagonal() == s2.AntiDiagonal()
+func IsSameCounterDiagonal(s1 square.Index, s2 square.Index) bool {
+	return s1.CounterDiagonal() == s2.CounterDiagonal()
 }
