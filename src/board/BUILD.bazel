@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "board",
+    srcs = [
+        "move.go",
+        "state.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/board",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/peace",
+        "//src/peacemoves",
+        "//src/square",
+        "//src/util",
+    ],
+)

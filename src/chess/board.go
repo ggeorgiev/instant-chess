@@ -2,35 +2,12 @@ package chess
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 type Board [square.Number]peace.Figure
-
-func ParseBoard(text string) Board {
-	var board Board
-
-	rows := strings.Split(text, "\n")
-
-	row := 0
-	if len(rows[row]) == 0 {
-		row++
-	}
-
-	for y := int8(8); y > 0; y-- {
-		row += 2
-		runes := runes(rows[row])
-
-		for x := int8(0); x < 8; x++ {
-			board[square.NewIndex(x, y-1)] = peace.FromSymbol(runes[4+x*4])
-		}
-
-	}
-	return board
-}
 
 func (board Board) FindPeace(peace peace.Figure) square.Index {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {

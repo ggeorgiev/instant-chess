@@ -16,5 +16,8 @@ go_test(
     name = "peacealignment_test",
     srcs = ["releation_test.go"],
     embed = [":peacealignment"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

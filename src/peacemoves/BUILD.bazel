@@ -7,6 +7,7 @@ go_library(
         "king_helper.go",
         "knight.go",
         "knight_helper.go",
+        "move.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peacemoves",
     visibility = ["//visibility:public"],

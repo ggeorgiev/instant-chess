@@ -1,6 +1,7 @@
 package chess
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
@@ -76,8 +77,8 @@ func CreatePosition(board Board) *Position {
 }
 
 func ParsePosition(text string) *Position {
-	board := ParseBoard(text)
-	return CreatePosition(board)
+	board := board.ParseState(text)
+	return CreatePosition(board.Peaces)
 }
 
 func (p *Position) Print() {

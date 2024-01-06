@@ -39,17 +39,18 @@ go_library(
         "move.go",
         "position.go",
         "result.go",
-        "text.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
     deps = [
         "//src/bitboard",
+        "//src/board",
         "//src/math",
         "//src/peace",
         "//src/peaceattacks",
         "//src/peacemoves",
         "//src/square",
+        "//src/util",
     ],
 )
 

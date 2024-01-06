@@ -5,10 +5,11 @@ import (
 
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/util"
 )
 
 func Generate(peacesString string) {
-	runes := runes(peacesString)
+	runes := util.Runes(peacesString)
 	position := make([]int, len(runes))
 	peaces := make(peace.Figures, len(runes))
 

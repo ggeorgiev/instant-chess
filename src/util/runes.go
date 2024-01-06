@@ -1,6 +1,6 @@
-package chess
+package util
 
-func runes(row string) []rune {
+func Runes(row string) []rune {
 	runes := []rune(row)
 
 	var result []rune
