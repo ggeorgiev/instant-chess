@@ -86,19 +86,15 @@ func SprintMask(mask bitboard.Mask) string {
 	letters := "····a···b···c···d···e···f···g···h····\n"
 	separator := "··+---+---+---+---+---+---+---+---+··\n"
 
-	// Calculate the expected size.
-	expectedSize := len(letters)*2 + len(separator)*9 + 8*(9*4+1)
 	var result strings.Builder
-
-	// Initialize the builder with the expected size.
-	result.Grow(expectedSize)
+	result.Grow(len(letters)*2 + len(separator)*9 + 8*(9*4+1))
 
 	result.WriteString(letters)
 	result.WriteString(separator)
 
-	for y := int8(7); y >= 0; y-- {
+	for y := Rank(7); y >= 0; y-- {
 		result.WriteString(fmt.Sprintf("%d·|", y+1))
-		for x := int8(0); x < 8; x++ {
+		for x := File(0); x < 8; x++ {
 			symbol := " "
 			if IndexMask[NewIndex(x, y)]&mask != 0 {
 				symbol = "●"

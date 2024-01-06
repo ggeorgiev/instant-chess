@@ -14,16 +14,16 @@ const (
 	Number       = 64
 )
 
-func NewIndex(file, rank int8) Index {
-	return Index(rank<<3 + file)
+func NewIndex(file File, rank Rank) Index {
+	return Index(int8(rank)<<3 + int8(file))
 }
 
-func (s Index) File() int8 {
-	return int8(s) & 0b111
+func (s Index) File() File {
+	return File(s) & 0b111
 }
 
-func (s Index) Rank() int8 {
-	return int8(s) >> 3
+func (s Index) Rank() Rank {
+	return Rank(s) >> 3
 }
 
 func (s Index) Diagonal() Diagonal {

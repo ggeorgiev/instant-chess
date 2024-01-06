@@ -32,7 +32,7 @@ func Generate(peacesString string) {
 
 		var boardState board.State
 		for s, place := range perm {
-			boardState.Peaces[place] = peaces[s]
+			boardState.Matrix[place] = peaces[s]
 		}
 
 		position := CreatePosition(boardState)

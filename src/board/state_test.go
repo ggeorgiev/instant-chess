@@ -1,4 +1,4 @@
-package chess
+package board
 
 import (
 	"testing"
@@ -6,30 +6,32 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPeacesCount(t *testing.T) {
-	position := ParsePosition(`
+func TestParsePosition(t *testing.T) {
+	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
-8·|   |   |   |   |   |   |   |   |·8
+8·| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |·8
 ··+---+---+---+---+---+---+---+---+··
-7·|   |   |   |   |   |   |   |   |·7
+7·| ♟︎ | ♟︎ | ♟︎ | ♟︎ | ♟︎ | ♟︎ | ♟︎ | ♟︎ |·7
 ··+---+---+---+---+---+---+---+---+··
 6·|   |   |   |   |   |   |   |   |·6
 ··+---+---+---+---+---+---+---+---+··
 5·|   |   |   |   |   |   |   |   |·5
 ··+---+---+---+---+---+---+---+---+··
-4·|   |   |   | ♔ |   |   |   |   |·4
+4·|   |   |   |   |   |   |   |   |·4
 ··+---+---+---+---+---+---+---+---+··
 3·|   |   |   |   |   |   |   |   |·3
 ··+---+---+---+---+---+---+---+---+··
-2·|   | ♚ |   |   |   |   |   |   |·2
+2·| ♙ | ♙ | ♙ | ♙ | ♙ | ♙ | ♙ | ♙ |·2
 ··+---+---+---+---+---+---+---+---+··
-1·|   |   |   |   |   |   |   |   |·1
+1·| ♖ | ♘ | ♗ | ♕ | ♔ | ♗ | ♘ | ♖ |·1
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
-`)
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
 
-	assert.Equal(t, int8(1), position.WhitePeaces)
-	assert.Equal(t, int8(1), position.BlackPeaces)
+	result := state.Sprint()
+	assert.Equal(t, text, "\n"+result)
 }

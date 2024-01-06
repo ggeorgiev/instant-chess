@@ -1,6 +1,9 @@
 package chess
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -43,7 +46,7 @@ func CreatePosition(boardState board.State) *Position {
 	blackPawns := 0
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		peace := boardState.Peaces[s]
+		peace := boardState.Matrix[s]
 		if peace.IsNoFigure() {
 			continue
 		}
@@ -58,7 +61,7 @@ func CreatePosition(boardState board.State) *Position {
 			if peace.IsWhite() {
 				whiteKings++
 			} else {
-				if Board(boardState.Peaces).SquareUnderAttackFromWhite(s, 1) > 0 {
+				if Board(boardState.Matrix).SquareUnderAttackFromWhite(s, 1) > 0 {
 					position.Valid = false
 				}
 
@@ -67,7 +70,7 @@ func CreatePosition(boardState board.State) *Position {
 		}
 	}
 
-	position.Moves = Board(boardState.Peaces).Moves()
+	position.Moves = Board(boardState.Matrix).Moves()
 
 	position.Valid = position.Valid &&
 		(whiteKings == 1 && blackKings == 1) &&
@@ -77,28 +80,31 @@ func CreatePosition(boardState board.State) *Position {
 }
 
 func ParsePosition(text string) *Position {
-	board := board.ParseState(text)
+	board, err := board.ParseState(text)
+	if err != nil {
+		log.Panicf("%s", err.Error())
+	}
 	return CreatePosition(board)
 }
 
 func (p *Position) Print() {
-	Board(p.BoardState.Peaces).Print()
+	fmt.Print(p.BoardState.Sprint())
 }
 
 func (p *Position) M1() bool {
 	for _, move := range p.Moves {
 		for _, toAnswer := range move.ToAnswers {
 			if len(toAnswer.Answers) == 0 {
-				board := Board(p.BoardState.Peaces)
-				original := board[toAnswer.WhiteTo]
-				board[toAnswer.WhiteTo] = board[move.WhiteForm]
-				board[move.WhiteForm] = peace.NoFigure
+				brd := Board(p.BoardState.Matrix)
+				original := brd[toAnswer.WhiteTo]
+				brd[toAnswer.WhiteTo] = brd[move.WhiteForm]
+				brd[move.WhiteForm] = peace.NoFigure
 
-				bk := board.FindPeace(peace.BlackKing)
-				mate := board.SquareUnderAttackFromWhite(bk, 1) > 0
+				bk := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
+				mate := brd.SquareUnderAttackFromWhite(bk, 1) > 0
 
-				board[move.WhiteForm] = board[toAnswer.WhiteTo]
-				board[toAnswer.WhiteTo] = original
+				brd[move.WhiteForm] = brd[toAnswer.WhiteTo]
+				brd[toAnswer.WhiteTo] = original
 				if mate {
 					return true
 				}

@@ -6,6 +6,8 @@ go_library(
         "bitboard.go",
         "diagonal.go",
         "diagonal_helper.go",
+        "file.go",
+        "rank.go",
         "square.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/square",

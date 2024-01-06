@@ -1,9 +1,11 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "board",
     srcs = [
+        "matrix.go",
         "move.go",
+        "rights.go",
         "state.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/board",
@@ -14,4 +16,14 @@ go_library(
         "//src/square",
         "//src/util",
     ],
+)
+
+go_test(
+    name = "board_test",
+    srcs = [
+        "rights_test.go",
+        "state_test.go",
+    ],
+    embed = [":board"],
+    deps = ["@com_github_stretchr_testify//assert"],
 )
