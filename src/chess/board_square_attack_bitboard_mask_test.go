@@ -52,7 +52,7 @@ func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(Board(position.BoardState.Peaces).AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -102,7 +102,7 @@ func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(Board(position.BoardState.Peaces).AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -152,7 +152,7 @@ func TestAttackBitboardMaskFromLinears(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(Board(position.BoardState.Peaces).AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -202,7 +202,7 @@ func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(position.Board.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(Board(position.BoardState.Peaces).AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }

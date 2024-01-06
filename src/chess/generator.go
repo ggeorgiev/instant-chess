@@ -3,6 +3,7 @@ package chess
 import (
 	"fmt"
 
+	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/util"
@@ -29,12 +30,12 @@ func Generate(peacesString string) {
 			break // No more permutations
 		}
 
-		var matrix [64]peace.Figure
+		var boardState board.State
 		for s, place := range perm {
-			matrix[place] = peaces[s]
+			boardState.Peaces[place] = peaces[s]
 		}
 
-		position := CreatePosition(matrix)
+		position := CreatePosition(boardState)
 		if !position.Valid {
 			invalid++
 		} else if position.M1() {

@@ -30,10 +30,10 @@ var positionB = ParsePosition(`
 `)
 
 func BenchmarkTos_1k(b *testing.B) {
-	kingSquare := positionB.Board.FindPeace(peace.WhiteKing)
+	kingSquare := Board(positionB.BoardState.Peaces).FindPeace(peace.WhiteKing)
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			positionB.Board.WhiteTos(s, kingSquare)
+			Board(positionB.BoardState.Peaces).WhiteTos(s, kingSquare)
 		}
 	}
 }
@@ -62,6 +62,6 @@ var positionC = ParsePosition(`
 
 func BenchmarkMoves_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		positionC.Board.Moves()
+		Board(positionC.BoardState.Peaces).Moves()
 	}
 }

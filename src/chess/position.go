@@ -12,7 +12,7 @@ type Position struct {
 
 	Result Result
 
-	Board Board
+	BoardState board.State
 
 	WhitePeaces int8
 	BlackPeaces int8
@@ -22,14 +22,14 @@ type Position struct {
 	Moves Moves
 }
 
-func CreatePosition(board Board) *Position {
+func CreatePosition(boardState board.State) *Position {
 	position := &Position{
 		HorizontalySymetric: true,
 		VerticalySymetric:   true,
 
 		Result: UnknownResult,
 
-		Board: board,
+		BoardState: boardState,
 
 		WhitePeaces: 0,
 		BlackPeaces: 0,
@@ -43,7 +43,7 @@ func CreatePosition(board Board) *Position {
 	blackPawns := 0
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		peace := board[s]
+		peace := boardState.Peaces[s]
 		if peace.IsNoFigure() {
 			continue
 		}
@@ -58,7 +58,7 @@ func CreatePosition(board Board) *Position {
 			if peace.IsWhite() {
 				whiteKings++
 			} else {
-				if board.SquareUnderAttackFromWhite(s, 1) > 0 {
+				if Board(boardState.Peaces).SquareUnderAttackFromWhite(s, 1) > 0 {
 					position.Valid = false
 				}
 
@@ -67,7 +67,7 @@ func CreatePosition(board Board) *Position {
 		}
 	}
 
-	position.Moves = board.Moves()
+	position.Moves = Board(boardState.Peaces).Moves()
 
 	position.Valid = position.Valid &&
 		(whiteKings == 1 && blackKings == 1) &&
@@ -78,18 +78,18 @@ func CreatePosition(board Board) *Position {
 
 func ParsePosition(text string) *Position {
 	board := board.ParseState(text)
-	return CreatePosition(board.Peaces)
+	return CreatePosition(board)
 }
 
 func (p *Position) Print() {
-	p.Board.Print()
+	Board(p.BoardState.Peaces).Print()
 }
 
 func (p *Position) M1() bool {
 	for _, move := range p.Moves {
 		for _, toAnswer := range move.ToAnswers {
 			if len(toAnswer.Answers) == 0 {
-				board := p.Board
+				board := Board(p.BoardState.Peaces)
 				original := board[toAnswer.WhiteTo]
 				board[toAnswer.WhiteTo] = board[move.WhiteForm]
 				board[move.WhiteForm] = peace.NoFigure
