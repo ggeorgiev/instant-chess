@@ -1,17 +1,26 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("//bzl:color_template.bzl", "generate_black")
+
+generate_black(
+    name = "matrix_square_under_attack",
+)
 
 go_library(
     name = "board",
     srcs = [
+        "half_moves.go",
         "matrix.go",
-        "move.go",
+        "matrix_square_under_attack_black.go",
+        "matrix_square_under_attack_white.go",
         "rights.go",
         "state.go",
+        "state_half_moves_white.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/board",
     visibility = ["//visibility:public"],
     deps = [
         "//src/peace",
+        "//src/peaceattacks",
         "//src/peacemoves",
         "//src/square",
         "//src/util",

@@ -61,7 +61,7 @@ func CreatePosition(boardState board.State) *Position {
 			if peace.IsWhite() {
 				whiteKings++
 			} else {
-				if Board(boardState.Matrix).SquareUnderAttackFromWhite(s, 1) > 0 {
+				if boardState.Matrix.SquareUnderAttackFromWhite(s, 1) > 0 {
 					position.Valid = false
 				}
 
@@ -101,7 +101,7 @@ func (p *Position) M1() bool {
 				brd[move.WhiteForm] = peace.NoFigure
 
 				bk := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
-				mate := brd.SquareUnderAttackFromWhite(bk, 1) > 0
+				mate := board.Matrix(brd).SquareUnderAttackFromWhite(bk, 1) > 0
 
 				brd[move.WhiteForm] = brd[toAnswer.WhiteTo]
 				brd[toAnswer.WhiteTo] = original

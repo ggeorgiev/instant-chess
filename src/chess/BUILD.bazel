@@ -1,32 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
-load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
-load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
+load("//bzl:color_template.bzl", "generate_black")
 
-expand_template_rule(
-    name = "board_color_template",
-    out = "board_color.tmpl",
-    substitutions = {
-        "White": "{Color}",
-        "Black": "{OpositeColor}",
-    },
-    template = "board_white.go",
-)
-
-expand_template_rule(
-    name = "board_black",
-    out = "board_black.go.gen",
-    substitutions = {
-        "{Color}": "Black",
-        "{OpositeColor}": "White",
-    },
-    template = ":board_color_template",
-)
-
-write_source_files(
-    name = "templates",
-    files = {
-        "board_black.go": ":board_black",
-    },
+generate_black(
+    name = "board",
 )
 
 go_library(

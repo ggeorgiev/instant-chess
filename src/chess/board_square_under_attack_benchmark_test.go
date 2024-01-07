@@ -32,7 +32,7 @@ var positionA = ParsePosition(`
 func BenchmarkSquareUnderAttackXY_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			Board(positionA.BoardState.Matrix).SquareUnderAttackFromWhite(s, 1)
+			positionA.BoardState.Matrix.SquareUnderAttackFromWhite(s, 1)
 		}
 	}
 }
@@ -40,7 +40,7 @@ func BenchmarkSquareUnderAttackXY_1k(b *testing.B) {
 func BenchmarkSquareUnderAttackYX_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			Board(positionA.BoardState.Matrix).SquareUnderAttackFromWhite(s, 1)
+			positionA.BoardState.Matrix.SquareUnderAttackFromWhite(s, 1)
 		}
 	}
 }

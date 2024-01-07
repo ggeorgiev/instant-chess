@@ -2,192 +2,48 @@ package chess
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
+	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (board Board) SquareUnderAttackFromBlack(s square.Index, countTo int) int {
-	count := 0
-	attackedFromKing := peaceattacks.FromKing[s]
-	for _, kingSquare := range attackedFromKing {
-		if board[kingSquare] == peace.BlackKing {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-	}
-
-	attackedFromKnight := peaceattacks.FromKnight[s]
-	for _, knightSquare := range attackedFromKnight {
-		if board[knightSquare] == peace.BlackKnight {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-	}
-
-	file := s.File()
-	rank := s.Rank()
-
-	for f := file - 1; f >= square.ZeroFile; f-- {
-		figure := board[square.NewIndex(f, rank)]
-		if figure.IsBlackLinearMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-	}
-	for f := file + 1; f <= square.LastFile; f++ {
-		figure := board[square.NewIndex(f, rank)]
-		if figure.IsBlackLinearMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-	}
-	for r := rank - 1; r >= square.ZeroRank; r-- {
-		figure := board[square.NewIndex(file, r)]
-		if figure.IsBlackLinearMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-	}
-	for r := rank + 1; r <= square.LastRank; r++ {
-		figure := board[square.NewIndex(file, r)]
-		if figure.IsBlackLinearMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-	}
-
-	f := file - 1
-	r := rank - 1
-	for f >= square.ZeroFile && r >= 0 {
-		figure := board[square.NewIndex(f, r)]
-		if figure.IsBlackDiagonalMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-		f--
-		r--
-	}
-
-	f = file - 1
-	r = rank + 1
-	for f >= square.ZeroFile && r < 8 {
-		figure := board[square.NewIndex(f, r)]
-		if figure.IsBlackDiagonalMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-		f--
-		r++
-	}
-
-	f = file + 1
-	r = rank - 1
-	for f < 8 && r >= 0 {
-		figure := board[square.NewIndex(f, r)]
-		if figure.IsBlackDiagonalMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-		f++
-		r--
-	}
-
-	f = file + 1
-	r = rank + 1
-	for f < 8 && r < 8 {
-		figure := board[square.NewIndex(f, r)]
-		if figure.IsBlackDiagonalMover() {
-			count++
-			if count >= countTo {
-				return count
-			}
-		}
-		if figure != peace.NoFigure {
-			break
-		}
-		f++
-		r++
-	}
-
-	return count
-}
-
-func (board Board) BlackKingTos(s square.Index) square.Indexes {
+func (brd Board) BlackKingTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
-	original := board[s]
-	board[s] = peace.NoFigure
+	original := brd[s]
+	brd[s] = peace.NoFigure
 
 	kingMoves := peacemoves.KingSquareIndexes[s]
 
 	for _, square := range kingMoves {
-		figure := board[square]
-		if figure.IsNoFigureOrWhite() && board.SquareUnderAttackFromWhite(square, 1) == 0 {
+		figure := brd[square]
+		if figure.IsNoFigureOrWhite() && board.Matrix(brd).SquareUnderAttackFromWhite(square, 1) == 0 {
 			tos = append(tos, square)
 		}
 	}
 
-	board[s] = original
+	brd[s] = original
 	return tos
 }
 
-func (board Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexes {
+func (brd Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) {
-		figure := board[square]
+		figure := brd[square]
 		if figure.IsNoFigureOrWhite() {
-			original := board[square]
-			board[square] = board[s]
-			board[s] = peace.NoFigure
+			original := brd[square]
+			brd[square] = brd[s]
+			brd[s] = peace.NoFigure
 
-			if board.SquareUnderAttackFromWhite(ks, 1) == 0 {
+			if board.Matrix(brd).SquareUnderAttackFromWhite(ks, 1) == 0 {
 				tos = append(tos, square)
 			}
 
-			board[s] = board[square]
-			board[square] = original
+			brd[s] = brd[square]
+			brd[square] = original
 		}
 	}
 
@@ -200,22 +56,22 @@ func (board Board) BlackKnightTos(s square.Index, ks square.Index) square.Indexe
 	return tos
 }
 
-func (board Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes {
+func (brd Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
-		figure := board[square]
+		figure := brd[square]
 		if figure.IsNoFigureOrWhite() {
-			original := board[square]
-			board[square] = board[s]
-			board[s] = peace.NoFigure
+			original := brd[square]
+			brd[square] = brd[s]
+			brd[s] = peace.NoFigure
 
-			if board.SquareUnderAttackFromWhite(ks, 1) == 0 {
+			if board.Matrix(brd).SquareUnderAttackFromWhite(ks, 1) == 0 {
 				tos = append(tos, square)
 			}
 
-			board[s] = board[square]
-			board[square] = original
+			brd[s] = brd[square]
+			brd[square] = original
 		}
 		return figure.IsNoFigure()
 	}
@@ -247,26 +103,26 @@ func (board Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes 
 	return tos
 }
 
-func (board Board) BlackTos(s square.Index, kingSquare square.Index) square.Indexes {
-	switch board[s] {
+func (brd Board) BlackTos(s square.Index, kingSquare square.Index) square.Indexes {
+	switch brd[s] {
 	case peace.BlackKing:
-		return board.BlackKingTos(s)
+		return brd.BlackKingTos(s)
 	case peace.BlackRook:
-		return board.BlackRookTos(s, kingSquare)
+		return brd.BlackRookTos(s, kingSquare)
 	case peace.BlackKnight:
-		return board.BlackKnightTos(s, kingSquare)
+		return brd.BlackKnightTos(s, kingSquare)
 	}
 	return nil
 }
 
-func (board Board) AttackBitboardMaskFromBlack() bitboard.Mask {
+func (brd Board) AttackBitboardMaskFromBlack() bitboard.Mask {
 	attackerOccupiedMask := bitboard.Empty
 	attackMask := bitboard.Empty
 
 	fallShadowMask := bitboard.Empty
 	fallLeftShadowMask := bitboard.Empty
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		figure := board[s]
+		figure := brd[s]
 		if figure == peace.NoFigure {
 			continue
 		}
@@ -297,7 +153,7 @@ func (board Board) AttackBitboardMaskFromBlack() bitboard.Mask {
 	riseShadowMask := bitboard.Empty
 	riseRightShadowMask := bitboard.Empty
 	for s := square.LastIndex; s >= square.ZeroIndex; s-- {
-		figure := board[s]
+		figure := brd[s]
 		if figure == peace.NoFigure {
 			continue
 		}
