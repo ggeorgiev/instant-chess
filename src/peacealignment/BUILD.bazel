@@ -6,6 +6,8 @@ go_library(
         "alignment.go",
         "relation.go",
         "relation_helper.go",
+        "vector.go",
+        "vector_helper.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peacealignment",
     visibility = ["//visibility:public"],
@@ -14,7 +16,10 @@ go_library(
 
 go_test(
     name = "peacealignment_test",
-    srcs = ["releation_test.go"],
+    srcs = [
+        "releation_test.go",
+        "vector_test.go",
+    ],
     embed = [":peacealignment"],
     deps = [
         "//src/square",

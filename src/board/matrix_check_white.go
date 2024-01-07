@@ -110,59 +110,59 @@ func (m Matrix) IsWhiteCheckedToMove(kingSquare square.Index) (bool, bool) {
 	return checked, false
 }
 
-func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) (bool, peacealignment.Relation) {
+func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) peacealignment.Vector {
 	sq := peacealignment.SquareRelations[kingSquare][movedFrom]
 	if sq == peacealignment.NotAligned {
-		return false, sq
+		return peacealignment.NoVector
 	}
 
 	if sq == peacealignment.RankLeft {
 		if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) {
-			return true, sq
+			return peacealignment.Rank
 		}
 	}
 
 	if sq == peacealignment.RankRight {
 		if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) {
-			return true, sq
+			return peacealignment.Rank
 		}
 	}
 
 	if sq == peacealignment.FileUnder {
 		if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) {
-			return true, sq
+			return peacealignment.File
 		}
 	}
 
 	if sq == peacealignment.FileAbove {
 		if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) {
-			return true, sq
+			return peacealignment.File
 		}
 	}
 
 	if sq == peacealignment.DiagonalUnder {
 		if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) {
-			return true, sq
+			return peacealignment.Diagonal
 		}
 	}
 
 	if sq == peacealignment.DiagonalAbove {
 		if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) {
-			return true, sq
+			return peacealignment.Diagonal
 		}
 	}
 
 	if sq == peacealignment.CounterDiagonalAbove {
 		if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) {
-			return true, sq
+			return peacealignment.CounterDiagonal
 		}
 	}
 
 	if sq == peacealignment.CounterDiagonalUnder {
 		if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) {
-			return true, sq
+			return peacealignment.CounterDiagonal
 		}
 	}
 
-	return false, sq
+	return peacealignment.NoVector
 }
