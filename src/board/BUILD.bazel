@@ -1,5 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 load("//bzl:color_template.bzl", "generate_black")
+load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
 
 generate_black(
     name = "matrix_square_under_attack",
@@ -20,6 +21,8 @@ generate_black(
 go_library(
     name = "board",
     srcs = [
+        "half_moves_black.go",
+        "half_moves_white.go",
         "matrix.go",
         "matrix_check_black.go",
         "matrix_check_white.go",
@@ -37,6 +40,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//src/peace",
+        "//src/peacealignment",
         "//src/peaceattacks",
         "//src/peacemoves",
         "//src/square",

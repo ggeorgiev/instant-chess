@@ -2,6 +2,7 @@ package board
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/peacealignment"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
@@ -23,7 +24,7 @@ func (m Matrix) WhiteKingTos(s square.Index) square.Indexes {
 	return tos
 }
 
-func (m Matrix) WhiteKnightNoCheckedTos(s square.Index, kingSquare square.Index) square.Indexes {
+func (m Matrix) WhiteKnightNoCheckedTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
 	knightMoves := peacemoves.KnightSquareIndexes[s]
@@ -37,7 +38,7 @@ func (m Matrix) WhiteKnightNoCheckedTos(s square.Index, kingSquare square.Index)
 	return tos
 }
 
-func (m Matrix) WhiteRookNoCheckedTos(s square.Index, kingSquare square.Index) square.Indexes {
+func (m Matrix) WhiteRookNoCheckedTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
@@ -79,24 +80,36 @@ func (m Matrix) WhiteRookNoCheckedTos(s square.Index, kingSquare square.Index) s
 
 func (m Matrix) WhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
 	figure := m[s]
+	if !figure.IsWhite() {
+		return nil
+	}
+
 	if figure == peace.WhiteKing {
 		return m.WhiteKingTos(s)
 	}
 
-	if figure.IsWhite() {
-		original := m[s]
-		m[s] = peace.NoFigure
-		if m.IsWhiteCheckedAfterMove(kingSquare, s) {
-			return nil
-		}
-		m[s] = original
-	}
-
+	var tos square.Indexes
 	switch figure {
 	case peace.WhiteRook:
-		return m.WhiteRookNoCheckedTos(s, kingSquare)
+		tos = m.WhiteRookNoCheckedTos(s)
 	case peace.WhiteKnight:
-		return m.WhiteKnightNoCheckedTos(s, kingSquare)
+		tos = m.WhiteKnightNoCheckedTos(s)
+	}
+
+	original := m[s]
+	m[s] = peace.NoFigure
+	maybeChecked, relation := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
+	m[s] = original
+
+	if !maybeChecked {
+		return tos
+	}
+
+	kingRelation := peacealignment.SquareRelations[kingSquare]
+	for _, to := range tos {
+		if relation == kingRelation[to] {
+			return square.Indexes{to}
+		}
 	}
 	return nil
 }
