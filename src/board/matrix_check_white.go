@@ -108,3 +108,8 @@ func (m Matrix) IsWhiteCheckedToMove(kingSquare square.Index) (bool, bool) {
 
 	return checked, false
 }
+
+func (m Matrix) IsWhiteCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) bool {
+	// TODO: implement optimized
+	return m.IsWhiteChecked(kingSquare)
+}

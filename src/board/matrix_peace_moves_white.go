@@ -22,3 +22,23 @@ func (m Matrix) WhiteKingTos(s square.Index) square.Indexes {
 	m[s] = peace.WhiteKing
 	return tos
 }
+
+func (m Matrix) WhiteKnightNoCheckedTos(s square.Index, kingSquare square.Index) square.Indexes {
+	var tos square.Indexes
+
+	m[s] = peace.NoFigure
+
+	// TODO: move this to the caller outside, it can be combined
+	if !m.IsWhiteCheckedAfterMove(kingSquare, s) {
+		knightMoves := peacemoves.KnightSquareIndexes[s]
+		for _, square := range knightMoves {
+			if m[square].IsWhite() {
+				continue
+			}
+			tos = append(tos, square)
+		}
+	}
+
+	m[s] = peace.WhiteKnight
+	return tos
+}

@@ -108,3 +108,8 @@ func (m Matrix) IsBlackCheckedToMove(kingSquare square.Index) (bool, bool) {
 
 	return checked, false
 }
+
+func (m Matrix) IsBlackCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) bool {
+	// TODO: implement optimized
+	return m.IsBlackChecked(kingSquare)
+}

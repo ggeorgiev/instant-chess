@@ -24,7 +24,6 @@ go_library(
         "//src/math",
         "//src/peace",
         "//src/peaceattacks",
-        "//src/peacemoves",
         "//src/square",
         "//src/util",
     ],

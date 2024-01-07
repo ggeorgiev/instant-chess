@@ -5,37 +5,8 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
-
-func (brd Board) WhiteKnightTos(s square.Index, ks square.Index) square.Indexes {
-	var tos square.Indexes
-
-	check := func(square square.Index) {
-		figure := brd[square]
-		if figure.IsNoFigureOrBlack() {
-			original := brd[square]
-			brd[square] = brd[s]
-			brd[s] = peace.NoFigure
-
-			if !board.Matrix(brd).IsSquareUnderAttackFromBlack(ks) {
-				tos = append(tos, square)
-			}
-
-			brd[s] = brd[square]
-			brd[square] = original
-		}
-	}
-
-	knightMoves := peacemoves.KnightSquareIndexes[s]
-
-	for _, square := range knightMoves {
-		check(square)
-	}
-
-	return tos
-}
 
 func (brd Board) WhiteRookTos(s square.Index, ks square.Index) square.Indexes {
 	var tos square.Indexes
@@ -91,7 +62,7 @@ func (brd Board) WhiteTos(s square.Index, kingSquare square.Index) square.Indexe
 	case peace.WhiteRook:
 		return brd.WhiteRookTos(s, kingSquare)
 	case peace.WhiteKnight:
-		return brd.WhiteKnightTos(s, kingSquare)
+		return board.Matrix(brd).WhiteKnightNoCheckedTos(s, kingSquare)
 	}
 	return nil
 }
