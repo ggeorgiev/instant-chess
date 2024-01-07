@@ -5,15 +5,32 @@ generate_black(
     name = "matrix_square_under_attack",
 )
 
+generate_black(
+    name = "matrix_check",
+)
+
+generate_black(
+    name = "matrix_peace_moves",
+)
+
+generate_black(
+    name = "state_half_moves",
+)
+
 go_library(
     name = "board",
     srcs = [
-        "half_moves.go",
         "matrix.go",
+        "matrix_check_black.go",
+        "matrix_check_white.go",
+        "matrix_peace_moves_black.go",
+        "matrix_peace_moves_white.go",
         "matrix_square_under_attack_black.go",
         "matrix_square_under_attack_white.go",
         "rights.go",
         "state.go",
+        "state_half_moves.go",
+        "state_half_moves_black.go",
         "state_half_moves_white.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/board",
@@ -30,6 +47,7 @@ go_library(
 go_test(
     name = "board_test",
     srcs = [
+        "matrix_check_benchmark_test.go",
         "matrix_square_under_attack_benchmark_test.go",
         "rights_test.go",
         "state_test.go",

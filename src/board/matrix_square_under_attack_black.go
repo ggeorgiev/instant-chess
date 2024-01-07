@@ -215,13 +215,7 @@ func (m Matrix) IsSquareUnderAttackFromBlackFromRightAbove(s square.Index) bool 
 }
 
 func (m Matrix) IsSquareUnderAttackFromBlack(s square.Index) bool {
-	if m.IsSquareUnderAttackFromBlackKing(s) {
-		return true
-	}
-	if m.IsSquareUnderAttackFromBlackKnight(s) {
-		return true
-	}
-	if m.IsSquareUnderAttackFromBlackPawn(s) {
+	if m.IsSquareUnderDirectAttackFromBlack(s) {
 		return true
 	}
 
@@ -263,9 +257,7 @@ func (m Matrix) IsSquareUnderAttackFromBlack(s square.Index) bool {
 func (m Matrix) CountSquareUnderAttackFromBlack(s square.Index) int {
 	count := 0
 
-	count += m.CountSquareUnderAttackFromBlackKing(s)
-	count += m.CountSquareUnderAttackFromBlackKnight(s)
-	count += m.CountSquareUnderAttackFromBlackPawn(s)
+	count += m.CountSquareUnderDirectAttackFromBlack(s)
 
 	if m.IsSquareUnderAttackFromBlackFromLeft(s) {
 		count++

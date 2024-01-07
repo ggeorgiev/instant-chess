@@ -9,25 +9,6 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (brd Board) WhiteKingTos(s square.Index) square.Indexes {
-	var tos square.Indexes
-
-	original := brd[s]
-	brd[s] = peace.NoFigure
-
-	kingMoves := peacemoves.KingSquareIndexes[s]
-
-	for _, square := range kingMoves {
-		figure := brd[square]
-		if figure.IsNoFigureOrBlack() && !board.Matrix(brd).IsSquareUnderAttackFromBlack(square) {
-			tos = append(tos, square)
-		}
-	}
-
-	brd[s] = original
-	return tos
-}
-
 func (brd Board) WhiteKnightTos(s square.Index, ks square.Index) square.Indexes {
 	var tos square.Indexes
 
@@ -106,7 +87,7 @@ func (brd Board) WhiteRookTos(s square.Index, ks square.Index) square.Indexes {
 func (brd Board) WhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
 	switch brd[s] {
 	case peace.WhiteKing:
-		return brd.WhiteKingTos(s)
+		return board.Matrix(brd).WhiteKingTos(s)
 	case peace.WhiteRook:
 		return brd.WhiteRookTos(s, kingSquare)
 	case peace.WhiteKnight:
