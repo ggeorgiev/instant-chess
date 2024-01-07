@@ -2,7 +2,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 load("//bzl:color_template.bzl", "generate_black")
 
 generate_black(
-    name = "board",
+    names = ["board_white"],
 )
 
 go_library(

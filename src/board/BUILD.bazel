@@ -3,23 +3,13 @@ load("//bzl:color_template.bzl", "generate_black")
 load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
 
 generate_black(
-    name = "matrix_square_under_attack",
-)
-
-generate_black(
-    name = "matrix_check",
-)
-
-generate_black(
-    name = "matrix_peace_moves",
-)
-
-generate_black(
-    name = "matrix_moves",
-)
-
-generate_black(
-    name = "state_half_moves",
+    names = [
+        "matrix_square_under_attack_white",
+        "matrix_check_white",
+        "matrix_peace_moves_white",
+        "matrix_moves_white",
+        "state_half_moves_white",
+    ],
 )
 
 go_library(
