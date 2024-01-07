@@ -42,12 +42,19 @@ func (m Matrix) BlackTos() HalfMoves {
 	var moves HalfMoves
 	king := m.FindSinglePeace(peace.BlackKing)
 
-	_, toMove := m.IsBlackCheckedToMove(king)
-	if toMove {
+	checked, attacker, block := m.IsBlackCheckedToMoveCaptureOrBlock(king)
+	if checked {
 		moves = append(moves, peacemoves.FromTo{
 			From: king,
 			Tos:  m.BlackKingTos(king),
 		})
+		if attacker != square.InvalidIndex {
+			if block {
+				// TODO: find if the attacker can be captured or blocked
+			} else {
+				// TODO: find if the attacker can be captured
+			}
+		}
 		return moves
 	}
 

@@ -10,104 +10,112 @@ func (m Matrix) IsWhiteChecked(kingSquare square.Index) bool {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) {
+	if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) != square.InvalidIndex {
 		return true
 	}
 
 	return false
 }
 
-func (m Matrix) IsWhiteCheckedToMove(kingSquare square.Index) (bool, bool) {
-	if m.IsSquareUnderDirectAttackFromBlack(kingSquare) {
-		return true, true
+func (m Matrix) IsWhiteCheckedToMoveCaptureOrBlock(kingSquare square.Index) (bool, square.Index, bool) {
+	checked, attacker := m.SquareUnderDirectAttackExactlyFromBlack(kingSquare)
+	if checked && attacker == square.InvalidIndex {
+		return true, attacker, false
 	}
 
-	checked := false
-	if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker := m.IsSquareUnderAttackFromBlackFromLeft(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromRight(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromUnder(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromAbove(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) {
-		if checked {
-			return true, true
+	evaluateAttacker = m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare)
+	if evaluateAttacker != square.InvalidIndex {
+		if attacker != square.InvalidIndex {
+			return true, square.InvalidIndex, false
 		}
-		checked = true
+		attacker = evaluateAttacker
 	}
 
-	return checked, false
+	return attacker != square.InvalidIndex, attacker, true
 }
 
 func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) peacealignment.Vector {
@@ -117,49 +125,49 @@ func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom 
 	}
 
 	if sq == peacealignment.RankLeft {
-		if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromLeft(kingSquare) != square.InvalidIndex {
 			return peacealignment.Rank
 		}
 	}
 
 	if sq == peacealignment.RankRight {
-		if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromRight(kingSquare) != square.InvalidIndex {
 			return peacealignment.Rank
 		}
 	}
 
 	if sq == peacealignment.FileUnder {
-		if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromUnder(kingSquare) != square.InvalidIndex {
 			return peacealignment.File
 		}
 	}
 
 	if sq == peacealignment.FileAbove {
-		if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromAbove(kingSquare) != square.InvalidIndex {
 			return peacealignment.File
 		}
 	}
 
 	if sq == peacealignment.DiagonalUnder {
-		if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromLeftUnder(kingSquare) != square.InvalidIndex {
 			return peacealignment.Diagonal
 		}
 	}
 
 	if sq == peacealignment.DiagonalAbove {
-		if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) != square.InvalidIndex {
 			return peacealignment.Diagonal
 		}
 	}
 
 	if sq == peacealignment.CounterDiagonalAbove {
-		if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) != square.InvalidIndex {
 			return peacealignment.CounterDiagonal
 		}
 	}
 
 	if sq == peacealignment.CounterDiagonalUnder {
-		if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) {
+		if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) != square.InvalidIndex {
 			return peacealignment.CounterDiagonal
 		}
 	}
