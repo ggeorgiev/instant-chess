@@ -12,7 +12,7 @@ func PeaceBitboardMasks(figure peace.Figure) bitboard.Masks {
 	case peace.BlackPawn:
 		return BlackPawnBitboardMasks
 	case peace.WhiteKnight, peace.BlackKnight:
-		return BlackPawnBitboardMasks
+		return KnightBitboardMasks
 	case peace.WhiteBishop, peace.BlackBishop:
 		return DiagonalsBitboardMasks
 	case peace.WhiteRook, peace.BlackRook:
