@@ -63,6 +63,11 @@ func (m Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, c
 	m[s] = original
 
 	switch figure {
+	case peace.WhiteBishop:
+		if maybeCheckedVector.IsLeaniar() {
+			return nil
+		}
+		return m.WhiteBishopCapture(s, maybeCheckedVector, capture)
 	case peace.WhiteRook:
 		if maybeCheckedVector.IsDiagonalic() {
 			return nil

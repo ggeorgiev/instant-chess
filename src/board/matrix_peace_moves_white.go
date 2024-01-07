@@ -100,7 +100,72 @@ func (m Matrix) WhiteBishopNoCheckedTos(s square.Index, vector peacealignment.Ve
 	return tos
 }
 
+func (m Matrix) WhiteBishopCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+	var tos square.Indexes
+
+	check := func(sq square.Index) bool {
+		figure := m[sq]
+		if figure.IsWhite() {
+			return false
+		}
+		if sq == capture {
+			tos = square.Indexes{capture}
+		}
+		return figure.IsNoFigure()
+	}
+
+	file := s.File()
+	rank := s.Rank()
+
+	if vector != peacealignment.CounterDiagonal {
+		f := file - 1
+		r := rank - 1
+		for f >= square.ZeroFile && r >= square.ZeroRank {
+			if !check(square.NewIndex(f, r)) {
+				break
+			}
+			f--
+			r--
+		}
+
+		f = file + 1
+		r = rank + 1
+		for f <= square.LastFile && r <= square.LastRank {
+			if !check(square.NewIndex(f, r)) {
+				break
+			}
+			f++
+			r++
+		}
+	}
+
+	if vector != peacealignment.Diagonal {
+		f := file + 1
+		r := rank - 1
+		for f <= square.LastFile && r >= square.ZeroRank {
+			if !check(square.NewIndex(f, r)) {
+				break
+			}
+			f++
+			r--
+		}
+
+		f = file - 1
+		r = rank + 1
+		for f >= square.ZeroFile && r <= square.LastRank {
+			if !check(square.NewIndex(f, r)) {
+				break
+			}
+			f--
+			r++
+		}
+	}
+
+	return tos
+}
+
 func (m Matrix) WhiteRookNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+	// TODO: optimize
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {

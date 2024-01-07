@@ -113,11 +113,11 @@ func TestMatrixMovesRooksRankBlockingEachOther(t *testing.T) {
 	assert.Equal(t, expected, result)
 }
 
-func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
+func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
 	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
-8·|   |   |   |   |   |   |   |   |·8
+8·| ♚ |   |   |   |   |   |   |   |·8
 ··+---+---+---+---+---+---+---+---+··
 7·|   |   |   |   |   |   |   |   |·7
 ··+---+---+---+---+---+---+---+---+··
@@ -125,13 +125,13 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 5·|   |   |   |   |   |   |   |   |·5
 ··+---+---+---+---+---+---+---+---+··
-4·| ♚ |   |   |   |   | ♖ |   | ♔ |·4
+4·|   |   |   |   |   |   |   | ♗ |·4
 ··+---+---+---+---+---+---+---+---+··
-3·|   |   |   |   |   | ♞ |   |   |·3
+3·|   |   |   |   |   |   |   |   |·3
 ··+---+---+---+---+---+---+---+---+··
-2·|   |   |   |   |   |   |   |   |·2
+2·|   |   |   |   |   | ♞ |   |   |·2
 ··+---+---+---+---+---+---+---+---+··
-1·|   |   |   |   |   |   |   |   |·1
+1·|   |   |   |   |   |   |   | ♔ |·1
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
@@ -140,8 +140,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 	assert.NoError(t, err)
 
 	expected := HalfMoves{
-		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
-		peacemoves.FromTo{From: 29, Tos: square.Indexes{21}},
+		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
+		peacemoves.FromTo{From: 31, Tos: square.Indexes{13}},
 	}
 
 	result := state.Matrix.WhiteTos()
@@ -183,7 +183,7 @@ func TestMatrixMovesNeedToMoveOrCaptureWithKnight(t *testing.T) {
 	assert.Equal(t, expected, result)
 }
 
-func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
+func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
@@ -195,7 +195,76 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 5·|   |   |   |   |   |   |   |   |·5
 ··+---+---+---+---+---+---+---+---+··
-4·| ♚ |   | ♜ |   |   | ♖ |   | ♔ |·4
+4·| ♚ |   |   |   |   | ♖ |   | ♔ |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   | ♞ |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   |   |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·|   |   |   |   |   |   |   |   |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+		peacemoves.FromTo{From: 29, Tos: square.Indexes{21}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+
+func TestMatrixMovesNeedToMoveButCannotCaptureWithBishop(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·| ♚ |   |   |   |   |   |   |   |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   | ♜ |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·|   |   |   |   |   |   |   | ♗ |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   |   |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   | ♞ |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·|   |   |   |   |   |   |   | ♔ |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+
+func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·|   |   |   |   |   |   |   |   |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·| ♚ |   | ♜ | ♘ |   |   |   | ♔ |·4
 ··+---+---+---+---+---+---+---+---+··
 3·|   |   |   |   |   | ♞ |   |   |·3
 ··+---+---+---+---+---+---+---+---+··
@@ -217,7 +286,7 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 	assert.Equal(t, expected, result)
 }
 
-func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
+func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
@@ -229,7 +298,7 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 5·|   |   |   |   |   |   |   |   |·5
 ··+---+---+---+---+---+---+---+---+··
-4·| ♚ |   | ♜ | ♘ |   |   |   | ♔ |·4
+4·| ♚ |   | ♜ |   |   | ♖ |   | ♔ |·4
 ··+---+---+---+---+---+---+---+---+··
 3·|   |   |   |   |   | ♞ |   |   |·3
 ··+---+---+---+---+---+---+---+---+··
@@ -320,40 +389,3 @@ func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
 	result := state.Matrix.WhiteTos()
 	assert.Equal(t, expected, result)
 }
-
-/*
-func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
-	text := `
-····a···b···c···d···e···f···g···h····
-··+---+---+---+---+---+---+---+---+··
-8·| ♚ |   |   |   |   |   |   |   |·8
-··+---+---+---+---+---+---+---+---+··
-7·|   |   |   |   |   |   |   |   |·7
-··+---+---+---+---+---+---+---+---+··
-6·|   |   |   |   |   |   |   |   |·6
-··+---+---+---+---+---+---+---+---+··
-5·|   |   |   |   |   |   |   |   |·5
-··+---+---+---+---+---+---+---+---+··
-4·|   |   |   |   |   |   |   | ♗ |·4
-··+---+---+---+---+---+---+---+---+··
-3·|   |   |   |   |   |   |   |   |·3
-··+---+---+---+---+---+---+---+---+··
-2·|   |   |   |   |   | ♞ |   |   |·2
-··+---+---+---+---+---+---+---+---+··
-1·|   |   |   |   |   |   |   | ♔ |·1
-··+---+---+---+---+---+---+---+---+··
-····a···b···c···d···e···f···g···h····
-· O-O: --, O-O-O: --, En Passant: - ·
-`
-	state, err := ParseState(text)
-	assert.NoError(t, err)
-
-	expected := HalfMoves{
-		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
-		peacemoves.FromTo{From: 39, Tos: square.Indexes{13}},
-	}
-
-	result := state.Matrix.WhiteTos()
-	assert.Equal(t, expected, result)
-}
-*/
