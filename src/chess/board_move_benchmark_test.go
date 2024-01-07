@@ -34,7 +34,7 @@ func BenchmarkTos_1k(b *testing.B) {
 	kingSquare := positionB.BoardState.Matrix.FindSinglePeace(peace.WhiteKing)
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			Board(positionB.BoardState.Matrix).WhiteTos(s, kingSquare)
+			positionB.BoardState.Matrix.WhiteTos(s, kingSquare)
 		}
 	}
 }

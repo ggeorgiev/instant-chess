@@ -2,70 +2,10 @@ package chess
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
-	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
-
-func (brd Board) BlackRookTos(s square.Index, ks square.Index) square.Indexes {
-	var tos square.Indexes
-
-	check := func(square square.Index) bool {
-		figure := brd[square]
-		if figure.IsNoFigureOrWhite() {
-			original := brd[square]
-			brd[square] = brd[s]
-			brd[s] = peace.NoFigure
-
-			if !board.Matrix(brd).IsSquareUnderAttackFromWhite(ks) {
-				tos = append(tos, square)
-			}
-
-			brd[s] = brd[square]
-			brd[square] = original
-		}
-		return figure.IsNoFigure()
-	}
-
-	file := s.File()
-	rank := s.Rank()
-
-	for f := file - 1; f >= square.ZeroFile; f-- {
-		if !check(square.NewIndex(f, rank)) {
-			break
-		}
-	}
-	for f := file + 1; f <= square.LastFile; f++ {
-		if !check(square.NewIndex(f, rank)) {
-			break
-		}
-	}
-
-	for r := rank - 1; r >= square.ZeroRank; r-- {
-		if !check(square.NewIndex(file, r)) {
-			break
-		}
-	}
-	for r := rank + 1; r <= square.LastRank; r++ {
-		if !check(square.NewIndex(file, r)) {
-			break
-		}
-	}
-	return tos
-}
-
-func (brd Board) BlackTos(s square.Index, kingSquare square.Index) square.Indexes {
-	switch brd[s] {
-	case peace.BlackKing:
-		return board.Matrix(brd).BlackKingTos(s)
-	case peace.BlackRook:
-		return brd.BlackRookTos(s, kingSquare)
-	case peace.BlackKnight:
-		return board.Matrix(brd).BlackKnightNoCheckedTos(s, kingSquare)
-	}
-	return nil
-}
 
 func (brd Board) AttackBitboardMaskFromBlack() bitboard.Mask {
 	attackerOccupiedMask := bitboard.Empty

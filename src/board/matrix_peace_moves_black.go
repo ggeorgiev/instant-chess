@@ -26,19 +26,77 @@ func (m Matrix) BlackKingTos(s square.Index) square.Indexes {
 func (m Matrix) BlackKnightNoCheckedTos(s square.Index, kingSquare square.Index) square.Indexes {
 	var tos square.Indexes
 
-	m[s] = peace.NoFigure
+	knightMoves := peacemoves.KnightSquareIndexes[s]
+	for _, square := range knightMoves {
+		if m[square].IsBlack() {
+			continue
+		}
+		tos = append(tos, square)
+	}
 
-	// TODO: move this to the caller outside, it can be combined
-	if !m.IsBlackCheckedAfterMove(kingSquare, s) {
-		knightMoves := peacemoves.KnightSquareIndexes[s]
-		for _, square := range knightMoves {
-			if m[square].IsBlack() {
-				continue
-			}
-			tos = append(tos, square)
+	return tos
+}
+
+func (m Matrix) BlackRookNoCheckedTos(s square.Index, kingSquare square.Index) square.Indexes {
+	var tos square.Indexes
+
+	check := func(square square.Index) bool {
+		figure := m[square]
+		if figure.IsBlack() {
+			return false
+		}
+		tos = append(tos, square)
+		return figure.IsNoFigure()
+	}
+
+	file := s.File()
+	rank := s.Rank()
+
+	for f := file - 1; f >= square.ZeroFile; f-- {
+		if !check(square.NewIndex(f, rank)) {
+			break
+		}
+	}
+	for f := file + 1; f <= square.LastFile; f++ {
+		if !check(square.NewIndex(f, rank)) {
+			break
 		}
 	}
 
-	m[s] = peace.BlackKnight
+	for r := rank - 1; r >= square.ZeroRank; r-- {
+		if !check(square.NewIndex(file, r)) {
+			break
+		}
+	}
+	for r := rank + 1; r <= square.LastRank; r++ {
+		if !check(square.NewIndex(file, r)) {
+			break
+		}
+	}
+
 	return tos
+}
+
+func (m Matrix) BlackTos(s square.Index, kingSquare square.Index) square.Indexes {
+	figure := m[s]
+	if figure == peace.BlackKing {
+		return m.BlackKingTos(s)
+	}
+
+	if figure.IsBlack() {
+		original := m[s]
+		m[s] = peace.NoFigure
+		if m.IsBlackCheckedAfterMove(kingSquare, s) {
+			return nil
+		}
+		m[s] = original
+	}
+
+	switch figure {
+	case peace.BlackRook:
+		return m.BlackRookNoCheckedTos(s, kingSquare)
+	case peace.BlackKnight:
+		return m.BlackKnightNoCheckedTos(s, kingSquare)
+	}
+	return nil
 }

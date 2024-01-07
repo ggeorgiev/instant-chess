@@ -15,7 +15,7 @@ func (brd Board) Moves() Moves {
 	bks := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		tos := brd.WhiteTos(s, wks)
+		tos := board.Matrix(brd).WhiteTos(s, wks)
 		if len(tos) == 0 {
 			continue
 		}
@@ -32,7 +32,7 @@ func (brd Board) Moves() Moves {
 				if !brd[s].IsBlack() {
 					continue
 				}
-				blackTos := brd.BlackTos(s, bks)
+				blackTos := board.Matrix(brd).BlackTos(s, bks)
 				if len(blackTos) > 0 {
 					answers = append(answers, Answer{
 						BlackFrom: s,
