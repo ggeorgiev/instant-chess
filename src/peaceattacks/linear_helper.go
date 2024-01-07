@@ -10,7 +10,7 @@ func riseSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		for r := s.Rank() + 1; r < 8; r++ {
+		for r := s.Rank() + 1; r <= square.LastRank; r++ {
 			squares = append(squares, square.NewIndex(s.File(), r))
 		}
 		squaresList = append(squaresList, squares)
@@ -23,7 +23,7 @@ func rightSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		for f := s.File() + 1; f < 8; f++ {
+		for f := s.File() + 1; f <= square.LastFile; f++ {
 			squares = append(squares, square.NewIndex(f, s.Rank()))
 		}
 		squaresList = append(squaresList, squares)
@@ -36,7 +36,7 @@ func fallSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		for r := s.Rank() - 1; r >= 0; r-- {
+		for r := s.Rank() - 1; r >= square.ZeroRank; r-- {
 			squares = append(squares, square.NewIndex(s.File(), r))
 		}
 		squaresList = append(squaresList, squares)
@@ -49,7 +49,7 @@ func leftSquareIndexesInternalHelper() []square.Indexes {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		var squares square.Indexes
-		for f := s.File() - 1; f >= 0; f-- {
+		for f := s.File() - 1; f >= square.ZeroFile; f-- {
 			squares = append(squares, square.NewIndex(f, s.Rank()))
 		}
 		squaresList = append(squaresList, squares)

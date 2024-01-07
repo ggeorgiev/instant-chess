@@ -33,7 +33,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 	file := s.File()
 	rank := s.Rank()
 
-	for f := file - 1; f >= 0; f-- {
+	for f := file - 1; f >= square.ZeroFile; f-- {
 		figure := board[square.NewIndex(f, rank)]
 		if figure.IsWhiteLinearMover() {
 			count++
@@ -45,7 +45,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 			break
 		}
 	}
-	for f := file + 1; f < 8; f++ {
+	for f := file + 1; f <= square.LastFile; f++ {
 		figure := board[square.NewIndex(f, rank)]
 		if figure.IsWhiteLinearMover() {
 			count++
@@ -57,7 +57,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 			break
 		}
 	}
-	for r := rank - 1; r >= 0; r-- {
+	for r := rank - 1; r >= square.ZeroRank; r-- {
 		figure := board[square.NewIndex(file, r)]
 		if figure.IsWhiteLinearMover() {
 			count++
@@ -69,7 +69,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 			break
 		}
 	}
-	for r := rank + 1; r < 8; r++ {
+	for r := rank + 1; r <= square.LastRank; r++ {
 		figure := board[square.NewIndex(file, r)]
 		if figure.IsWhiteLinearMover() {
 			count++
@@ -84,7 +84,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 
 	f := file - 1
 	r := rank - 1
-	for f >= 0 && r >= 0 {
+	for f >= square.ZeroFile && r >= 0 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsWhiteDiagonalMover() {
 			count++
@@ -101,7 +101,7 @@ func (board Board) SquareUnderAttackFromWhite(s square.Index, countTo int) int {
 
 	f = file - 1
 	r = rank + 1
-	for f >= 0 && r < 8 {
+	for f >= square.ZeroFile && r < 8 {
 		figure := board[square.NewIndex(f, r)]
 		if figure.IsWhiteDiagonalMover() {
 			count++
@@ -223,23 +223,23 @@ func (board Board) WhiteRookTos(s square.Index, ks square.Index) square.Indexes 
 	file := s.File()
 	rank := s.Rank()
 
-	for f := file - 1; f >= 0; f-- {
+	for f := file - 1; f >= square.ZeroFile; f-- {
 		if !check(square.NewIndex(f, rank)) {
 			break
 		}
 	}
-	for f := file + 1; f < 8; f++ {
+	for f := file + 1; f <= square.LastFile; f++ {
 		if !check(square.NewIndex(f, rank)) {
 			break
 		}
 	}
 
-	for r := rank - 1; r >= 0; r-- {
+	for r := rank - 1; r >= square.ZeroRank; r-- {
 		if !check(square.NewIndex(file, r)) {
 			break
 		}
 	}
-	for r := rank + 1; r < 8; r++ {
+	for r := rank + 1; r <= square.LastRank; r++ {
 		if !check(square.NewIndex(file, r)) {
 			break
 		}

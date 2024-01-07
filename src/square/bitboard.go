@@ -92,16 +92,16 @@ func SprintMask(mask bitboard.Mask) string {
 	result.WriteString(letters)
 	result.WriteString(separator)
 
-	for y := Rank(7); y >= 0; y-- {
-		result.WriteString(fmt.Sprintf("%d·|", y+1))
-		for x := File(0); x < 8; x++ {
+	for r := LastRank; r >= ZeroRank; r-- {
+		result.WriteString(fmt.Sprintf("%d·|", r+1))
+		for f := ZeroFile; f <= LastFile; f++ {
 			symbol := " "
-			if IndexMask[NewIndex(x, y)]&mask != 0 {
+			if IndexMask[NewIndex(f, r)]&mask != 0 {
 				symbol = "●"
 			}
 			result.WriteString(fmt.Sprintf(" %s |", symbol))
 		}
-		result.WriteString(fmt.Sprintf("·%d\n", y+1))
+		result.WriteString(fmt.Sprintf("·%d\n", r+1))
 		result.WriteString(separator)
 	}
 

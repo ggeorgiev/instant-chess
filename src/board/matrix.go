@@ -29,15 +29,15 @@ func ParseMatrix(text string) (Matrix, error) {
 		row++
 	}
 
-	for r := square.Rank(8); r > 0; r-- {
+	for r := square.LastRank; r >= square.ZeroRank; r-- {
 		row += 2
 		runes := util.Runes(rows[row])
 		if len(runes) != runesExpectedLength {
-			return matrix, fmt.Errorf("on rank %d unexpected length %d instead %d", r, len(runes), runesExpectedLength)
+			return matrix, fmt.Errorf("on rank %d unexpected length %d instead %d", r+1, len(runes), runesExpectedLength)
 		}
 
-		for f := square.File(0); f < 8; f++ {
-			matrix[square.NewIndex(f, r-1)] = peace.FromSymbol(runes[4+f*4])
+		for f := square.ZeroFile; f <= square.LastFile; f++ {
+			matrix[square.NewIndex(f, r)] = peace.FromSymbol(runes[4+f*4])
 		}
 	}
 	return matrix, nil
@@ -50,12 +50,12 @@ func (m Matrix) Sprint() string {
 	sb.WriteString(letters)
 	sb.WriteString(separator)
 
-	for r := square.Rank(8); r > 0; r-- {
-		sb.WriteString(fmt.Sprintf("%d·|", r))
-		for f := square.File(0); f < 8; f++ {
-			sb.WriteString(fmt.Sprintf(" %s |", m[square.NewIndex(f, r-1)].Symbol()))
+	for r := square.LastRank; r >= square.ZeroRank; r-- {
+		sb.WriteString(fmt.Sprintf("%d·|", r+1))
+		for f := square.ZeroFile; f <= square.LastFile; f++ {
+			sb.WriteString(fmt.Sprintf(" %s |", m[square.NewIndex(f, r)].Symbol()))
 		}
-		sb.WriteString(fmt.Sprintf("·%d\n", r))
+		sb.WriteString(fmt.Sprintf("·%d\n", r+1))
 		sb.WriteString(separator)
 	}
 
