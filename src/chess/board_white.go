@@ -19,7 +19,7 @@ func (brd Board) WhiteKingTos(s square.Index) square.Indexes {
 
 	for _, square := range kingMoves {
 		figure := brd[square]
-		if figure.IsNoFigureOrBlack() && board.Matrix(brd).SquareUnderAttackFromBlack(square, 1) == 0 {
+		if figure.IsNoFigureOrBlack() && !board.Matrix(brd).IsSquareUnderAttackFromBlack(square) {
 			tos = append(tos, square)
 		}
 	}
@@ -38,7 +38,7 @@ func (brd Board) WhiteKnightTos(s square.Index, ks square.Index) square.Indexes 
 			brd[square] = brd[s]
 			brd[s] = peace.NoFigure
 
-			if board.Matrix(brd).SquareUnderAttackFromBlack(ks, 1) == 0 {
+			if !board.Matrix(brd).IsSquareUnderAttackFromBlack(ks) {
 				tos = append(tos, square)
 			}
 
@@ -66,7 +66,7 @@ func (brd Board) WhiteRookTos(s square.Index, ks square.Index) square.Indexes {
 			brd[square] = brd[s]
 			brd[s] = peace.NoFigure
 
-			if board.Matrix(brd).SquareUnderAttackFromBlack(ks, 1) == 0 {
+			if !board.Matrix(brd).IsSquareUnderAttackFromBlack(ks) {
 				tos = append(tos, square)
 			}
 

@@ -5,6 +5,8 @@ go_library(
     srcs = [
         "diagonal.go",
         "diagonal_helper.go",
+        "direct.go",
+        "direct_helper.go",
         "king.go",
         "king_helper.go",
         "knight.go",
@@ -18,6 +20,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//src/bitboard",
+        "//src/peace",
         "//src/peacemoves",
         "//src/square",
     ],
@@ -27,11 +30,16 @@ go_test(
     name = "peaceattacks_test",
     srcs = [
         "diagonal_test.go",
+        "direct_test.go",
         "king_test.go",
         "knight_test.go",
         "linear_test.go",
         "pawn_test.go",
     ],
     embed = [":peaceattacks"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/peace",
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

@@ -30,9 +30,13 @@ go_library(
 go_test(
     name = "board_test",
     srcs = [
+        "matrix_square_under_attack_benchmark_test.go",
         "rights_test.go",
         "state_test.go",
     ],
     embed = [":board"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
 )
