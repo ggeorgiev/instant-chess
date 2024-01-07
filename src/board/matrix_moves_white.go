@@ -23,6 +23,11 @@ func (m Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.I
 	m[s] = original
 
 	switch figure {
+	case peace.WhiteBishop:
+		if maybeCheckedVector.IsLeaniar() {
+			return nil
+		}
+		return m.WhiteBishopNoCheckedTos(s, maybeCheckedVector)
 	case peace.WhiteRook:
 		if maybeCheckedVector.IsDiagonalic() {
 			return nil

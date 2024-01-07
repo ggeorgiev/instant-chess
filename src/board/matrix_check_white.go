@@ -155,19 +155,19 @@ func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom 
 	}
 
 	if sq == peacealignment.DiagonalAbove {
-		if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) != square.InvalidIndex {
+		if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) != square.InvalidIndex {
 			return peacealignment.Diagonal
 		}
 	}
 
-	if sq == peacealignment.CounterDiagonalAbove {
+	if sq == peacealignment.CounterDiagonalUnder {
 		if m.IsSquareUnderAttackFromBlackFromRightUnder(kingSquare) != square.InvalidIndex {
 			return peacealignment.CounterDiagonal
 		}
 	}
 
-	if sq == peacealignment.CounterDiagonalUnder {
-		if m.IsSquareUnderAttackFromBlackFromRightAbove(kingSquare) != square.InvalidIndex {
+	if sq == peacealignment.CounterDiagonalAbove {
+		if m.IsSquareUnderAttackFromBlackFromLeftAbove(kingSquare) != square.InvalidIndex {
 			return peacealignment.CounterDiagonal
 		}
 	}

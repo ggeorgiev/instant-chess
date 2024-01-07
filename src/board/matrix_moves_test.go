@@ -250,3 +250,110 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
 	result := state.Matrix.WhiteTos()
 	assert.Equal(t, expected, result)
 }
+
+func TestMatrixMovesBishopDiagonalBlockingEachOther(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·|   |   |   |   |   |   |   | ♚ |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   | ♝ |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·|   |   |   |   |   |   |   |   |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   | ♗ |   |   |   |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   |   |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·| ♔ |   |   |   |   |   |   |   |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 0, Tos: square.Indexes{1, 8, 9}},
+		peacemoves.FromTo{From: 18, Tos: square.Indexes{9, 27, 36, 45}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+
+func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·| ♚ |   |   |   |   |   |   |   |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   | ♝ |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·|   |   |   |   |   |   |   |   |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   | ♗ |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   |   |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·|   |   |   |   |   |   |   | ♔ |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
+		peacemoves.FromTo{From: 21, Tos: square.Indexes{14, 28, 35, 42}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+
+/*
+func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·| ♚ |   |   |   |   |   |   |   |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·|   |   |   |   |   |   |   | ♗ |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   |   |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   | ♞ |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·|   |   |   |   |   |   |   | ♔ |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
+		peacemoves.FromTo{From: 39, Tos: square.Indexes{13}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+*/
