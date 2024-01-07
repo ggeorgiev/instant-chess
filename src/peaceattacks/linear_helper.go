@@ -124,3 +124,13 @@ func linearsFallLeftBitboardMasksInternalHelper() bitboard.Masks {
 
 	return masks
 }
+
+func linearsBitboardMasksInternalHelper() bitboard.Masks {
+	var masks bitboard.Masks
+
+	for f := range FallBitboardMasks {
+		masks = append(masks, FallBitboardMasks[f]|LeftBitboardMasks[f]|RiseBitboardMasks[f]|RightBitboardMasks[f])
+	}
+
+	return masks
+}

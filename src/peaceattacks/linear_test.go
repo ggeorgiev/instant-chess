@@ -55,3 +55,8 @@ func TestLinearsFallLeftBitboardMasksInternalHelper(t *testing.T) {
 	masks := linearsFallLeftBitboardMasksInternalHelper()
 	assert.Equal(t, masks, LinearsFallLeftBitboardMasks, masks.String())
 }
+
+func TestLinearsBitboardMasksInternalHelper(t *testing.T) {
+	masks := linearsBitboardMasksInternalHelper()
+	assert.Equal(t, masks, LinearsBitboardMasks, masks.String())
+}

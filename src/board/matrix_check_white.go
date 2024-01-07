@@ -47,7 +47,7 @@ func (m Matrix) IsWhiteChecked(kingSquare square.Index) bool {
 
 func (m Matrix) IsWhiteCheckedToMoveCaptureOrBlock(kingSquare square.Index) (bool, square.Index, bool) {
 	checked, attacker := m.SquareUnderDirectAttackExactlyFromBlack(kingSquare)
-	if checked && attacker == square.InvalidIndex {
+	if checked && attacker != square.InvalidIndex {
 		return true, attacker, false
 	}
 

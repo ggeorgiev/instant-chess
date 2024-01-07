@@ -140,10 +140,44 @@ func TestMatrixMovesNeedToMoveOrCapture(t *testing.T) {
 	assert.NoError(t, err)
 
 	expected := HalfMoves{
-		peacemoves.FromTo{From: 29, Tos: square.Indexes{28, 27, 26, 30}},
-		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 38, 39}},
+		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+		peacemoves.FromTo{From: 29, Tos: square.Indexes{21}},
 	}
 
 	result := state.Matrix.WhiteTos()
-	assert.NotEqual(t, expected, result)
+	assert.Equal(t, expected, result)
+}
+
+func TestMatrixMovesNeedToMoveButCannotCapture(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·|   |   |   |   |   |   |   |   |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·| ♚ |   | ♜ |   |   | ♖ |   | ♔ |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   | ♞ |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   |   |   |   |   |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·|   |   |   |   |   |   |   |   |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
 }

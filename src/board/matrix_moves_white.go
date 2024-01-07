@@ -38,6 +38,41 @@ func (m Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.I
 	return nil
 }
 
+func (m Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
+	figure := m[s]
+	if !figure.IsWhite() {
+		return nil
+	}
+
+	if !m.IsSquareUnderAttackFrom(capture, s) {
+		return nil
+	}
+
+	if figure == peace.WhiteKing {
+		return square.Indexes{capture}
+	}
+
+	original := m[s]
+	m[s] = peace.NoFigure
+	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
+	m[s] = original
+
+	switch figure {
+	case peace.WhiteRook:
+		if maybeCheckedVector.IsDiagonalic() {
+			return nil
+		}
+		return m.WhiteRookCapture(s, maybeCheckedVector, capture)
+	case peace.WhiteKnight:
+		if maybeCheckedVector != peacealignment.NoVector {
+			return nil
+		}
+		return square.Indexes{capture}
+	}
+
+	return nil
+}
+
 func (m Matrix) WhiteTos() HalfMoves {
 	var moves HalfMoves
 	king := m.FindSinglePeace(peace.WhiteKing)
@@ -52,7 +87,15 @@ func (m Matrix) WhiteTos() HalfMoves {
 			if block {
 				// TODO: find if the attacker can be captured or blocked
 			} else {
-				// TODO: find if the attacker can be captured
+				for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+					tos := m.SquareCaptureWhiteTos(s, king, attacker)
+					if len(tos) > 0 {
+						moves = append(moves, peacemoves.FromTo{
+							From: s,
+							Tos:  tos,
+						})
+					}
+				}
 			}
 		}
 		return moves

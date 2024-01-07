@@ -144,3 +144,13 @@ func diagonalsFallBitboardMasksInternalHelper() bitboard.Masks {
 
 	return masks
 }
+
+func diagonalsBitboardMasksInternalHelper() bitboard.Masks {
+	var masks bitboard.Masks
+
+	for f := range FallLeftBitboardMasks {
+		masks = append(masks, FallLeftBitboardMasks[f]|FallRightBitboardMasks[f]|RiseLeftBitboardMasks[f]|RiseRightBitboardMasks[f])
+	}
+
+	return masks
+}

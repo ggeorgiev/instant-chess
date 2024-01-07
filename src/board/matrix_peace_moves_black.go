@@ -81,3 +81,50 @@ func (m Matrix) BlackRookNoCheckedTos(s square.Index, vector peacealignment.Vect
 
 	return tos
 }
+
+func (m Matrix) BlackRookCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+	// TODO: optimize
+	var tos square.Indexes
+
+	check := func(sq square.Index) bool {
+		figure := m[sq]
+		if figure.IsBlack() {
+			return false
+		}
+		if sq == capture {
+			tos = square.Indexes{capture}
+		}
+		return figure.IsNoFigure()
+	}
+
+	file := s.File()
+	rank := s.Rank()
+
+	if vector != peacealignment.File {
+		for f := file - 1; f >= square.ZeroFile; f-- {
+			if !check(square.NewIndex(f, rank)) {
+				break
+			}
+		}
+		for f := file + 1; f <= square.LastFile; f++ {
+			if !check(square.NewIndex(f, rank)) {
+				break
+			}
+		}
+	}
+
+	if vector != peacealignment.Rank {
+		for r := rank - 1; r >= square.ZeroRank; r-- {
+			if !check(square.NewIndex(file, r)) {
+				break
+			}
+		}
+		for r := rank + 1; r <= square.LastRank; r++ {
+			if !check(square.NewIndex(file, r)) {
+				break
+			}
+		}
+	}
+
+	return tos
+}

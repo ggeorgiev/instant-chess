@@ -15,6 +15,7 @@ go_library(
         "linear_helper.go",
         "pawn.go",
         "pawn_helper.go",
+        "peace.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peaceattacks",
     visibility = ["//visibility:public"],
