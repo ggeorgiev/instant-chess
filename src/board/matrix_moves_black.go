@@ -111,11 +111,11 @@ func (m Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, att
 	return square.ConvertBitboardMaskIntoIndexes(overlap)
 }
 
-func (m Matrix) BlackTos(king square.Index) HalfMoves {
-	var moves HalfMoves
+func (m Matrix) BlackTos(king square.Index) peacemoves.Halfs {
+	var moves peacemoves.Halfs
 	checked, attacker, block := m.IsBlackCheckedToMoveCaptureOrBlock(king)
 	if checked {
-		moves = append(moves, peacemoves.FromTo{
+		moves = append(moves, peacemoves.Half{
 			From: king,
 			Tos:  m.BlackKingTos(king),
 		})
@@ -127,7 +127,7 @@ func (m Matrix) BlackTos(king square.Index) HalfMoves {
 				}
 				tos = append(tos, m.SquareCaptureBlackTos(s, king, attacker)...)
 				if len(tos) > 0 {
-					moves = append(moves, peacemoves.FromTo{
+					moves = append(moves, peacemoves.Half{
 						From: s,
 						Tos:  tos,
 					})
@@ -140,7 +140,7 @@ func (m Matrix) BlackTos(king square.Index) HalfMoves {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		tos := m.SquareBlackTos(s, king)
 		if len(tos) > 0 {
-			moves = append(moves, peacemoves.FromTo{
+			moves = append(moves, peacemoves.Half{
 				From: s,
 				Tos:  tos,
 			})

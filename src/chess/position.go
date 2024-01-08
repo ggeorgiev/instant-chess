@@ -96,7 +96,7 @@ func (p *Position) Print() {
 
 func (p *Position) M1() bool {
 	for _, move := range p.Moves {
-		for _, toAnswer := range move.ToAnswers {
+		for _, toAnswer := range move.Answers {
 			if len(toAnswer.BlackAnswers) == 0 {
 				brd := Board(p.BoardState.Matrix)
 				original := brd[toAnswer.WhiteTo]

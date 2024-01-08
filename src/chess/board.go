@@ -3,6 +3,7 @@ package chess
 import (
 	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -16,7 +17,7 @@ func (brd Board) Moves() Moves {
 
 	whiteFromTos := board.Matrix(brd).WhiteTos(whiteKing)
 	for _, fromTos := range whiteFromTos {
-		var toAnswers []ToAnswer
+		var answers peacemoves.Answers
 		for _, to := range fromTos.Tos {
 			original := brd[to]
 			brd[to] = brd[fromTos.From]
@@ -24,7 +25,7 @@ func (brd Board) Moves() Moves {
 
 			blackFromTos := board.Matrix(brd).BlackTos(blackKing)
 			if blackFromTos != nil {
-				toAnswers = append(toAnswers, ToAnswer{
+				answers = append(answers, peacemoves.Answer{
 					WhiteTo:      to,
 					BlackAnswers: blackFromTos,
 				})
@@ -35,7 +36,10 @@ func (brd Board) Moves() Moves {
 
 		}
 
-		moves = append(moves, Move{WhiteForm: fromTos.From, ToAnswers: toAnswers})
+		moves = append(moves, peacemoves.Full{
+			WhiteForm: fromTos.From,
+			Answers:   answers,
+		})
 	}
 
 	return moves

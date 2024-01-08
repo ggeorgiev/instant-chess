@@ -27,7 +27,6 @@ go_library(
         "matrix_square_under_attack_white.go",
         "rights.go",
         "state.go",
-        "state_half_moves.go",
         "state_half_moves_black.go",
         "state_half_moves_white.go",
     ],
