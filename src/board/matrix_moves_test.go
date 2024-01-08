@@ -3,6 +3,7 @@ package board
 import (
 	"testing"
 
+	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 	"github.com/stretchr/testify/assert"
@@ -39,7 +40,8 @@ func TestMatrixMovesStartPosition(t *testing.T) {
 		peacemoves.FromTo{From: 6, Tos: square.Indexes{21, 23}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -74,7 +76,8 @@ func TestMatrixMovesBishopDiagonalBlockingEachOther(t *testing.T) {
 		peacemoves.FromTo{From: 18, Tos: square.Indexes{9, 27, 36, 45}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -109,7 +112,8 @@ func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
 		peacemoves.FromTo{From: 21, Tos: square.Indexes{14, 28, 35, 42}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -144,7 +148,8 @@ func TestMatrixMovesRooksFileBlockingEachOther(t *testing.T) {
 		peacemoves.FromTo{From: 20, Tos: square.Indexes{12, 28, 36, 44}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -179,7 +184,8 @@ func TestMatrixMovesRooksRankBlockingEachOther(t *testing.T) {
 		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 38, 39}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -214,7 +220,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
 		peacemoves.FromTo{From: 31, Tos: square.Indexes{13}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -249,7 +256,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithKnight(t *testing.T) {
 		peacemoves.FromTo{From: 27, Tos: square.Indexes{21}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -284,7 +292,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 		peacemoves.FromTo{From: 29, Tos: square.Indexes{21}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -319,7 +328,8 @@ func TestMatrixMovesNeedToMoveBlockOrCaptureWithKnight(t *testing.T) {
 		peacemoves.FromTo{From: 10, Tos: square.Indexes{27, 0}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -353,7 +363,8 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithBishop(t *testing.T) {
 		peacemoves.FromTo{From: 7, Tos: square.Indexes{6, 14, 15}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -387,7 +398,8 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
 		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -421,6 +433,7 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 		peacemoves.FromTo{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
-	result := state.Matrix.WhiteTos()
+	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
+	result := state.Matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }

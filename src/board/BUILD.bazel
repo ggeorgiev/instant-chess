@@ -55,6 +55,7 @@ go_test(
     ],
     embed = [":board"],
     deps = [
+        "//src/peace",
         "//src/peacemoves",
         "//src/square",
         "@com_github_stretchr_testify//assert",

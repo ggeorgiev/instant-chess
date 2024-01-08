@@ -11,45 +11,31 @@ type Board [square.Number]peace.Figure
 func (brd Board) Moves() Moves {
 	var moves Moves
 
-	wks := board.Matrix(brd).FindSinglePeace(peace.WhiteKing)
-	bks := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
+	whiteKing := board.Matrix(brd).FindSinglePeace(peace.WhiteKing)
+	blackKing := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
 
-	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		tos := board.Matrix(brd).SquareWhiteTos(s, wks)
-		if len(tos) == 0 {
-			continue
-		}
-
+	whiteFromTos := board.Matrix(brd).WhiteTos(whiteKing)
+	for _, fromTos := range whiteFromTos {
 		var toAnswers []ToAnswer
-		for _, to := range tos {
+		for _, to := range fromTos.Tos {
 			original := brd[to]
-			brd[to] = brd[s]
-			brd[s] = peace.NoFigure
+			brd[to] = brd[fromTos.From]
+			brd[fromTos.From] = peace.NoFigure
 
-			var answers []Answer
-
-			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				if !brd[s].IsBlack() {
-					continue
-				}
-				blackTos := board.Matrix(brd).SquareBlackTos(s, bks)
-				if len(blackTos) > 0 {
-					answers = append(answers, Answer{
-						BlackFrom: s,
-						BlackTos:  blackTos,
-					})
-				}
+			blackFromTos := board.Matrix(brd).BlackTos(blackKing)
+			if blackFromTos != nil {
+				toAnswers = append(toAnswers, ToAnswer{
+					WhiteTo:      to,
+					BlackAnswers: blackFromTos,
+				})
 			}
-			toAnswers = append(toAnswers, ToAnswer{
-				WhiteTo: to,
-				Answers: answers,
-			})
 
-			brd[s] = brd[to]
+			brd[fromTos.From] = brd[to]
 			brd[to] = original
+
 		}
 
-		moves = append(moves, Move{WhiteForm: s, ToAnswers: toAnswers})
+		moves = append(moves, Move{WhiteForm: fromTos.From, ToAnswers: toAnswers})
 	}
 
 	return moves

@@ -70,12 +70,15 @@ func CreatePosition(boardState board.State) *Position {
 		}
 	}
 
-	position.Moves = Board(boardState.Matrix).Moves()
-
 	position.Valid = position.Valid &&
 		(whiteKings == 1 && blackKings == 1) &&
 		(whitePawns <= 8 && blackPawns <= 8)
 
+	if !position.Valid {
+		return position
+	}
+
+	position.Moves = Board(boardState.Matrix).Moves()
 	return position
 }
 
@@ -94,7 +97,7 @@ func (p *Position) Print() {
 func (p *Position) M1() bool {
 	for _, move := range p.Moves {
 		for _, toAnswer := range move.ToAnswers {
-			if len(toAnswer.Answers) == 0 {
+			if len(toAnswer.BlackAnswers) == 0 {
 				brd := Board(p.BoardState.Matrix)
 				original := brd[toAnswer.WhiteTo]
 				brd[toAnswer.WhiteTo] = brd[move.WhiteForm]

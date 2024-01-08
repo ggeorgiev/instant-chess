@@ -4,31 +4,23 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-type Answer struct {
-	BlackFrom square.Index
-	BlackTos  square.Indexes
-}
-
-func (a Answer) String() string {
-	var tos []string
-	for _, t := range a.BlackTos {
-		tos = append(tos, t.String())
-	}
-	return fmt.Sprintf("BlackFrom: %s, BlackTos: [%s]", a.BlackFrom, strings.Join(tos, ", "))
-}
-
 type ToAnswer struct {
-	WhiteTo square.Index
-	Answers []Answer
+	WhiteTo      square.Index
+	BlackAnswers board.HalfMoves
 }
 
 func (ta ToAnswer) String() string {
 	var ans []string
-	for _, a := range ta.Answers {
-		ans = append(ans, a.String())
+	for _, answer := range ta.BlackAnswers {
+		var tos []string
+		for _, to := range answer.Tos {
+			tos = append(tos, to.String())
+		}
+		ans = append(ans, fmt.Sprintf("BlackFrom: %s, BlackTos: [%s]", answer.From, strings.Join(tos, ", ")))
 	}
 	return fmt.Sprintf("  Answers: %s\n", strings.Join(ans, ", "))
 }
