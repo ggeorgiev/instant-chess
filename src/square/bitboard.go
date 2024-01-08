@@ -2,6 +2,7 @@ package square
 
 import (
 	"fmt"
+	"math/bits"
 	"strings"
 
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
@@ -80,6 +81,18 @@ func ConvertIndexesIntoBitboardMask(indexes Indexes) bitboard.Mask {
 		mask |= IndexMask[index]
 	}
 	return mask
+}
+
+func ConvertBitboardMaskIntoIndexes(mask bitboard.Mask) Indexes {
+	var indexes Indexes
+	for mask != 0 {
+		index := Index(bits.TrailingZeros64(uint64(mask)))
+		indexes = append(indexes, index)
+
+		// Remove the rightmost set bit
+		mask &= (mask - 1)
+	}
+	return indexes
 }
 
 func SprintMask(mask bitboard.Mask) string {

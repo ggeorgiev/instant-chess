@@ -33,3 +33,14 @@ func TestPrintMask(t *testing.T) {
 `
 	assert.Equal(t, expected, actual)
 }
+
+func TestConvertBitboardMaskIntoIndexes(t *testing.T) {
+	for s := ZeroIndex; s <= LastIndex; s++ {
+		assert.Equal(t, Indexes{s}, ConvertBitboardMaskIntoIndexes(IndexMask[s]))
+	}
+
+	assert.Equal(t, Indexes(nil), ConvertBitboardMaskIntoIndexes(bitboard.Empty))
+	assert.Equal(t, Indexes{5, 10}, ConvertBitboardMaskIntoIndexes(IndexMask[5]|IndexMask[10]))
+	assert.Equal(t, Indexes{0, 17, 23, 63},
+		ConvertBitboardMaskIntoIndexes(IndexMask[0]|IndexMask[17]|IndexMask[23]|IndexMask[63]))
+}
