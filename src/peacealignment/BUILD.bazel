@@ -4,6 +4,8 @@ go_library(
     name = "peacealignment",
     srcs = [
         "alignment.go",
+        "block_releation_bitboard.go",
+        "block_releation_bitboard_helper.go",
         "relation.go",
         "relation_helper.go",
         "vector.go",
@@ -11,12 +13,17 @@ go_library(
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peacealignment",
     visibility = ["//visibility:public"],
-    deps = ["//src/square"],
+    deps = [
+        "//src/bitboard",
+        "//src/peaceattacks",
+        "//src/square",
+    ],
 )
 
 go_test(
     name = "peacealignment_test",
     srcs = [
+        "block_releation_bitboard_test.go",
         "releation_test.go",
         "vector_test.go",
     ],

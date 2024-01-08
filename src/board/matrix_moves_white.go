@@ -1,8 +1,10 @@
 package board
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peacealignment"
+	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
@@ -83,6 +85,32 @@ func (m Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, c
 	return nil
 }
 
+func (m Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
+	figure := m[s]
+	if !figure.IsWhite() || figure == peace.WhiteKing {
+		return nil
+	}
+
+	mask := peacealignment.BlockRelationMasksList[attacker][kingSquare]
+	peaceMask := peaceattacks.PeaceBitboardMasks(figure)[s]
+
+	overlap := mask & peaceMask
+	if overlap == bitboard.Empty {
+		return nil
+	}
+
+	original := m[s]
+	m[s] = peace.NoFigure
+	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
+	m[s] = original
+
+	if maybeCheckedVector != peacealignment.NoVector {
+		return nil
+	}
+
+	return square.ConvertBitboardMaskIntoIndexes(overlap)
+}
+
 func (m Matrix) WhiteTos() HalfMoves {
 	var moves HalfMoves
 	king := m.FindSinglePeace(peace.WhiteKing)
@@ -94,17 +122,17 @@ func (m Matrix) WhiteTos() HalfMoves {
 			Tos:  m.WhiteKingTos(king),
 		})
 		if attacker != square.InvalidIndex {
-			if block {
-				// TODO: find if the attacker can be captured or blocked
-			} else {
-				for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-					tos := m.SquareCaptureWhiteTos(s, king, attacker)
-					if len(tos) > 0 {
-						moves = append(moves, peacemoves.FromTo{
-							From: s,
-							Tos:  tos,
-						})
-					}
+			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+				var tos square.Indexes
+				if block {
+					tos = append(tos, m.SquareBlockWhiteTos(s, king, attacker)...)
+				}
+				tos = append(tos, m.SquareCaptureWhiteTos(s, king, attacker)...)
+				if len(tos) > 0 {
+					moves = append(moves, peacemoves.FromTo{
+						From: s,
+						Tos:  tos,
+					})
 				}
 			}
 		}

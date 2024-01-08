@@ -288,6 +288,41 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 	assert.Equal(t, expected, result)
 }
 
+func TestMatrixMovesNeedToMoveBlockOrCaptureWithKnight(t *testing.T) {
+	text := `
+····a···b···c···d···e···f···g···h····
+··+---+---+---+---+---+---+---+---+··
+8·| ♚ |   |   |   |   |   |   | ♔ |·8
+··+---+---+---+---+---+---+---+---+··
+7·|   |   |   |   |   |   |   |   |·7
+··+---+---+---+---+---+---+---+---+··
+6·|   |   |   |   |   |   |   |   |·6
+··+---+---+---+---+---+---+---+---+··
+5·|   |   |   |   |   |   |   |   |·5
+··+---+---+---+---+---+---+---+---+··
+4·|   |   |   |   |   |   |   |   |·4
+··+---+---+---+---+---+---+---+---+··
+3·|   |   |   |   |   |   |   |   |·3
+··+---+---+---+---+---+---+---+---+··
+2·|   |   | ♘ |   |   |   |   |   |·2
+··+---+---+---+---+---+---+---+---+··
+1·| ♝ |   |   |   |   |   |   |   |·1
+··+---+---+---+---+---+---+---+---+··
+····a···b···c···d···e···f···g···h····
+· O-O: --, O-O-O: --, En Passant: - ·
+`
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	expected := HalfMoves{
+		peacemoves.FromTo{From: 63, Tos: square.Indexes{55, 62}},
+		peacemoves.FromTo{From: 10, Tos: square.Indexes{27, 0}},
+	}
+
+	result := state.Matrix.WhiteTos()
+	assert.Equal(t, expected, result)
+}
+
 func TestMatrixMovesNeedToMoveButCannotCaptureWithBishop(t *testing.T) {
 	text := `
 ····a···b···c···d···e···f···g···h····
