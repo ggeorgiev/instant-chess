@@ -21,8 +21,6 @@ type Position struct {
 	BlackPeaces int8
 
 	Valid bool
-
-	Moves Moves
 }
 
 func CreatePosition(boardState board.State) *Position {
@@ -78,7 +76,6 @@ func CreatePosition(boardState board.State) *Position {
 		return position
 	}
 
-	position.Moves = Board(boardState.Matrix).Moves()
 	return position
 }
 
@@ -95,7 +92,8 @@ func (p *Position) Print() {
 }
 
 func (p *Position) M1() bool {
-	for _, move := range p.Moves {
+	moves := p.BoardState.Matrix.Moves()
+	for _, move := range moves {
 		for _, toAnswer := range move.Answers {
 			if len(toAnswer.BlackAnswers) == 0 {
 				brd := Board(p.BoardState.Matrix)

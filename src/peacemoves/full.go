@@ -18,6 +18,8 @@ type Full struct {
 	Answers   Answers
 }
 
+type Fulls []Full
+
 func (a Answer) String() string {
 	var ans []string
 	for _, answer := range a.BlackAnswers {
@@ -36,4 +38,12 @@ func (m Full) String() string {
 		tas = append(tas, fmt.Sprintf("White: %s:%s\n%s", m.WhiteForm, ta.WhiteTo, ta.String()))
 	}
 	return strings.Join(tas, "")
+}
+
+func (fs Fulls) String() string {
+	var mvs []string
+	for _, m := range fs {
+		mvs = append(mvs, m.String())
+	}
+	return strings.Join(mvs, "\n")
 }

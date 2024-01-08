@@ -18,6 +18,7 @@ go_library(
         "matrix.go",
         "matrix_check_black.go",
         "matrix_check_white.go",
+        "matrix_moves.go",
         "matrix_moves_black.go",
         "matrix_moves_white.go",
         "matrix_peace_moves_black.go",
