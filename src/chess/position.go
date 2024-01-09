@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/ggeorgiev/instant-chess/src/board"
-	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -89,28 +88,4 @@ func ParsePosition(text string) *Position {
 
 func (p *Position) Print() {
 	fmt.Print(p.BoardState.Sprint())
-}
-
-func (p *Position) M1() bool {
-	moves := p.BoardState.Matrix.Moves()
-	for _, move := range moves {
-		for _, toAnswer := range move.Answers {
-			if len(toAnswer.BlackAnswers) == 0 {
-				brd := Board(p.BoardState.Matrix)
-				original := brd[toAnswer.WhiteTo]
-				brd[toAnswer.WhiteTo] = brd[move.WhiteForm]
-				brd[move.WhiteForm] = peace.NoFigure
-
-				bk := board.Matrix(brd).FindSinglePeace(peace.BlackKing)
-				mate := board.Matrix(brd).IsSquareUnderAttackFromWhite(bk)
-
-				brd[move.WhiteForm] = brd[toAnswer.WhiteTo]
-				brd[toAnswer.WhiteTo] = original
-				if mate {
-					return true
-				}
-			}
-		}
-	}
-	return false
 }

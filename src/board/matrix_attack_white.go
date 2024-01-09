@@ -1,4 +1,4 @@
-package chess
+package board
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
@@ -7,14 +7,14 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (brd Board) AttackBitboardMaskFromWhite() bitboard.Mask {
+func (m Matrix) AttackBitboardMaskFromWhite() bitboard.Mask {
 	attackerOccupiedMask := bitboard.Empty
 	attackMask := bitboard.Empty
 
 	fallShadowMask := bitboard.Empty
 	fallLeftShadowMask := bitboard.Empty
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		figure := brd[s]
+		figure := m[s]
 		if figure == peace.NoFigure {
 			continue
 		}
@@ -45,7 +45,7 @@ func (brd Board) AttackBitboardMaskFromWhite() bitboard.Mask {
 	riseShadowMask := bitboard.Empty
 	riseRightShadowMask := bitboard.Empty
 	for s := square.LastIndex; s >= square.ZeroIndex; s-- {
-		figure := brd[s]
+		figure := m[s]
 		if figure == peace.NoFigure {
 			continue
 		}

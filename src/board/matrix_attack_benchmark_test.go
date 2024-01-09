@@ -1,4 +1,4 @@
-package chess
+package board
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-var positionA = ParsePosition(`
+var positionA = MustParseState(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -32,7 +32,7 @@ var positionA = ParsePosition(`
 func BenchmarkBoardAttackMask_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
 		for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-			Board(positionA.BoardState.Matrix).AttackBitboardMaskFromWhite()
+			positionA.Matrix.AttackBitboardMaskFromWhite()
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package chess
+package board
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 )
 
 func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
-	position := ParsePosition(`
+	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -29,7 +29,7 @@ func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
-`)
+`
 
 	expected := `
 ····a···b···c···d···e···f···g···h····
@@ -53,13 +53,16 @@ func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(Board(position.BoardState.Matrix).AttackBitboardMaskFromWhite())
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
 
 func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
-	position := ParsePosition(`
+	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -80,7 +83,7 @@ func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
-`)
+`
 
 	expected := `
 ····a···b···c···d···e···f···g···h····
@@ -104,13 +107,16 @@ func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(Board(position.BoardState.Matrix).AttackBitboardMaskFromWhite())
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
 
 func TestAttackBitboardMaskFromLinears(t *testing.T) {
-	position := ParsePosition(`
+	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -131,7 +137,7 @@ func TestAttackBitboardMaskFromLinears(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
-`)
+`
 
 	expected := `
 ····a···b···c···d···e···f···g···h····
@@ -155,13 +161,15 @@ func TestAttackBitboardMaskFromLinears(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(Board(position.BoardState.Matrix).AttackBitboardMaskFromWhite())
+	state, err := ParseState(text)
+	assert.NoError(t, err)
 
+	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
 	assert.Equal(t, expected, mask, mask)
 }
 
 func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
-	position := ParsePosition(`
+	text := `
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -182,7 +190,7 @@ func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
-`)
+`
 
 	expected := `
 ····a···b···c···d···e···f···g···h····
@@ -206,7 +214,10 @@ func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	mask := "\n" + square.SprintMask(Board(position.BoardState.Matrix).AttackBitboardMaskFromWhite())
+	state, err := ParseState(text)
+	assert.NoError(t, err)
+
+	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }

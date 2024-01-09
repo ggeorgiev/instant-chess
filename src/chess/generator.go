@@ -38,7 +38,7 @@ func Generate(peacesString string) {
 		position := CreatePosition(boardState)
 		if !position.Valid {
 			invalid++
-		} else if position.M1() {
+		} else if position.BoardState.M1() {
 			//position.Print()
 			m1++
 		}

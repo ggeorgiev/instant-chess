@@ -1,16 +1,9 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
-load("//bzl:color_template.bzl", "generate_black")
-
-generate_black(
-    names = ["board_white"],
-)
 
 go_library(
     name = "chess",
     srcs = [
         "board.go",
-        "board_black.go",
-        "board_white.go",
         "generator.go",
         "position.go",
         "result.go",
@@ -18,11 +11,9 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
     deps = [
-        "//src/bitboard",
         "//src/board",
         "//src/math",
         "//src/peace",
-        "//src/peaceattacks",
         "//src/square",
         "//src/util",
     ],
@@ -34,8 +25,6 @@ go_test(
     srcs = [
         "board_move_benchmark_test.go",
         "board_move_test.go",
-        "board_square_attack_bitboard_mask_benchmark_test.go",
-        "board_square_attack_bitboard_mask_test.go",
         "board_square_under_attack_test.go",
         "generator_test.go",
         "move_test.go",

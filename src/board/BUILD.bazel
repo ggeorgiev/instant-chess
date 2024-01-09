@@ -1,13 +1,13 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 load("//bzl:color_template.bzl", "generate_black")
-load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
 
 generate_black(
     names = [
-        "matrix_square_under_attack_white",
+        "matrix_attack_white",
         "matrix_check_white",
-        "matrix_peace_moves_white",
         "matrix_moves_white",
+        "matrix_peace_moves_white",
+        "matrix_square_under_attack_white",
         "state_half_moves_white",
     ],
 )
@@ -16,6 +16,8 @@ go_library(
     name = "board",
     srcs = [
         "matrix.go",
+        "matrix_attack_black.go",
+        "matrix_attack_white.go",
         "matrix_check_black.go",
         "matrix_check_white.go",
         "matrix_moves.go",
@@ -47,6 +49,8 @@ go_library(
 go_test(
     name = "board_test",
     srcs = [
+        "matrix_attack_benchmark_test.go",
+        "matrix_attack_test.go",
         "matrix_check_benchmark_test.go",
         "matrix_moves_test.go",
         "matrix_square_under_attack_benchmark_test.go",
