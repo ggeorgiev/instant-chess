@@ -20,12 +20,10 @@ func (m Matrix) Moves() peacemoves.Fulls {
 			m[fromTos.From] = peace.NoFigure
 
 			blackFromTos := m.BlackTos(blackKing)
-			if blackFromTos != nil {
-				answers = append(answers, peacemoves.Answer{
-					WhiteTo:      to,
-					BlackAnswers: blackFromTos,
-				})
-			}
+			answers = append(answers, peacemoves.Answer{
+				WhiteTo:      to,
+				BlackAnswers: blackFromTos,
+			})
 
 			m[fromTos.From] = m[to]
 			m[to] = original
@@ -39,4 +37,29 @@ func (m Matrix) Moves() peacemoves.Fulls {
 	}
 
 	return moves
+}
+
+func (m Matrix) M1() bool {
+	whiteKing := m.FindSinglePeace(peace.WhiteKing)
+	blackKing := m.FindSinglePeace(peace.BlackKing)
+
+	whiteFromTos := m.WhiteTos(whiteKing)
+	for _, fromTos := range whiteFromTos {
+		for _, to := range fromTos.Tos {
+			original := m[to]
+			m[to] = m[fromTos.From]
+			m[fromTos.From] = peace.NoFigure
+
+			mate := m.IsSquareUnderAttackFromWhite(blackKing) && m.BlackTos(blackKing) == nil
+
+			m[fromTos.From] = m[to]
+			m[to] = original
+
+			if mate {
+				return true
+			}
+		}
+	}
+
+	return false
 }

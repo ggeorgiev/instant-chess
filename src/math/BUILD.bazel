@@ -3,6 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "math",
     srcs = [
+        "bitset.go",
         "combination.go",
         "permutation.go",
     ],
@@ -13,6 +14,7 @@ go_library(
 go_test(
     name = "math_test",
     srcs = [
+        "bitset_test.go",
         "combination_test.go",
         "permutation_test.go",
     ],

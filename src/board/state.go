@@ -2,8 +2,6 @@ package board
 
 import (
 	"log"
-
-	"github.com/ggeorgiev/instant-chess/src/peace"
 )
 
 type State struct {
@@ -41,24 +39,5 @@ func (s State) Sprint() string {
 }
 
 func (s State) M1() bool {
-	moves := s.Matrix.Moves()
-	for _, move := range moves {
-		for _, toAnswer := range move.Answers {
-			if len(toAnswer.BlackAnswers) == 0 {
-				original := s.Matrix[toAnswer.WhiteTo]
-				s.Matrix[toAnswer.WhiteTo] = s.Matrix[move.WhiteForm]
-				s.Matrix[move.WhiteForm] = peace.NoFigure
-
-				bk := s.Matrix.FindSinglePeace(peace.BlackKing)
-				mate := s.Matrix.IsSquareUnderAttackFromWhite(bk)
-
-				s.Matrix[move.WhiteForm] = s.Matrix[toAnswer.WhiteTo]
-				s.Matrix[toAnswer.WhiteTo] = original
-				if mate {
-					return true
-				}
-			}
-		}
-	}
-	return false
+	return s.Matrix.M1()
 }

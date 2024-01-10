@@ -115,10 +115,13 @@ func (m Matrix) WhiteTos(king square.Index) peacemoves.Halfs {
 	var moves peacemoves.Halfs
 	checked, attacker, block := m.IsWhiteCheckedToMoveCaptureOrBlock(king)
 	if checked {
-		moves = append(moves, peacemoves.Half{
-			From: king,
-			Tos:  m.WhiteKingTos(king),
-		})
+		tos := m.WhiteKingTos(king)
+		if len(tos) > 0 {
+			moves = append(moves, peacemoves.Half{
+				From: king,
+				Tos:  tos,
+			})
+		}
 		if attacker != square.InvalidIndex {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 				var tos square.Indexes

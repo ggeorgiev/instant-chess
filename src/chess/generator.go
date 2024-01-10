@@ -10,10 +10,9 @@ import (
 )
 
 func Generate(peacesString string) {
-	runes := util.Runes(peacesString)
+	runes := util.Runes("♚♔♖♖")
 	position := make([]int, len(runes))
 	peaces := make(peace.Figures, len(runes))
-
 	for i, symbol := range runes {
 		position[i] = 0
 		peaces[i] = peace.FromSymbol(symbol)

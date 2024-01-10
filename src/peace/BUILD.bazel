@@ -5,6 +5,7 @@ go_library(
     srcs = [
         "color.go",
         "figure.go",
+        "figure_permutation.go",
         "kind.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peace",
@@ -16,9 +17,13 @@ go_test(
     srcs = [
         "color_test.go",
         "figure_benchmark_test.go",
+        "figure_permutation_test.go",
         "figure_test.go",
         "kind_test.go",
     ],
     embed = [":peace"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/util",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

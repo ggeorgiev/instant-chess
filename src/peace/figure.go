@@ -5,6 +5,11 @@ import "fmt"
 type Figure uint8
 type Figures []Figure
 
+// Provide the sort interface for Figures
+func (figures Figures) Len() int           { return len(figures) }
+func (figures Figures) Less(i, j int) bool { return figures[i] < figures[j] }
+func (figures Figures) Swap(i, j int)      { figures[i], figures[j] = figures[j], figures[i] }
+
 func Combine(color Color, tp Kind) Figure {
 	return Figure(uint8(color) | uint8(tp))
 }
