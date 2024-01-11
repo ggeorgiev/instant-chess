@@ -38,3 +38,13 @@ func (s Index) String() string {
 	letters := "ABCDEFGH"
 	return fmt.Sprintf("%c%d", letters[s.File()], s.Rank()+1)
 }
+
+func (i Indexes) Min() Index {
+	min := i[0]
+	for _, s := range i {
+		if s < min {
+			min = s
+		}
+	}
+	return min
+}

@@ -2,6 +2,7 @@ package math
 
 import (
 	"math/big"
+	"math/bits"
 )
 
 func binomial(n uint64, k uint64) uint64 {
@@ -51,23 +52,21 @@ func CountBitsets(n uint64) uint64 {
 	return binomial(64, n)
 }
 
-func NextValidIndex(n uint64, currentIndex uint64, offendingBitPosition uint64) uint64 {
-	currentBitset := IndexToBitset(n, currentIndex)
-
-	offendingBitMask := uint64(1 << offendingBitPosition)
-	offendingBitPredecesorsMask := offendingBitMask - 1
-
-	// Calculate the check values
-	sequenceOfOnes := currentBitset | offendingBitPredecesorsMask
+func NextValidIndex(n uint64, bitset uint64, offendingBitPosition uint64) uint64 {
+	sequenceOfOnes := bitset >> offendingBitPosition
 	if sequenceOfOnes&(sequenceOfOnes+1) != 0 {
 		panic("Incorrectly identified offending bit, this is not the first time it is in that position")
 	}
 
-	nextBitMask := currentBitset + offendingBitMask
-	if nextBitMask < currentBitset {
-		return CountBitsets(n)
-	}
+	sequenceOfOnes >>= 1
+	countSetBits := bits.OnesCount64(sequenceOfOnes)
 
-	nextBitset := (nextBitMask | currentBitset) & ^offendingBitMask
-	return BitsetToIndex(n, nextBitset)
+	shiftedBits := sequenceOfOnes << (64 - countSetBits)
+
+	offendingBitMask := uint64(1 << offendingBitPosition)
+	rightMask := (offendingBitMask - 1)
+
+	result := (bitset & rightMask) | shiftedBits | offendingBitMask
+
+	return BitsetToIndex(n, result)
 }

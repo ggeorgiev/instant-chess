@@ -69,15 +69,15 @@ func (m Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) CountSquareUnderDirectAttackFromWhite(s square.Index) int {
-	count := 0
+func (m Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes {
+	var attackers square.Indexes
 	attackedDirectly := peaceattacks.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
 		if m[direct.Index] == direct.Peace {
-			count++
+			attackers = append(attackers, direct.Index)
 		}
 	}
-	return count
+	return attackers
 }
 
 func (m Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, square.Index) {
@@ -278,42 +278,55 @@ func (m Matrix) IsSquareUnderAttackFromWhite(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) CountSquareUnderAttackFromWhite(s square.Index) int {
-	count := 0
+func (m Matrix) BlockableAttackersOfSquareFromWhite(s square.Index) square.Indexes {
+	var attackers square.Indexes
 
-	count += m.CountSquareUnderDirectAttackFromWhite(s)
-
-	if m.IsSquareUnderAttackFromWhiteFromLeft(s) != square.InvalidIndex {
-		count++
+	attacker := m.IsSquareUnderAttackFromWhiteFromLeft(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromRight(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromRight(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromUnder(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromUnder(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromAbove(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromAbove(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromLeftUnder(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromLeftUnder(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromLeftAbove(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromLeftAbove(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromRightUnder(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromRightUnder(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	if m.IsSquareUnderAttackFromWhiteFromRightAbove(s) != square.InvalidIndex {
-		count++
+	attacker = m.IsSquareUnderAttackFromWhiteFromRightAbove(s)
+	if attacker != square.InvalidIndex {
+		attackers = append(attackers, attacker)
 	}
 
-	return count
+	return attackers
+}
+
+func (m Matrix) AttackersOfSquareFromWhite(s square.Index) square.Indexes {
+	var attackers square.Indexes
+	attackers = append(attackers, m.DirectAttackersOfSquareFromWhite(s)...)
+	attackers = append(attackers, m.BlockableAttackersOfSquareFromWhite(s)...)
+	return attackers
 }

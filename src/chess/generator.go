@@ -3,9 +3,11 @@ package chess
 import (
 	"fmt"
 
+	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
+	"github.com/ggeorgiev/instant-chess/src/square"
 	"github.com/ggeorgiev/instant-chess/src/util"
 )
 
@@ -17,31 +19,45 @@ func Generate(peacesString string) {
 		position[i] = 0
 		peaces[i] = peace.FromSymbol(symbol)
 	}
+	n := uint64(len(peaces))
 
-	// Create a new permutation iterator
-	iterator := math.NewPermutationIterator(64, len(runes))
-	i := 0
 	invalid := 0
 	m1 := 0
-	for ; i < 100000000; i++ {
-		perm := iterator.Next()
-		if perm == nil {
-			break // No more permutations
-		}
+	skipped := 0
+	iterator := peace.NewPermutationIterator(peaces)
+	for perm := iterator.Next(); perm != nil; perm = iterator.Next() {
+		for i := uint64(0); i < math.CountBitsets(n); i++ {
+			bitset := math.IndexToBitset(n, i)
+			indexes := square.ConvertBitboardMaskIntoIndexes(bitboard.Mask(bitset))
+			var boardState board.State
+			for p, s := range indexes {
+				boardState.Matrix[s] = peaces[p]
+			}
 
-		var boardState board.State
-		for s, place := range perm {
-			boardState.Matrix[place] = peaces[s]
-		}
+			invalidBoard, offender := boardState.Invalid()
 
-		position := CreatePosition(boardState)
-		if !position.Valid {
-			invalid++
-		} else if position.BoardState.M1() {
-			//position.Print()
-			m1++
+			if invalidBoard {
+				if offender != square.InvalidIndex && offender != indexes[len(indexes)-1] {
+					skipTo := math.NextValidIndex(n, bitset, uint64(offender))
+					skip := int(skipTo-i) + 1
+					invalid += skip
+					skipped += skip
+					i = skipTo
+				} else {
+					invalid++
+				}
+
+			} else if boardState.M1() {
+				m1++
+			}
 		}
 	}
-	fmt.Printf("M1 positions: %d/%d\n", m1, i)
-	fmt.Printf("Invalid positions: %d/%d\n", invalid, i)
+
+	total := math.CountBitsets(n) * iterator.NumberPermutations()
+	fmt.Printf("M1 positions: %d/%d\n", m1, total)
+	fmt.Printf("Skipped positions: %d/%d\n", skipped, total)
+	fmt.Printf("Invalid positions: %d/%d\n", invalid, total)
 }
+
+//M1 positions: 462720/7624512
+//Invalid positions: 2744448/7624512
