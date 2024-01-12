@@ -1,4 +1,4 @@
-package board
+package move
 
 import (
 	"fmt"
@@ -30,6 +30,13 @@ type Rights struct {
 	EnPassantRightFile          square.File
 }
 
+type RightsList []Rights
+
+type Castling struct {
+	Kingside  bool
+	Queenside bool
+}
+
 func ParseRights(text string) (*Rights, error) {
 	match := rightsPattern.FindAllString(text, -1)
 	if len(match) == 0 {
@@ -58,6 +65,51 @@ func ParseRights(text string) (*Rights, error) {
 	rights.EnPassantRightFile = square.FileFromRune(runes[EnPassantRightFileRuneIndex])
 
 	return &rights, nil
+}
+
+func GenerateRightsList(whiteRooks int, blackRooks int, whitePawns int, blackPawns int) RightsList {
+	whiteCastling := []Castling{{false, false}}
+	if whiteRooks >= 1 {
+		whiteCastling = append(whiteCastling, Castling{true, false})
+		whiteCastling = append(whiteCastling, Castling{false, true})
+	}
+	if whiteRooks >= 2 {
+		whiteCastling = append(whiteCastling, Castling{true, true})
+	}
+
+	blackCastling := []Castling{{false, false}}
+	if blackRooks >= 1 {
+		blackCastling = append(blackCastling, Castling{true, false})
+		blackCastling = append(blackCastling, Castling{false, true})
+	}
+	if blackRooks >= 2 {
+		blackCastling = append(blackCastling, Castling{true, true})
+	}
+
+	possibleEnPassant := square.Files{square.InvalidFile}
+	if whitePawns*blackPawns > 0 {
+		possibleEnPassant = square.AllFiles
+	}
+
+	return CombineRights(whiteCastling, blackCastling, possibleEnPassant)
+}
+
+func CombineRights(whiteCastling []Castling, blackCastling []Castling, possibleEnPassant square.Files) RightsList {
+	var rightsList RightsList
+	for _, wc := range whiteCastling {
+		for _, bc := range blackCastling {
+			for _, ep := range possibleEnPassant {
+				rightsList = append(rightsList, Rights{
+					WhiteKingsideCastlingRight:  wc.Kingside,
+					WhiteQueensideCastlingRight: wc.Queenside,
+					BlackKingsideCastlingRight:  bc.Kingside,
+					BlackQueensideCastlingRight: bc.Queenside,
+					EnPassantRightFile:          ep,
+				})
+			}
+		}
+	}
+	return rightsList
 }
 
 func (r *Rights) Sprint() string {

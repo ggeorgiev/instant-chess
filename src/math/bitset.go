@@ -52,10 +52,10 @@ func CountBitsets(n uint64) uint64 {
 	return binomial(64, n)
 }
 
-func NextValidIndex(n uint64, bitset uint64, offendingBitPosition uint64) uint64 {
+func NextValidIndex(n uint64, index uint64, bitset uint64, offendingBitPosition uint64) uint64 {
 	sequenceOfOnes := bitset >> offendingBitPosition
-	if sequenceOfOnes&(sequenceOfOnes+1) != 0 {
-		panic("Incorrectly identified offending bit, this is not the first time it is in that position")
+	if sequenceOfOnes == 1 || sequenceOfOnes&(sequenceOfOnes+1) != 0 {
+		return index
 	}
 
 	sequenceOfOnes >>= 1

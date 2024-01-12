@@ -30,6 +30,7 @@ func TestParsePosition(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 	assert.Equal(t, int8(16), position.WhitePeaces)
+
 	assert.Equal(t, int8(16), position.BlackPeaces)
 
 	assert.True(t, position.Valid)

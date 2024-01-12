@@ -106,17 +106,17 @@ func TestBitsetToIndex(t *testing.T) {
 }
 
 func TestNextValidIndex(t *testing.T) {
-	nextIndex := NextValidIndex(3, IndexToBitset(3, 300), 6)
+	nextIndex := NextValidIndex(3, 300, IndexToBitset(3, 300), 6)
 	assert.Equal(t, uint64(356), nextIndex)
 	assert.Equal(t, uint64(0b0000000000000000000000000000000000000000000000000000000110000001), IndexToBitset(3, nextIndex+1))
 
-	nextIndex = NextValidIndex(3, IndexToBitset(3, 300), 7)
+	nextIndex = NextValidIndex(3, 300, IndexToBitset(3, 300), 7)
 	assert.Equal(t, uint64(300), nextIndex)
 	assert.Equal(t, uint64(0b0000000000000000000000000000000000000000000000000000000101000001), IndexToBitset(3, nextIndex+1))
 
 	assert.Equal(t, uint64(0b1101000000000000000000000000000000000000000000000000000000000000), IndexToBitset(3, 41662))
 
-	nextIndex = NextValidIndex(3, IndexToBitset(3, 41662), 62)
+	nextIndex = NextValidIndex(3, 62, IndexToBitset(3, 41662), 62)
 	assert.Equal(t, uint64(41662), nextIndex)
 }
 

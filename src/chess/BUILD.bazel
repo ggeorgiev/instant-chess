@@ -14,6 +14,7 @@ go_library(
         "//src/bitboard",
         "//src/board",
         "//src/math",
+        "//src/move",
         "//src/peace",
         "//src/square",
         "//src/util",
