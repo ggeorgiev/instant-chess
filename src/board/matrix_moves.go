@@ -63,3 +63,28 @@ func (m Matrix) M1() bool {
 
 	return false
 }
+
+func (m Matrix) M1s() int {
+	whiteKing := m.FindSinglePeace(peace.WhiteKing)
+	blackKing := m.FindSinglePeace(peace.BlackKing)
+
+	mates := 0
+
+	whiteFromTos := m.WhiteTos(whiteKing)
+	for _, fromTos := range whiteFromTos {
+		for _, to := range fromTos.Tos {
+			original := m[to]
+			m[to] = m[fromTos.From]
+			m[fromTos.From] = peace.NoFigure
+
+			if m.IsSquareUnderAttackFromWhite(blackKing) && m.BlackTos(blackKing) == nil {
+				mates++
+			}
+
+			m[fromTos.From] = m[to]
+			m[to] = original
+		}
+	}
+
+	return mates
+}

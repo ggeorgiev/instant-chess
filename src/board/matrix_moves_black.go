@@ -40,6 +40,8 @@ func (m Matrix) SquareBlackTos(s square.Index, kingSquare square.Index) square.I
 			return nil
 		}
 		return m.BlackKnightNoCheckedTos(s)
+	case peace.BlackQueen:
+		return m.BlackQueenNoCheckedTos(s, maybeCheckedVector)
 	}
 
 	return nil

@@ -44,8 +44,10 @@ func (s State) Sprint() string {
 }
 
 func (s State) Invalid() (bool, square.Index) {
-	whiteKings := 0
-	blackKings := 0
+	invalid, offender := s.Matrix.Invalid()
+	if invalid {
+		return true, offender
+	}
 
 	whiteRookIsMisplaced :=
 		(s.Rights.WhiteKingsideCastlingRight && s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] != peace.WhiteRook) ||
@@ -82,26 +84,14 @@ func (s State) Invalid() (bool, square.Index) {
 				return true, i
 			}
 		} else if figure == peace.WhiteKing {
-			whiteKings++
-			if whiteKings > 1 {
-				return true, square.InvalidIndex
-			}
 			if i != peaceplaces.WhiteKingStartingPlace &&
 				(s.Rights.WhiteKingsideCastlingRight || s.Rights.WhiteQueensideCastlingRight) {
 				offenders = append(offenders, i)
 			}
 		} else if figure == peace.BlackKing {
-			blackKings++
-			if blackKings > 1 {
-				return true, square.InvalidIndex
-			}
 			if i != peaceplaces.BlackKingStartingPlace &&
 				(s.Rights.BlackKingsideCastlingRight || s.Rights.BlackQueensideCastlingRight) {
 				offenders = append(offenders, i)
-			}
-			attackers := s.Matrix.AttackersOfSquareFromWhite(i)
-			if len(attackers) > 0 {
-				return true, i.Max(attackers.MaxBase())
 			}
 		}
 	}

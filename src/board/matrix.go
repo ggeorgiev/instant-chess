@@ -43,6 +43,14 @@ func ParseMatrix(text string) (Matrix, error) {
 	return matrix, nil
 }
 
+func MustParseMatrix(text string) Matrix {
+	matrix, err := ParseMatrix(text)
+	if err != nil {
+		panic(err)
+	}
+	return matrix
+}
+
 func (m Matrix) Sprint() string {
 	var sb strings.Builder
 	sb.Grow(len(letters)*2 + len(separator)*9 + 8*(9*4+1))
@@ -70,4 +78,34 @@ func (m Matrix) FindSinglePeace(peace peace.Figure) square.Index {
 		}
 	}
 	return square.InvalidIndex
+}
+
+func (m Matrix) Invalid() (bool, square.Index) {
+	whiteKings := 0
+	blackKings := 0
+
+	var offenders square.Indexes
+	for i := square.ZeroIndex; i <= square.LastIndex; i++ {
+		figure := m[i]
+		if figure.IsNoFigure() {
+			continue
+		}
+
+		if figure == peace.WhiteKing {
+			whiteKings++
+			if whiteKings > 1 {
+				return true, square.InvalidIndex
+			}
+		} else if figure == peace.BlackKing {
+			blackKings++
+			if blackKings > 1 {
+				return true, square.InvalidIndex
+			}
+			attackers := m.AttackersOfSquareFromWhite(i)
+			if len(attackers) > 0 {
+				return true, i.Max(attackers.MaxBase())
+			}
+		}
+	}
+	return len(offenders) > 0, offenders.Max()
 }

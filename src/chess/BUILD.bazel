@@ -14,7 +14,6 @@ go_library(
         "//src/bitboard",
         "//src/board",
         "//src/math",
-        "//src/move",
         "//src/peace",
         "//src/square",
         "//src/util",
@@ -23,7 +22,7 @@ go_library(
 
 go_test(
     name = "chess_test",
-    size = "large",
+    size = "enormous",
     srcs = [
         "board_move_benchmark_test.go",
         "board_move_test.go",

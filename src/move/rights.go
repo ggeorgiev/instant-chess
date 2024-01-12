@@ -37,6 +37,13 @@ type Castling struct {
 	Queenside bool
 }
 
+var (
+	NoCastling        = Castling{false, false}
+	KingsideCastling  = Castling{true, false}
+	QueensideCastling = Castling{false, true}
+	BothCastlings     = Castling{true, true}
+)
+
 func ParseRights(text string) (*Rights, error) {
 	match := rightsPattern.FindAllString(text, -1)
 	if len(match) == 0 {
