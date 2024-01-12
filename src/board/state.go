@@ -50,12 +50,12 @@ func (s *State) Invalid() (bool, square.Index) {
 	}
 
 	whiteRookIsMisplaced :=
-		(s.Rights.WhiteKingsideCastlingRight && s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] != peace.WhiteRook) ||
-			(s.Rights.WhiteQueensideCastlingRight && s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] != peace.WhiteRook)
+		(s.Rights.WhiteCastling.Kingside && s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] != peace.WhiteRook) ||
+			(s.Rights.WhiteCastling.Queenside && s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] != peace.WhiteRook)
 
 	blackRookIsMisplaced :=
-		(s.Rights.BlackKingsideCastlingRight && s.Matrix[peaceplaces.BlackRookKingsideStartingPlace] != peace.BlackRook) ||
-			(s.Rights.BlackQueensideCastlingRight && s.Matrix[peaceplaces.BlackRookQueensideStartingPlace] != peace.BlackRook)
+		(s.Rights.BlackCastling.Kingside && s.Matrix[peaceplaces.BlackRookKingsideStartingPlace] != peace.BlackRook) ||
+			(s.Rights.BlackCastling.Queenside && s.Matrix[peaceplaces.BlackRookQueensideStartingPlace] != peace.BlackRook)
 
 	var offenders square.Indexes
 	for i := square.ZeroIndex; i <= square.LastIndex; i++ {
@@ -65,32 +65,32 @@ func (s *State) Invalid() (bool, square.Index) {
 		}
 		if figure == peace.WhiteRook {
 			if whiteRookIsMisplaced {
-				if i == peaceplaces.WhiteRookKingsideStartingPlace && s.Rights.WhiteKingsideCastlingRight {
+				if i == peaceplaces.WhiteRookKingsideStartingPlace && s.Rights.WhiteCastling.Kingside {
 					continue
 				}
-				if i == peaceplaces.WhiteRookQueensideStartingPlace && s.Rights.WhiteQueensideCastlingRight {
+				if i == peaceplaces.WhiteRookQueensideStartingPlace && s.Rights.WhiteCastling.Queenside {
 					continue
 				}
 				return true, i
 			}
 		} else if figure == peace.BlackRook {
 			if blackRookIsMisplaced {
-				if i == peaceplaces.BlackRookKingsideStartingPlace && s.Rights.BlackKingsideCastlingRight {
+				if i == peaceplaces.BlackRookKingsideStartingPlace && s.Rights.BlackCastling.Kingside {
 					continue
 				}
-				if i == peaceplaces.BlackRookQueensideStartingPlace && s.Rights.BlackQueensideCastlingRight {
+				if i == peaceplaces.BlackRookQueensideStartingPlace && s.Rights.BlackCastling.Queenside {
 					continue
 				}
 				return true, i
 			}
 		} else if figure == peace.WhiteKing {
 			if i != peaceplaces.WhiteKingStartingPlace &&
-				(s.Rights.WhiteKingsideCastlingRight || s.Rights.WhiteQueensideCastlingRight) {
+				(s.Rights.WhiteCastling.Kingside || s.Rights.WhiteCastling.Queenside) {
 				offenders = append(offenders, i)
 			}
 		} else if figure == peace.BlackKing {
 			if i != peaceplaces.BlackKingStartingPlace &&
-				(s.Rights.BlackKingsideCastlingRight || s.Rights.BlackQueensideCastlingRight) {
+				(s.Rights.BlackCastling.Kingside || s.Rights.BlackCastling.Queenside) {
 				offenders = append(offenders, i)
 			}
 		}

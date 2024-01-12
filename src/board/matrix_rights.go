@@ -8,7 +8,7 @@ import (
 )
 
 func (m *Matrix) MoveRights() move.RightsList {
-	whiteCasting := []move.Castling{move.NoCastling}
+	whiteCasting := move.CastlingRightsList{move.NoCastling}
 	if m[peaceplaces.WhiteKingStartingPlace] == peace.WhiteKing {
 		if m[peaceplaces.WhiteRookKingsideStartingPlace] == peace.WhiteRook {
 			whiteCasting = append(whiteCasting, move.KingsideCastling)
@@ -21,7 +21,7 @@ func (m *Matrix) MoveRights() move.RightsList {
 		}
 	}
 
-	blackCaasting := []move.Castling{move.NoCastling}
+	blackCaasting := move.CastlingRightsList{move.NoCastling}
 	if m[peaceplaces.BlackKingStartingPlace] == peace.BlackKing {
 		if m[peaceplaces.BlackRookKingsideStartingPlace] == peace.BlackRook {
 			blackCaasting = append(blackCaasting, move.KingsideCastling)

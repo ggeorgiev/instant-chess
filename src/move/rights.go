@@ -22,26 +22,26 @@ var (
 	rightsPattern = regexp.MustCompile("· O-O: [-w][-b], O-O-O: [-w][-b], En Passant: [-A-H] ·")
 )
 
-type Rights struct {
-	WhiteKingsideCastlingRight  bool
-	WhiteQueensideCastlingRight bool
-	BlackKingsideCastlingRight  bool
-	BlackQueensideCastlingRight bool
-	EnPassantRightFile          square.File
-}
-
-type RightsList []Rights
-
-type Castling struct {
+type CastlingRights struct {
 	Kingside  bool
 	Queenside bool
 }
 
+type CastlingRightsList []CastlingRights
+
+type Rights struct {
+	WhiteCastling      CastlingRights
+	BlackCastling      CastlingRights
+	EnPassantRightFile square.File
+}
+
+type RightsList []Rights
+
 var (
-	NoCastling        = Castling{false, false}
-	KingsideCastling  = Castling{true, false}
-	QueensideCastling = Castling{false, true}
-	BothCastlings     = Castling{true, true}
+	NoCastling        = CastlingRights{false, false}
+	KingsideCastling  = CastlingRights{true, false}
+	QueensideCastling = CastlingRights{false, true}
+	BothCastlings     = CastlingRights{true, true}
 )
 
 func ParseRights(text string) (*Rights, error) {
@@ -58,16 +58,16 @@ func ParseRights(text string) (*Rights, error) {
 	rights := Rights{}
 
 	if runes[WhiteKingsideCastlingRightRuneIndex] == 'w' {
-		rights.WhiteKingsideCastlingRight = true
+		rights.WhiteCastling.Kingside = true
 	}
 	if runes[WhiteQueensideCastlingRightRuneIndex] == 'w' {
-		rights.WhiteQueensideCastlingRight = true
+		rights.WhiteCastling.Queenside = true
 	}
 	if runes[BlackKingsideCastlingRightRuneIndex] == 'b' {
-		rights.BlackKingsideCastlingRight = true
+		rights.BlackCastling.Kingside = true
 	}
 	if runes[BlackQueensideCastlingRightRuneIndex] == 'b' {
-		rights.BlackQueensideCastlingRight = true
+		rights.BlackCastling.Queenside = true
 	}
 	rights.EnPassantRightFile = square.FileFromRune(runes[EnPassantRightFileRuneIndex])
 
@@ -75,22 +75,22 @@ func ParseRights(text string) (*Rights, error) {
 }
 
 func GenerateRightsList(whiteRooks int, blackRooks int, whitePawns int, blackPawns int) RightsList {
-	whiteCastling := []Castling{{false, false}}
+	whiteCastling := []CastlingRights{{false, false}}
 	if whiteRooks >= 1 {
-		whiteCastling = append(whiteCastling, Castling{true, false})
-		whiteCastling = append(whiteCastling, Castling{false, true})
+		whiteCastling = append(whiteCastling, CastlingRights{true, false})
+		whiteCastling = append(whiteCastling, CastlingRights{false, true})
 	}
 	if whiteRooks >= 2 {
-		whiteCastling = append(whiteCastling, Castling{true, true})
+		whiteCastling = append(whiteCastling, CastlingRights{true, true})
 	}
 
-	blackCastling := []Castling{{false, false}}
+	blackCastling := []CastlingRights{{false, false}}
 	if blackRooks >= 1 {
-		blackCastling = append(blackCastling, Castling{true, false})
-		blackCastling = append(blackCastling, Castling{false, true})
+		blackCastling = append(blackCastling, CastlingRights{true, false})
+		blackCastling = append(blackCastling, CastlingRights{false, true})
 	}
 	if blackRooks >= 2 {
-		blackCastling = append(blackCastling, Castling{true, true})
+		blackCastling = append(blackCastling, CastlingRights{true, true})
 	}
 
 	possibleEnPassant := square.Files{square.InvalidFile}
@@ -101,17 +101,15 @@ func GenerateRightsList(whiteRooks int, blackRooks int, whitePawns int, blackPaw
 	return CombineRights(whiteCastling, blackCastling, possibleEnPassant)
 }
 
-func CombineRights(whiteCastling []Castling, blackCastling []Castling, possibleEnPassant square.Files) RightsList {
+func CombineRights(whiteCastling []CastlingRights, blackCastling []CastlingRights, possibleEnPassant square.Files) RightsList {
 	var rightsList RightsList
 	for _, wc := range whiteCastling {
 		for _, bc := range blackCastling {
 			for _, ep := range possibleEnPassant {
 				rightsList = append(rightsList, Rights{
-					WhiteKingsideCastlingRight:  wc.Kingside,
-					WhiteQueensideCastlingRight: wc.Queenside,
-					BlackKingsideCastlingRight:  bc.Kingside,
-					BlackQueensideCastlingRight: bc.Queenside,
-					EnPassantRightFile:          ep,
+					WhiteCastling:      wc,
+					BlackCastling:      bc,
+					EnPassantRightFile: ep,
 				})
 			}
 		}
@@ -121,16 +119,16 @@ func CombineRights(whiteCastling []Castling, blackCastling []Castling, possibleE
 
 func (r *Rights) Sprint() string {
 	runes := []rune(rightsTemplate)
-	if r.WhiteKingsideCastlingRight {
+	if r.WhiteCastling.Kingside {
 		runes[WhiteKingsideCastlingRightRuneIndex] = 'w'
 	}
-	if r.WhiteQueensideCastlingRight {
+	if r.WhiteCastling.Queenside {
 		runes[WhiteQueensideCastlingRightRuneIndex] = 'w'
 	}
-	if r.BlackKingsideCastlingRight {
+	if r.BlackCastling.Kingside {
 		runes[BlackKingsideCastlingRightRuneIndex] = 'b'
 	}
-	if r.BlackQueensideCastlingRight {
+	if r.BlackCastling.Queenside {
 		runes[BlackQueensideCastlingRightRuneIndex] = 'b'
 	}
 	runes[EnPassantRightFileRuneIndex] = r.EnPassantRightFile.Rune()

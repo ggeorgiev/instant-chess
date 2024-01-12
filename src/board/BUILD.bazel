@@ -9,6 +9,7 @@ generate_black(
         "matrix_peace_moves_white",
         "matrix_square_under_attack_white",
         "state_half_moves_white",
+        "state_move_white",
     ],
 )
 
@@ -32,6 +33,8 @@ go_library(
         "state_half_moves_black.go",
         "state_half_moves_white.go",
         "state_move.go",
+        "state_move_black.go",
+        "state_move_white.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/board",
     visibility = ["//visibility:public"],

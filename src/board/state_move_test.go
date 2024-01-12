@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peaceplaces"
 	"github.com/stretchr/testify/assert"
 )
@@ -29,32 +30,40 @@ func TestCastlingMoves(t *testing.T) {
 1·| ♖ |   |   |   | ♔ |   |   | ♖ |·1
 ··+---+---+---+---+---+---+---+---+··
 ····a···b···c···d···e···f···g···h····
-· O-O: --, O-O-O: --, En Passant: - ·
+· O-O: wb, O-O-O: wb, En Passant: - ·
 `
 
 	state := MustParseState(starting)
 
-	snapshot := state.Do(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
+	snapshot := state.DoWhite(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
 	assert.Equal(t, "1·| ♖ |   |   |   |   | ♖ | ♔ |   |·1", strings.Split(state.Matrix.Sprint(), "\n")[16])
+	assert.Equal(t, move.NoCastling, state.Rights.WhiteCastling)
 
-	state.Undo(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
+	state.UndoWhite(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
+	assert.Equal(t, move.BothCastlings, state.Rights.WhiteCastling)
 
-	snapshot = state.Do(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
+	snapshot = state.DoWhite(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
 	assert.Equal(t, "1·|   |   | ♔ | ♖ |   |   |   | ♖ |·1", strings.Split(state.Matrix.Sprint(), "\n")[16])
+	assert.Equal(t, move.NoCastling, state.Rights.WhiteCastling)
 
-	state.Undo(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
+	state.UndoWhite(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
+	assert.Equal(t, move.BothCastlings, state.Rights.WhiteCastling)
 
-	snapshot = state.Do(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
+	snapshot = state.DoBlack(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
 	assert.Equal(t, "8·| ♜ |   |   |   |   | ♜ | ♚ |   |·8", strings.Split(state.Matrix.Sprint(), "\n")[2])
+	assert.Equal(t, move.NoCastling, state.Rights.BlackCastling)
 
-	state.Undo(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
+	state.UndoBlack(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
+	assert.Equal(t, move.BothCastlings, state.Rights.BlackCastling)
 
-	snapshot = state.Do(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
+	snapshot = state.DoBlack(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
 	assert.Equal(t, "8·|   |   | ♚ | ♜ |   |   |   | ♜ |·8", strings.Split(state.Matrix.Sprint(), "\n")[2])
+	assert.Equal(t, move.NoCastling, state.Rights.BlackCastling)
 
-	state.Undo(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
+	state.UndoBlack(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
+	assert.Equal(t, move.BothCastlings, state.Rights.BlackCastling)
 }
