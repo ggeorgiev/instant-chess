@@ -6,7 +6,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) CountSquareUnderAttackFromWhiteKing(s square.Index) int {
+func (m *Matrix) CountSquareUnderAttackFromWhiteKing(s square.Index) int {
 	count := 0
 	attackedFromKing := peaceattacks.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
@@ -17,7 +17,7 @@ func (m Matrix) CountSquareUnderAttackFromWhiteKing(s square.Index) int {
 	return count
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteKing(s square.Index) bool {
+func (m *Matrix) IsSquareUnderAttackFromWhiteKing(s square.Index) bool {
 	attackedFromKing := peaceattacks.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if m[kingSquare] == peace.WhiteKing {
@@ -27,7 +27,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteKing(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) CountSquareUnderAttackFromWhiteKnight(s square.Index) int {
+func (m *Matrix) CountSquareUnderAttackFromWhiteKnight(s square.Index) int {
 	count := 0
 	attackedFromKnight := peaceattacks.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
@@ -38,7 +38,7 @@ func (m Matrix) CountSquareUnderAttackFromWhiteKnight(s square.Index) int {
 	return count
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteKnight(s square.Index) bool {
+func (m *Matrix) IsSquareUnderAttackFromWhiteKnight(s square.Index) bool {
 	attackedFromKnight := peaceattacks.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
 		if m[knightSquare] == peace.WhiteKnight {
@@ -48,7 +48,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteKnight(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) CountSquareUnderAttackFromWhitePawn(s square.Index) int {
+func (m *Matrix) CountSquareUnderAttackFromWhitePawn(s square.Index) int {
 	count := 0
 	attackedFromPawn := peaceattacks.FromWhitePawn[s]
 	for _, pawnSquare := range attackedFromPawn {
@@ -59,7 +59,7 @@ func (m Matrix) CountSquareUnderAttackFromWhitePawn(s square.Index) int {
 	return count
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
+func (m *Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
 	attackedFromPawn := peaceattacks.FromWhitePawn[s]
 	for _, pawnSquare := range attackedFromPawn {
 		if m[pawnSquare] == peace.WhitePawn {
@@ -69,7 +69,7 @@ func (m Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes {
+func (m *Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes {
 	var attackers square.Indexes
 	attackedDirectly := peaceattacks.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
@@ -80,7 +80,7 @@ func (m Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes 
 	return attackers
 }
 
-func (m Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, square.Index) {
+func (m *Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, square.Index) {
 	attacker := square.InvalidIndex
 	count := 0
 	attackedDirectly := peaceattacks.WhiteDirectsList[s]
@@ -96,7 +96,7 @@ func (m Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, s
 	return count == 1, attacker
 }
 
-func (m Matrix) IsSquareUnderDirectAttackFromWhite(s square.Index) bool {
+func (m *Matrix) IsSquareUnderDirectAttackFromWhite(s square.Index) bool {
 	attackedDirectly := peaceattacks.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
 		if m[direct.Index] == direct.Peace {
@@ -106,7 +106,7 @@ func (m Matrix) IsSquareUnderDirectAttackFromWhite(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromLeft(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromLeft(s square.Index) square.Index {
 	rank := s.Rank()
 	for f := s.File() - 1; f >= square.ZeroFile; f-- {
 		attacker := square.NewIndex(f, rank)
@@ -121,7 +121,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromLeft(s square.Index) square.Inde
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromRight(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromRight(s square.Index) square.Index {
 	rank := s.Rank()
 	for f := s.File() + 1; f <= square.LastFile; f++ {
 		attacker := square.NewIndex(f, rank)
@@ -136,7 +136,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromRight(s square.Index) square.Ind
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromUnder(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromUnder(s square.Index) square.Index {
 	file := s.File()
 	for r := s.Rank() - 1; r >= square.ZeroRank; r-- {
 		attacker := square.NewIndex(file, r)
@@ -151,7 +151,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromUnder(s square.Index) square.Ind
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromAbove(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromAbove(s square.Index) square.Index {
 	file := s.File()
 	for r := s.Rank() + 1; r <= square.LastRank; r++ {
 		attacker := square.NewIndex(file, r)
@@ -166,7 +166,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromAbove(s square.Index) square.Ind
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromLeftUnder(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromLeftUnder(s square.Index) square.Index {
 	f := s.File() - 1
 	r := s.Rank() - 1
 	for f >= square.ZeroFile && r >= square.ZeroRank {
@@ -184,7 +184,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromLeftUnder(s square.Index) square
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromLeftAbove(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromLeftAbove(s square.Index) square.Index {
 	f := s.File() - 1
 	r := s.Rank() + 1
 	for f >= square.ZeroFile && r <= square.LastRank {
@@ -202,7 +202,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromLeftAbove(s square.Index) square
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromRightUnder(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromRightUnder(s square.Index) square.Index {
 	f := s.File() + 1
 	r := s.Rank() - 1
 	for f <= square.LastFile && r >= square.ZeroRank {
@@ -220,7 +220,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromRightUnder(s square.Index) squar
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhiteFromRightAbove(s square.Index) square.Index {
+func (m *Matrix) IsSquareUnderAttackFromWhiteFromRightAbove(s square.Index) square.Index {
 	f := s.File() + 1
 	r := s.Rank() + 1
 	for f <= square.LastFile && r <= square.LastRank {
@@ -238,7 +238,7 @@ func (m Matrix) IsSquareUnderAttackFromWhiteFromRightAbove(s square.Index) squar
 	return square.InvalidIndex
 }
 
-func (m Matrix) IsSquareUnderAttackFromWhite(s square.Index) bool {
+func (m *Matrix) IsSquareUnderAttackFromWhite(s square.Index) bool {
 	if m.IsSquareUnderDirectAttackFromWhite(s) {
 		return true
 	}
@@ -278,7 +278,7 @@ func (m Matrix) IsSquareUnderAttackFromWhite(s square.Index) bool {
 	return false
 }
 
-func (m Matrix) BlockableAttackersOfSquareFromWhite(s square.Index) square.Indexes {
+func (m *Matrix) BlockableAttackersOfSquareFromWhite(s square.Index) square.Indexes {
 	var attackers square.Indexes
 
 	attacker := m.IsSquareUnderAttackFromWhiteFromLeft(s)
@@ -324,7 +324,7 @@ func (m Matrix) BlockableAttackersOfSquareFromWhite(s square.Index) square.Index
 	return attackers
 }
 
-func (m Matrix) AttackersOfSquareFromWhite(s square.Index) square.Indexes {
+func (m *Matrix) AttackersOfSquareFromWhite(s square.Index) square.Indexes {
 	var attackers square.Indexes
 	attackers = append(attackers, m.DirectAttackersOfSquareFromWhite(s)...)
 	attackers = append(attackers, m.BlockableAttackersOfSquareFromWhite(s)...)

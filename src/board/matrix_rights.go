@@ -7,7 +7,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) MoveRights() move.RightsList {
+func (m *Matrix) MoveRights() move.RightsList {
 	whiteCasting := []move.Castling{move.NoCastling}
 	if m[peaceplaces.WhiteKingStartingPlace] == peace.WhiteKing {
 		if m[peaceplaces.WhiteRookKingsideStartingPlace] == peace.WhiteRook {

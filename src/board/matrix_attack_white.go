@@ -7,7 +7,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) AttackBitboardMaskFromWhite() bitboard.Mask {
+func (m *Matrix) AttackBitboardMaskFromWhite() bitboard.Mask {
 	attackerOccupiedMask := bitboard.Empty
 	attackMask := bitboard.Empty
 

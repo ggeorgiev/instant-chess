@@ -10,7 +10,7 @@ import (
 )
 
 type State struct {
-	Matrix Matrix
+	Matrix *Matrix
 	Rights *move.Rights
 }
 
@@ -25,7 +25,7 @@ func ParseState(text string) (State, error) {
 	}
 
 	state := State{
-		Matrix: matrix,
+		Matrix: &matrix,
 		Rights: rights,
 	}
 	return state, nil
@@ -39,11 +39,11 @@ func MustParseState(text string) State {
 	return state
 }
 
-func (s State) Sprint() string {
+func (s *State) Sprint() string {
 	return s.Matrix.Sprint() + s.Rights.Sprint()
 }
 
-func (s State) Invalid() (bool, square.Index) {
+func (s *State) Invalid() (bool, square.Index) {
 	invalid, offender := s.Matrix.Invalid()
 	if invalid {
 		return true, offender
@@ -96,8 +96,4 @@ func (s State) Invalid() (bool, square.Index) {
 		}
 	}
 	return len(offenders) > 0, offenders.Max()
-}
-
-func (s State) M1() bool {
-	return s.Matrix.M1()
 }

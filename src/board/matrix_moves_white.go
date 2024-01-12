@@ -9,7 +9,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
+func (m *Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
 	figure := m[s]
 	if !figure.IsWhite() {
 		return nil
@@ -47,7 +47,7 @@ func (m Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.I
 	return nil
 }
 
-func (m Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
+func (m *Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
 	figure := m[s]
 	if !figure.IsWhite() {
 		return nil
@@ -87,7 +87,7 @@ func (m Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, c
 	return nil
 }
 
-func (m Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
+func (m *Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
 	figure := m[s]
 	if !figure.IsWhite() || figure == peace.WhiteKing {
 		return nil
@@ -113,7 +113,7 @@ func (m Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, att
 	return square.ConvertBitboardMaskIntoIndexes(overlap)
 }
 
-func (m Matrix) WhiteTos(king square.Index) peacemoves.Halfs {
+func (m *Matrix) WhiteTos(king square.Index) peacemoves.Halfs {
 	var moves peacemoves.Halfs
 	checked, attacker, block := m.IsWhiteCheckedToMoveCaptureOrBlock(king)
 	if checked {

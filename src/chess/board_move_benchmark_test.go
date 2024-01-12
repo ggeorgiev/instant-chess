@@ -64,6 +64,6 @@ var positionC = ParsePosition(`
 
 func BenchmarkMoves_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		positionC.BoardState.Matrix.Moves()
+		positionC.BoardState.Moves()
 	}
 }

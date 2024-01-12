@@ -51,7 +51,7 @@ func MustParseMatrix(text string) Matrix {
 	return matrix
 }
 
-func (m Matrix) Sprint() string {
+func (m *Matrix) Sprint() string {
 	var sb strings.Builder
 	sb.Grow(len(letters)*2 + len(separator)*9 + 8*(9*4+1))
 
@@ -71,7 +71,7 @@ func (m Matrix) Sprint() string {
 	return sb.String()
 }
 
-func (m Matrix) FindSinglePeace(peace peace.Figure) square.Index {
+func (m *Matrix) FindSinglePeace(peace peace.Figure) square.Index {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		if m[s] == peace {
 			return s
@@ -80,7 +80,7 @@ func (m Matrix) FindSinglePeace(peace peace.Figure) square.Index {
 	return square.InvalidIndex
 }
 
-func (m Matrix) Invalid() (bool, square.Index) {
+func (m *Matrix) Invalid() (bool, square.Index) {
 	whiteKings := 0
 	blackKings := 0
 

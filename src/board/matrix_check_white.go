@@ -5,7 +5,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) IsWhiteChecked(kingSquare square.Index) bool {
+func (m *Matrix) IsWhiteChecked(kingSquare square.Index) bool {
 	if m.IsSquareUnderDirectAttackFromBlack(kingSquare) {
 		return true
 	}
@@ -45,7 +45,7 @@ func (m Matrix) IsWhiteChecked(kingSquare square.Index) bool {
 	return false
 }
 
-func (m Matrix) IsWhiteCheckedToMoveCaptureOrBlock(kingSquare square.Index) (bool, square.Index, bool) {
+func (m *Matrix) IsWhiteCheckedToMoveCaptureOrBlock(kingSquare square.Index) (bool, square.Index, bool) {
 	checked, attacker := m.SquareUnderDirectAttackExactlyFromBlack(kingSquare)
 	if checked && attacker != square.InvalidIndex {
 		return true, attacker, false
@@ -118,7 +118,7 @@ func (m Matrix) IsWhiteCheckedToMoveCaptureOrBlock(kingSquare square.Index) (boo
 	return attacker != square.InvalidIndex, attacker, true
 }
 
-func (m Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) peacealignment.Vector {
+func (m *Matrix) IsWhiteMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) peacealignment.Vector {
 	sq := peacealignment.SquareRelations[kingSquare][movedFrom]
 	if sq == peacealignment.NotAligned {
 		return peacealignment.NoVector

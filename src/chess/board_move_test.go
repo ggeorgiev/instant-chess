@@ -30,7 +30,7 @@ func TestBoardMoveKings(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	actial := "\n" + position.BoardState.Matrix.Moves().String()
+	actial := "\n" + position.BoardState.Moves().String()
 
 	assert.Equal(t, `
 White: G8:H7
@@ -66,7 +66,7 @@ func TestBoardMoveRooks(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	actial := "\n" + position.BoardState.Matrix.Moves().String()
+	actial := "\n" + position.BoardState.Moves().String()
 
 	assert.Equal(t, `
 White: G8:H7

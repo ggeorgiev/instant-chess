@@ -61,11 +61,11 @@ func Generate(peacesString string) {
 				states++
 
 				boardState := board.State{
-					Matrix: matrix,
+					Matrix: &matrix,
 					Rights: &rights,
 				}
 
-				m1s := boardState.Matrix.M1s()
+				m1s := boardState.M1s()
 				if m1s > maxM1s {
 					fmt.Printf("M1s: %d\n", m1s)
 					fmt.Println(boardState.Sprint())

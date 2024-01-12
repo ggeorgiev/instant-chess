@@ -7,7 +7,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m Matrix) WhiteKingTos(s square.Index) square.Indexes {
+func (m *Matrix) WhiteKingTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
 	m[s] = peace.NoFigure
@@ -24,7 +24,7 @@ func (m Matrix) WhiteKingTos(s square.Index) square.Indexes {
 	return tos
 }
 
-func (m Matrix) WhiteKnightNoCheckedTos(s square.Index) square.Indexes {
+func (m *Matrix) WhiteKnightNoCheckedTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
 	knightMoves := peacemoves.KnightSquareIndexes[s]
@@ -38,7 +38,7 @@ func (m Matrix) WhiteKnightNoCheckedTos(s square.Index) square.Indexes {
 	return tos
 }
 
-func (m Matrix) WhiteBishopNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) WhiteBishopNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
@@ -100,7 +100,7 @@ func (m Matrix) WhiteBishopNoCheckedTos(s square.Index, vector peacealignment.Ve
 	return tos
 }
 
-func (m Matrix) WhiteBishopCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+func (m *Matrix) WhiteBishopCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
 	var tos square.Indexes
 
 	check := func(sq square.Index) bool {
@@ -164,7 +164,7 @@ func (m Matrix) WhiteBishopCapture(s square.Index, vector peacealignment.Vector,
 	return tos
 }
 
-func (m Matrix) WhiteRookNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) WhiteRookNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
 	// TODO: optimize
 	var tos square.Indexes
 
@@ -209,7 +209,7 @@ func (m Matrix) WhiteRookNoCheckedTos(s square.Index, vector peacealignment.Vect
 	return tos
 }
 
-func (m Matrix) WhiteRookCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+func (m *Matrix) WhiteRookCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
 	// TODO: optimize
 	var tos square.Indexes
 
@@ -256,7 +256,7 @@ func (m Matrix) WhiteRookCapture(s square.Index, vector peacealignment.Vector, c
 	return tos
 }
 
-func (m Matrix) WhiteQueenNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) WhiteQueenNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
