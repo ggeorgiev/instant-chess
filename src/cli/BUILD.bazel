@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "cli",
+    srcs = [
+        "main.go",
+        "preplay.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/cli",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_spf13_cobra//:cobra"],
+)
+
+go_binary(
+    name = "instant-chess",
+    embed = [":cli"],
+    visibility = ["//visibility:public"],
+)

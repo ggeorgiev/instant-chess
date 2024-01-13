@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "storage",
+    srcs = [
+        "active.go",
+        "data.go",
+        "map.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/storage",
+    visibility = ["//visibility:public"],
+)

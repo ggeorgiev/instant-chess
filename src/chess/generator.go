@@ -8,10 +8,13 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
+	"github.com/ggeorgiev/instant-chess/src/storage"
 	"github.com/ggeorgiev/instant-chess/src/util"
 )
 
 func Generate(peacesString string) {
+	store := storage.NewActive()
+
 	runes := util.Runes(peacesString)
 	position := make([]int, len(runes))
 	peaces := make(peace.Figures, len(runes))
@@ -28,7 +31,8 @@ func Generate(peacesString string) {
 	skipped := 0
 	iterator := peace.NewPermutationIterator(peaces)
 
-	maxM1s := 0
+	permutations := iterator.NumberPermutations()
+
 	for perm := iterator.Next(); perm != nil; perm = iterator.Next() {
 		for i := uint64(0); i < math.CountBitsets(n); i++ {
 			bitset := math.IndexToBitset(n, i)
@@ -65,15 +69,15 @@ func Generate(peacesString string) {
 					Rights: &rights,
 				}
 
-				m1s := boardState.M1s()
-				if m1s > maxM1s {
-					fmt.Printf("M1s: %d\n", m1s)
-					fmt.Println(boardState.Sprint())
-					maxM1s = m1s
+				if boardState.M1() {
+					m1++
+					store.Set(permutations*i, storage.Data{MateMoves: 1})
 				}
 			}
 		}
 	}
+
+	fmt.Printf("Ratio: %.02f%%\n", store.Ratio()*100.0)
 
 	fmt.Printf("M1 positions: %d/%d\n", m1, states)
 	fmt.Printf("Rights variations: %d/%d\n", rights, states)
