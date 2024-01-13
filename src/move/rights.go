@@ -30,9 +30,9 @@ type CastlingRights struct {
 type CastlingRightsList []CastlingRights
 
 type Rights struct {
-	WhiteCastling      CastlingRights
-	BlackCastling      CastlingRights
-	EnPassantRightFile square.File
+	WhiteCastling CastlingRights
+	BlackCastling CastlingRights
+	EnPassantFile square.File
 }
 
 type RightsList []Rights
@@ -69,7 +69,7 @@ func ParseRights(text string) (*Rights, error) {
 	if runes[BlackQueensideCastlingRightRuneIndex] == 'b' {
 		rights.BlackCastling.Queenside = true
 	}
-	rights.EnPassantRightFile = square.FileFromRune(runes[EnPassantRightFileRuneIndex])
+	rights.EnPassantFile = square.FileFromRune(runes[EnPassantRightFileRuneIndex])
 
 	return &rights, nil
 }
@@ -107,9 +107,9 @@ func CombineRights(whiteCastling []CastlingRights, blackCastling []CastlingRight
 		for _, bc := range blackCastling {
 			for _, ep := range possibleEnPassant {
 				rightsList = append(rightsList, Rights{
-					WhiteCastling:      wc,
-					BlackCastling:      bc,
-					EnPassantRightFile: ep,
+					WhiteCastling: wc,
+					BlackCastling: bc,
+					EnPassantFile: ep,
 				})
 			}
 		}
@@ -131,6 +131,6 @@ func (r *Rights) Sprint() string {
 	if r.BlackCastling.Queenside {
 		runes[BlackQueensideCastlingRightRuneIndex] = 'b'
 	}
-	runes[EnPassantRightFileRuneIndex] = r.EnPassantRightFile.Rune()
+	runes[EnPassantRightFileRuneIndex] = r.EnPassantFile.Rune()
 	return string(runes)
 }

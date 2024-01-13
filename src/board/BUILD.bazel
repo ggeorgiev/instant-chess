@@ -65,6 +65,7 @@ go_test(
     ],
     embed = [":board"],
     deps = [
+        "//src/move",
         "//src/peace",
         "//src/peacemoves",
         "//src/peaceplaces",

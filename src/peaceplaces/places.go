@@ -3,23 +3,23 @@ package peaceplaces
 import "github.com/ggeorgiev/instant-chess/src/square"
 
 const (
-	WhiteKingStartingPlace          = square.Index(4)
-	WhiteRookQueensideStartingPlace = square.Index(0)
-	WhiteRookKingsideStartingPlace  = square.Index(7)
+	WhiteKingStartingPlace          = square.E1
+	WhiteRookQueensideStartingPlace = square.A1
+	WhiteRookKingsideStartingPlace  = square.H1
 
-	BlackKingStartingPlace          = square.Index(60)
-	BlackRookQueensideStartingPlace = square.Index(56)
-	BlackRookKingsideStartingPlace  = square.Index(63)
+	BlackKingStartingPlace          = square.E8
+	BlackRookQueensideStartingPlace = square.A8
+	BlackRookKingsideStartingPlace  = square.H8
 )
 
 const (
-	WhiteKingKingsideCastlingPlace  = square.Index(6)
-	WhiteKingQueensideCastlingPlace = square.Index(2)
-	WhiteRookKingsideCastlingPlace  = square.Index(5)
-	WhiteRookQueensideCastlingPlace = square.Index(3)
+	WhiteKingKingsideCastlingPlace  = square.G1
+	WhiteKingQueensideCastlingPlace = square.C1
+	WhiteRookKingsideCastlingPlace  = square.F1
+	WhiteRookQueensideCastlingPlace = square.D1
 
-	BlackKingKingsideCastlingPlace  = square.Index(62)
-	BlackKingQueensideCastlingPlace = square.Index(58)
-	BlackRookKingsideCastlingPlace  = square.Index(61)
-	BlackRookQueensideCastlingPlace = square.Index(59)
+	BlackKingKingsideCastlingPlace  = square.G8
+	BlackKingQueensideCastlingPlace = square.C8
+	BlackRookKingsideCastlingPlace  = square.F8
+	BlackRookQueensideCastlingPlace = square.D8
 )

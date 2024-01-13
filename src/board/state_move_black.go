@@ -7,10 +7,16 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
+func (s *State) CanWhiteEnPassant(file square.File) bool {
+	return file > 0 && s.Matrix[square.NewIndex(file-1, peaceplaces.BlackPawnsJumpRank)] == peace.WhitePawn ||
+		file < square.LastFile && s.Matrix[square.NewIndex(file+1, peaceplaces.BlackPawnsJumpRank)] == peace.WhitePawn
+}
+
 func (s *State) DoBlack(from square.Index, to square.Index) Snapshot {
 	snapshot := Snapshot{
-		Captured: s.Matrix[to],
-		Castling: s.Rights.BlackCastling,
+		Captured:      s.Matrix[to],
+		Castling:      s.Rights.BlackCastling,
+		EnPassantFile: s.Rights.EnPassantFile,
 	}
 
 	if from == peaceplaces.BlackKingStartingPlace && s.Matrix[from] == peace.BlackKing {
@@ -32,6 +38,15 @@ func (s *State) DoBlack(from square.Index, to square.Index) Snapshot {
 		s.Rights.BlackCastling.Queenside = false
 	}
 
+	if from.Rank() == peaceplaces.BlackPawnsStartingRank &&
+		to.Rank() == peaceplaces.BlackPawnsJumpRank &&
+		s.Matrix[from] == peace.BlackPawn &&
+		s.CanWhiteEnPassant(to.File()) {
+		s.Rights.EnPassantFile = from.File()
+	} else {
+		s.Rights.EnPassantFile = square.InvalidFile
+	}
+
 	s.Matrix[to] = s.Matrix[from]
 	s.Matrix[from] = peace.NoFigure
 
@@ -40,6 +55,7 @@ func (s *State) DoBlack(from square.Index, to square.Index) Snapshot {
 
 func (s *State) UndoBlack(snapshot Snapshot, from square.Index, to square.Index) {
 	s.Rights.BlackCastling = snapshot.Castling
+	s.Rights.EnPassantFile = snapshot.EnPassantFile
 
 	if from == peaceplaces.BlackKingStartingPlace && s.Matrix[to] == peace.BlackKing {
 		if to == peaceplaces.BlackKingKingsideCastlingPlace {

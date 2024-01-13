@@ -37,9 +37,9 @@ func (m *Matrix) MoveRights() move.RightsList {
 	enPassant := square.Files{square.InvalidFile}
 
 	for f := square.ZeroFile; f <= square.LastFile; f++ {
-		if m[square.NewIndex(f, peaceplaces.BLackJumpRank)] == peace.BlackPawn {
-			if f > square.ZeroFile && m[square.NewIndex(f-1, peaceplaces.BLackJumpRank)] == peace.WhitePawn ||
-				f < square.LastFile && m[square.NewIndex(f+1, peaceplaces.BLackJumpRank)] == peace.WhitePawn {
+		if m[square.NewIndex(f, peaceplaces.BlackPawnsJumpRank)] == peace.BlackPawn {
+			if f > square.ZeroFile && m[square.NewIndex(f-1, peaceplaces.BlackPawnsJumpRank)] == peace.WhitePawn ||
+				f < square.LastFile && m[square.NewIndex(f+1, peaceplaces.BlackPawnsJumpRank)] == peace.WhitePawn {
 				enPassant = append(enPassant, f)
 			}
 		}

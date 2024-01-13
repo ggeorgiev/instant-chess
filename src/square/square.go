@@ -10,8 +10,8 @@ type Indexes []Index
 
 const (
 	InvalidIndex = Index(-1)
-	ZeroIndex    = Index(0)
-	LastIndex    = Index(63)
+	ZeroIndex    = A1
+	LastIndex    = H8
 	Number       = 64
 )
 

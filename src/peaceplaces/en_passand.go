@@ -3,6 +3,8 @@ package peaceplaces
 import "github.com/ggeorgiev/instant-chess/src/square"
 
 const (
-	WhiteJumpRank = square.Rank(3)
-	BLackJumpRank = square.Rank(4)
+	WhitePawnsStartingRank = square.Rank(1)
+	WhitePawnsJumpRank     = square.Rank(3)
+	BlackPawnsStartingRank = square.Rank(6)
+	BlackPawnsJumpRank     = square.Rank(4)
 )
