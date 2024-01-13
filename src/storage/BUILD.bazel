@@ -6,7 +6,12 @@ go_library(
         "active.go",
         "data.go",
         "map.go",
+        "persisted.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/storage",
     visibility = ["//visibility:public"],
+    deps = [
+        "//src/peace",
+        "@com_github_hashicorp_golang_lru_v2//:golang-lru",
+    ],
 )
