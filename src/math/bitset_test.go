@@ -1,12 +1,33 @@
 package math
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+func Testbinomial(t *testing.T) {
+	b := binomialInternalHelper()
+
+	str := ""
+	for i := uint64(0); i < 64; i++ {
+		str += "{\n"
+		for j := uint64(0); j <= i; j++ {
+			str += fmt.Sprintf("%d,\n", b[i][j])
+		}
+		str += "},\n"
+	}
+
+	assert.Equal(t, b, binomial, str)
+}
+
+func TestbinomialCount(t *testing.T) {
+	assert.Equal(t, binomialCountInternalHelper(), binomialCount)
+}
+
 func TestBitsetCount(t *testing.T) {
+	assert.Equal(t, uint64(1), CountBitsets(0))
 	assert.Equal(t, uint64(64), CountBitsets(1))
 	assert.Equal(t, uint64(2016), CountBitsets(2))
 	assert.Equal(t, uint64(41664), CountBitsets(3))

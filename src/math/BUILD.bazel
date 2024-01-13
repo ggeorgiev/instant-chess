@@ -4,6 +4,7 @@ go_library(
     name = "math",
     srcs = [
         "bitset.go",
+        "bitset_helper.go",
         "combination.go",
         "permutation.go",
     ],
