@@ -1,7 +1,6 @@
 package board
 
 import (
-	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceplaces"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -14,13 +13,12 @@ func (s *State) CanBlackEnPassant(file square.File) bool {
 
 func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 	snapshot := Snapshot{
-		Captured:      s.Matrix[to],
-		Castling:      s.Rights.WhiteCastling,
-		EnPassantFile: s.Rights.EnPassantFile,
+		Captured: s.Matrix[to],
+		Rights:   s.Rights,
 	}
 
 	if from == peaceplaces.WhiteKingStartingPlace && s.Matrix[from] == peace.WhiteKing {
-		s.Rights.WhiteCastling = move.NoCastling
+		s.Rights = s.Rights.ResetWhiteBothCastling()
 
 		if to == peaceplaces.WhiteKingKingsideCastlingPlace {
 			s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] = peace.NoFigure
@@ -32,19 +30,19 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 	}
 
 	if from == peaceplaces.WhiteRookKingsideStartingPlace && s.Matrix[from] == peace.WhiteRook {
-		s.Rights.WhiteCastling.Kingside = false
+		s.Rights = s.Rights.ResetWhiteKingsideCastling()
 	}
 	if from == peaceplaces.WhiteRookQueensideStartingPlace && s.Matrix[from] == peace.WhiteRook {
-		s.Rights.WhiteCastling.Queenside = false
+		s.Rights = s.Rights.ResetWhiteQueensideCastling()
 	}
 
 	if from.Rank() == peaceplaces.WhitePawnsStartingRank &&
 		to.Rank() == peaceplaces.WhitePawnsJumpRank &&
 		s.Matrix[from] == peace.WhitePawn &&
 		s.CanBlackEnPassant(to.File()) {
-		s.Rights.EnPassantFile = from.File()
+		s.Rights = s.Rights.SetEnPassantFile(from.File())
 	} else {
-		s.Rights.EnPassantFile = square.InvalidFile
+		s.Rights = s.Rights.SetEnPassantFile(square.InvalidFile)
 	}
 
 	s.Matrix[to] = s.Matrix[from]
@@ -54,8 +52,7 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 }
 
 func (s *State) UndoWhite(snapshot Snapshot, from square.Index, to square.Index) {
-	s.Rights.WhiteCastling = snapshot.Castling
-	s.Rights.EnPassantFile = snapshot.EnPassantFile
+	s.Rights = snapshot.Rights
 
 	if from == peaceplaces.WhiteKingStartingPlace && s.Matrix[to] == peace.WhiteKing {
 		if to == peaceplaces.WhiteKingKingsideCastlingPlace {

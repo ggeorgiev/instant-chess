@@ -66,7 +66,7 @@ func Generate(peacesString string) {
 
 				boardState := board.State{
 					Matrix: &matrix,
-					Rights: &rights,
+					Rights: rights,
 				}
 
 				if boardState.M1() {

@@ -38,35 +38,35 @@ func TestCastlingMoves(t *testing.T) {
 
 	snapshot := state.DoWhite(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
 	assert.Equal(t, "1·| ♖ |   |   |   |   | ♖ | ♔ |   |·1", strings.Split(state.Matrix.Sprint(), "\n")[16])
-	assert.Equal(t, move.NoCastling, state.Rights.WhiteCastling)
+	assert.Equal(t, move.BlackBothCastlingRights, state.Rights&move.AllCastlingRights)
 
 	state.UndoWhite(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
-	assert.Equal(t, move.BothCastlings, state.Rights.WhiteCastling)
+	assert.Equal(t, move.AllCastlingRights, state.Rights&move.AllCastlingRights)
 
 	snapshot = state.DoWhite(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
 	assert.Equal(t, "1·|   |   | ♔ | ♖ |   |   |   | ♖ |·1", strings.Split(state.Matrix.Sprint(), "\n")[16])
-	assert.Equal(t, move.NoCastling, state.Rights.WhiteCastling)
+	assert.Equal(t, move.BlackBothCastlingRights, state.Rights&move.AllCastlingRights)
 
 	state.UndoWhite(snapshot, peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingQueensideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
-	assert.Equal(t, move.BothCastlings, state.Rights.WhiteCastling)
+	assert.Equal(t, move.AllCastlingRights, state.Rights&move.AllCastlingRights)
 
 	snapshot = state.DoBlack(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
 	assert.Equal(t, "8·| ♜ |   |   |   |   | ♜ | ♚ |   |·8", strings.Split(state.Matrix.Sprint(), "\n")[2])
-	assert.Equal(t, move.NoCastling, state.Rights.BlackCastling)
+	assert.Equal(t, move.WhiteBothCastlingRights, state.Rights&move.AllCastlingRights)
 
 	state.UndoBlack(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingKingsideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
-	assert.Equal(t, move.BothCastlings, state.Rights.BlackCastling)
+	assert.Equal(t, move.AllCastlingRights, state.Rights&move.AllCastlingRights)
 
 	snapshot = state.DoBlack(peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
 	assert.Equal(t, "8·|   |   | ♚ | ♜ |   |   |   | ♜ |·8", strings.Split(state.Matrix.Sprint(), "\n")[2])
-	assert.Equal(t, move.NoCastling, state.Rights.BlackCastling)
+	assert.Equal(t, move.WhiteBothCastlingRights, state.Rights&move.AllCastlingRights)
 
 	state.UndoBlack(snapshot, peaceplaces.BlackKingStartingPlace, peaceplaces.BlackKingQueensideCastlingPlace)
 	assert.Equal(t, starting, "\n"+state.Sprint())
-	assert.Equal(t, move.BothCastlings, state.Rights.BlackCastling)
+	assert.Equal(t, move.AllCastlingRights, state.Rights&move.AllCastlingRights)
 }
 
 func TestEnPassand(t *testing.T) {
@@ -96,20 +96,20 @@ func TestEnPassand(t *testing.T) {
 	state := MustParseState(starting)
 
 	snapshot := state.DoWhite(square.B2, square.B4)
-	assert.Equal(t, square.FileB, state.Rights.EnPassantFile)
+	assert.Equal(t, square.FileB, state.Rights.EnPassantFile())
 
 	state.UndoWhite(snapshot, square.B2, square.B4)
-	assert.Equal(t, square.FileE, state.Rights.EnPassantFile)
+	assert.Equal(t, square.FileE, state.Rights.EnPassantFile())
 
 	snapshot = state.DoBlack(square.G7, square.G5)
-	assert.Equal(t, square.FileG, state.Rights.EnPassantFile)
+	assert.Equal(t, square.FileG, state.Rights.EnPassantFile())
 
 	state.UndoBlack(snapshot, square.G7, square.G5)
-	assert.Equal(t, square.FileE, state.Rights.EnPassantFile)
+	assert.Equal(t, square.FileE, state.Rights.EnPassantFile())
 
 	snapshot = state.DoWhite(square.C4, square.C5)
-	assert.Equal(t, square.InvalidFile, state.Rights.EnPassantFile)
+	assert.Equal(t, square.InvalidFile, state.Rights.EnPassantFile())
 
 	state.UndoBlack(snapshot, square.C4, square.C5)
-	assert.Equal(t, square.FileE, state.Rights.EnPassantFile)
+	assert.Equal(t, square.FileE, state.Rights.EnPassantFile())
 }

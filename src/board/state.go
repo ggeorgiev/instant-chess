@@ -11,7 +11,7 @@ import (
 
 type State struct {
 	Matrix *Matrix
-	Rights *move.Rights
+	Rights move.Rights
 }
 
 func ParseState(text string) (State, error) {
@@ -50,12 +50,12 @@ func (s *State) Invalid() (bool, square.Index) {
 	}
 
 	whiteRookIsMisplaced :=
-		(s.Rights.WhiteCastling.Kingside && s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] != peace.WhiteRook) ||
-			(s.Rights.WhiteCastling.Queenside && s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] != peace.WhiteRook)
+		(s.Rights.IsWhiteKingsideCastling() && s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] != peace.WhiteRook) ||
+			(s.Rights.IsWhiteQueensideCastling() && s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] != peace.WhiteRook)
 
 	blackRookIsMisplaced :=
-		(s.Rights.BlackCastling.Kingside && s.Matrix[peaceplaces.BlackRookKingsideStartingPlace] != peace.BlackRook) ||
-			(s.Rights.BlackCastling.Queenside && s.Matrix[peaceplaces.BlackRookQueensideStartingPlace] != peace.BlackRook)
+		(s.Rights.IsBlackKingsideCastling() && s.Matrix[peaceplaces.BlackRookKingsideStartingPlace] != peace.BlackRook) ||
+			(s.Rights.IsBlackQueensideCastling() && s.Matrix[peaceplaces.BlackRookQueensideStartingPlace] != peace.BlackRook)
 
 	var offenders square.Indexes
 	for i := square.ZeroIndex; i <= square.LastIndex; i++ {
@@ -65,32 +65,32 @@ func (s *State) Invalid() (bool, square.Index) {
 		}
 		if figure == peace.WhiteRook {
 			if whiteRookIsMisplaced {
-				if i == peaceplaces.WhiteRookKingsideStartingPlace && s.Rights.WhiteCastling.Kingside {
+				if i == peaceplaces.WhiteRookKingsideStartingPlace && s.Rights.IsWhiteKingsideCastling() {
 					continue
 				}
-				if i == peaceplaces.WhiteRookQueensideStartingPlace && s.Rights.WhiteCastling.Queenside {
+				if i == peaceplaces.WhiteRookQueensideStartingPlace && s.Rights.IsWhiteQueensideCastling() {
 					continue
 				}
 				return true, i
 			}
 		} else if figure == peace.BlackRook {
 			if blackRookIsMisplaced {
-				if i == peaceplaces.BlackRookKingsideStartingPlace && s.Rights.BlackCastling.Kingside {
+				if i == peaceplaces.BlackRookKingsideStartingPlace && s.Rights.IsBlackKingsideCastling() {
 					continue
 				}
-				if i == peaceplaces.BlackRookQueensideStartingPlace && s.Rights.BlackCastling.Queenside {
+				if i == peaceplaces.BlackRookQueensideStartingPlace && s.Rights.IsBlackQueensideCastling() {
 					continue
 				}
 				return true, i
 			}
 		} else if figure == peace.WhiteKing {
 			if i != peaceplaces.WhiteKingStartingPlace &&
-				(s.Rights.WhiteCastling.Kingside || s.Rights.WhiteCastling.Queenside) {
+				s.Rights.IsWhiteAnyCastling() {
 				offenders = append(offenders, i)
 			}
 		} else if figure == peace.BlackKing {
 			if i != peaceplaces.BlackKingStartingPlace &&
-				(s.Rights.BlackCastling.Kingside || s.Rights.BlackCastling.Queenside) {
+				s.Rights.IsBlackAnyCastling() {
 				offenders = append(offenders, i)
 			}
 		}

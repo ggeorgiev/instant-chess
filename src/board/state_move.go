@@ -4,13 +4,11 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
-	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 type Snapshot struct {
-	Captured      peace.Figure
-	Castling      move.CastlingRights
-	EnPassantFile square.File
+	Captured peace.Figure
+	Rights   move.Rights
 }
 
 func (s *State) Moves() peacemoves.Fulls {

@@ -9,8 +9,8 @@ const (
 	LastFile    = File(7)
 )
 
-var ValidFiles = Files{ZeroFile, File(1), File(2), File(3), File(4), File(5), File(6), LastFile}
-var AllFiles = Files{InvalidFile, ZeroFile, File(1), File(2), File(3), File(4), File(5), File(6), LastFile}
+var ValidFiles = Files{FileA, FileB, FileC, FileD, FileE, FileF, FileG, FileH}
+var AllFiles = Files{InvalidFile, FileA, FileB, FileC, FileD, FileE, FileF, FileG, FileH}
 
 func FileFromRune(r rune) File {
 	if r == '-' {
