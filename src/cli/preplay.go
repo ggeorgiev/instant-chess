@@ -21,10 +21,10 @@ func preplayCommand() *cobra.Command {
 		"The storage directory",
 	)
 
-	cmd.Flags().StringArrayP(
+	cmd.Flags().StringP(
 		"peaces",
 		"p",
-		[]string{},
+		"[]string{}",
 		"Peaces to preplay. Example: --peaces=♔♖♖♘♘♗♗♕♙♙♙♙♙♙♙♙♚♜♜♞♞♝♝♛♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎",
 	)
 

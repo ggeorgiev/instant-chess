@@ -21,16 +21,16 @@ func (m *Matrix) MoveRights() move.RightsList {
 		}
 	}
 
-	blackCaasting := move.RightsList{move.NoRights}
+	blackCasting := move.RightsList{move.NoRights}
 	if m[peaceplaces.BlackKingStartingPlace] == peace.BlackKing {
 		if m[peaceplaces.BlackRookKingsideStartingPlace] == peace.BlackRook {
-			blackCaasting = append(blackCaasting, move.BlackKingsideCastlingRights)
+			blackCasting = append(blackCasting, move.BlackKingsideCastlingRights)
 		}
 		if m[peaceplaces.BlackRookQueensideStartingPlace] == peace.BlackRook {
-			blackCaasting = append(blackCaasting, move.BlackQueensideCastlingRights)
+			blackCasting = append(blackCasting, move.BlackQueensideCastlingRights)
 		}
-		if len(blackCaasting) == 3 {
-			blackCaasting = append(blackCaasting, move.BlackBothCastlingRights)
+		if len(blackCasting) == 3 {
+			blackCasting = append(blackCasting, move.BlackBothCastlingRights)
 		}
 	}
 
@@ -44,5 +44,5 @@ func (m *Matrix) MoveRights() move.RightsList {
 		}
 	}
 
-	return move.CombineRights(whiteCasting, blackCaasting, enPassantFiles)
+	return move.CombineRights(whiteCasting, blackCasting, enPassantFiles)
 }

@@ -308,3 +308,41 @@ func TestFigureIsKing(t *testing.T) {
 	assert.False(t, BlackQueen.IsKing())
 	assert.True(t, BlackKing.IsKing())
 }
+
+func TestMoveRights(t *testing.T) {
+	figures := MustParseFigures("")
+	rightsList := figures.MoveRights()
+	assert.Len(t, rightsList, 1)
+
+	figures = MustParseFigures("♚♔♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 3)
+
+	figures = MustParseFigures("♚♔♖♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 4)
+
+	figures = MustParseFigures("♚♔♜")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 3)
+
+	figures = MustParseFigures("♚♔♜♜")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 4)
+
+	figures = MustParseFigures("♚♔♜♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 9)
+
+	figures = MustParseFigures("♚♔♜♜♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 12)
+
+	figures = MustParseFigures("♚♔♜♖♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 12)
+
+	figures = MustParseFigures("♚♔♜♜♖♖")
+	rightsList = figures.MoveRights()
+	assert.Len(t, rightsList, 16)
+}

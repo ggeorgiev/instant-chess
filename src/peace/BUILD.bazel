@@ -10,6 +10,11 @@ go_library(
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peace",
     visibility = ["//visibility:public"],
+    deps = [
+        "//src/move",
+        "//src/square",
+        "//src/util",
+    ],
 )
 
 go_test(
@@ -22,8 +27,5 @@ go_test(
         "kind_test.go",
     ],
     embed = [":peace"],
-    deps = [
-        "//src/util",
-        "@com_github_stretchr_testify//assert",
-    ],
+    deps = ["@com_github_stretchr_testify//assert"],
 )

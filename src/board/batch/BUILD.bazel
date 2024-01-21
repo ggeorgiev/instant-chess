@@ -5,4 +5,8 @@ go_library(
     srcs = ["batch.go"],
     importpath = "github.com/ggeorgiev/instant-chess/src/board/batch",
     visibility = ["//visibility:public"],
+    deps = [
+        "//src/move",
+        "//src/peace",
+    ],
 )

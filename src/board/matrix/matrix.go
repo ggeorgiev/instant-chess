@@ -38,7 +38,8 @@ func Parse(text string) (Matrix, error) {
 		}
 
 		for f := square.ZeroFile; f <= square.LastFile; f++ {
-			matrix[square.NewIndex(f, r)] = peace.FromSymbol(runes[4+f*4])
+			figure, _ := peace.FromSymbol(runes[4+f*4])
+			matrix[square.NewIndex(f, r)] = figure
 		}
 	}
 	return matrix, nil

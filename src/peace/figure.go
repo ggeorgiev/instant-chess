@@ -1,6 +1,12 @@
 package peace
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/ggeorgiev/instant-chess/src/move"
+	"github.com/ggeorgiev/instant-chess/src/square"
+	"github.com/ggeorgiev/instant-chess/src/util"
+)
 
 type Figure uint8
 type Figures []Figure
@@ -146,34 +152,113 @@ func (f Figure) Symbol() string {
 	panic("impossible")
 }
 
-func FromSymbol(symbol rune) Figure {
+func FromSymbol(symbol rune) (Figure, error) {
 	switch symbol {
 	case 32:
-		return NoFigure
+		return NoFigure, nil
 	case 9820:
-		return BlackRook
+		return BlackRook, nil
 	case 9822:
-		return BlackKnight
+		return BlackKnight, nil
 	case 9821:
-		return BlackBishop
+		return BlackBishop, nil
 	case 9819:
-		return BlackQueen
+		return BlackQueen, nil
 	case 9818:
-		return BlackKing
+		return BlackKing, nil
 	case 9823:
-		return BlackPawn
+		return BlackPawn, nil
 	case 9817:
-		return WhitePawn
+		return WhitePawn, nil
 	case 9814:
-		return WhiteRook
+		return WhiteRook, nil
 	case 9816:
-		return WhiteKnight
+		return WhiteKnight, nil
 	case 9815:
-		return WhiteBishop
+		return WhiteBishop, nil
 	case 9813:
-		return WhiteQueen
+		return WhiteQueen, nil
 	case 9812:
-		return WhiteKing
+		return WhiteKing, nil
 	}
-	panic(fmt.Sprintf("imposible: %d", symbol))
+
+	return NoFigure, fmt.Errorf("unacceptable symbol: %d", symbol)
+}
+
+func ParseFigures(text string) (Figures, error) {
+	runes := util.Runes(text)
+	position := make([]int, len(runes))
+	peaces := make(Figures, len(runes))
+	for i, symbol := range runes {
+		position[i] = 0
+		var err error
+		peaces[i], err = FromSymbol(symbol)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return peaces, nil
+}
+
+func MustParseFigures(text string) Figures {
+	figures, err := ParseFigures(text)
+	if err != nil {
+		panic(err.Error())
+	}
+	return figures
+}
+
+func (fs Figures) MoveRights() move.RightsList {
+	whiteKing := false
+	blackKing := false
+	whiteRooks := 0
+	blackRooks := 0
+	whitePawn := false
+	blackPawn := false
+
+	for _, f := range fs {
+		switch f {
+		case WhiteKing:
+			whiteKing = true
+		case BlackKing:
+			blackKing = true
+		case WhiteRook:
+			whiteRooks++
+		case BlackRook:
+			blackRooks++
+		case WhitePawn:
+			whitePawn = true
+		case BlackPawn:
+			blackPawn = true
+		}
+	}
+
+	whiteCasting := move.RightsList{move.NoRights}
+	if whiteKing {
+		if whiteRooks >= 1 {
+			whiteCasting = append(whiteCasting, move.WhiteKingsideCastlingRights, move.WhiteQueensideCastlingRights)
+		}
+		if whiteRooks >= 2 {
+			whiteCasting = append(whiteCasting, move.WhiteBothCastlingRights)
+		}
+	}
+
+	blackCasting := move.RightsList{move.NoRights}
+	if blackKing {
+		if blackRooks >= 1 {
+			blackCasting = append(blackCasting, move.BlackKingsideCastlingRights, move.BlackQueensideCastlingRights)
+		}
+		if blackRooks >= 2 {
+			blackCasting = append(blackCasting, move.BlackBothCastlingRights)
+		}
+	}
+
+	enPassantFiles := move.RightsList{move.NoEnPassantFile}
+	if whitePawn && blackPawn {
+		for f := square.ZeroFile; f <= square.LastFile; f++ {
+			enPassantFiles = append(enPassantFiles, move.NoRights.SetEnPassantFile(f))
+		}
+	}
+
+	return move.CombineRights(whiteCasting, blackCasting, enPassantFiles)
 }
