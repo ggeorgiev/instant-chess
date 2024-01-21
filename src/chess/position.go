@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ggeorgiev/instant-chess/src/board"
+	"github.com/ggeorgiev/instant-chess/src/board/state"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -14,7 +14,7 @@ type Position struct {
 
 	Result Result
 
-	BoardState board.State
+	BoardState state.State
 
 	WhitePeaces int8
 	BlackPeaces int8
@@ -22,7 +22,7 @@ type Position struct {
 	Valid bool
 }
 
-func CreatePosition(boardState board.State) *Position {
+func CreatePosition(boardState state.State) *Position {
 	position := &Position{
 		HorizontalySymetric: true,
 		VerticalySymetric:   true,
@@ -79,7 +79,7 @@ func CreatePosition(boardState board.State) *Position {
 }
 
 func ParsePosition(text string) *Position {
-	board, err := board.ParseState(text)
+	board, err := state.ParseState(text)
 	if err != nil {
 		log.Panicf("%s", err.Error())
 	}

@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
-	"github.com/ggeorgiev/instant-chess/src/board"
 	"github.com/ggeorgiev/instant-chess/src/board/matrix"
+	"github.com/ggeorgiev/instant-chess/src/board/state"
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -62,7 +62,7 @@ func Generate(peacesString string) {
 			for _, rights := range rightsList {
 				states++
 
-				boardState := board.State{
+				boardState := state.State{
 					Matrix: &matrix,
 					Rights: rights,
 				}
