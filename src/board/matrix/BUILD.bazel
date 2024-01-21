@@ -52,6 +52,7 @@ go_test(
         "matrix_moves_test.go",
         "matrix_rights_test.go",
         "matrix_square_under_attack_benchmark_test.go",
+        "matrix_square_under_attack_test.go",
     ],
     embed = [":matrix"],
     deps = [

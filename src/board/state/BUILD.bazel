@@ -9,45 +9,6 @@ generate_black(
 )
 
 go_library(
-    name = "board",
-    srcs = [
-        "state.go",
-        "state_half_moves_black.go",
-        "state_half_moves_white.go",
-        "state_move.go",
-        "state_move_black.go",
-        "state_move_white.go",
-    ],
-    importpath = "github.com/ggeorgiev/instant-chess/src/board",
-    visibility = ["//visibility:public"],
-    deps = [
-        "//src/board/matrix",
-        "//src/math",
-        "//src/move",
-        "//src/peace",
-        "//src/peacemoves",
-        "//src/peaceplaces",
-        "//src/square",
-        "//src/storage",
-    ],
-)
-
-go_test(
-    name = "board_test",
-    srcs = [
-        "state_move_test.go",
-        "state_test.go",
-    ],
-    embed = [":board"],
-    deps = [
-        "//src/move",
-        "//src/peaceplaces",
-        "//src/square",
-        "@com_github_stretchr_testify//assert",
-    ],
-)
-
-go_library(
     name = "state",
     srcs = [
         "state.go",

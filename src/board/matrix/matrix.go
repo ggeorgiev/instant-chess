@@ -44,7 +44,7 @@ func Parse(text string) (Matrix, error) {
 	return matrix, nil
 }
 
-func MustParseMatrix(text string) Matrix {
+func MustParse(text string) Matrix {
 	matrix, err := Parse(text)
 	if err != nil {
 		panic(err)

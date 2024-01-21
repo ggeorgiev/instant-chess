@@ -34,7 +34,7 @@ func TestCastlingMoves(t *testing.T) {
 · O-O: wb, O-O-O: wb, En Passant: - ·
 `
 
-	state := MustParseState(starting)
+	state := MustParse(starting)
 
 	snapshot := state.DoWhite(peaceplaces.WhiteKingStartingPlace, peaceplaces.WhiteKingKingsideCastlingPlace)
 	assert.Equal(t, "1·| ♖ |   |   |   |   | ♖ | ♔ |   |·1", strings.Split(state.Matrix.Sprint(), "\n")[16])
@@ -93,7 +93,7 @@ func TestEnPassand(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: E ·
 `
 
-	state := MustParseState(starting)
+	state := MustParse(starting)
 
 	snapshot := state.DoWhite(square.B2, square.B4)
 	assert.Equal(t, square.FileB, state.Rights.EnPassantFile())

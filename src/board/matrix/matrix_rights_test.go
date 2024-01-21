@@ -7,7 +7,7 @@ import (
 )
 
 func TestMoveRightsCastling(t *testing.T) {
-	matrix := MustParseMatrix(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |·8
@@ -33,7 +33,7 @@ func TestMoveRightsCastling(t *testing.T) {
 }
 
 func TestMoveRightsEnPassand(t *testing.T) {
-	matrix := MustParseMatrix(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ |   |·8
@@ -59,7 +59,7 @@ func TestMoveRightsEnPassand(t *testing.T) {
 }
 
 func TestMoveRightsEnPassandEdges(t *testing.T) {
-	matrix := MustParseMatrix(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ |   |·8

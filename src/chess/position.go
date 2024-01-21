@@ -12,12 +12,7 @@ type Position struct {
 	HorizontalySymetric bool
 	VerticalySymetric   bool
 
-	Result Result
-
 	BoardState state.State
-
-	WhitePeaces int8
-	BlackPeaces int8
 
 	Valid bool
 }
@@ -27,12 +22,7 @@ func CreatePosition(boardState state.State) *Position {
 		HorizontalySymetric: true,
 		VerticalySymetric:   true,
 
-		Result: UnknownResult,
-
 		BoardState: boardState,
-
-		WhitePeaces: 0,
-		BlackPeaces: 0,
 
 		Valid: true,
 	}
@@ -46,12 +36,6 @@ func CreatePosition(boardState state.State) *Position {
 		peace := boardState.Matrix[s]
 		if peace.IsNoFigure() {
 			continue
-		}
-
-		if peace.IsWhite() {
-			position.WhitePeaces++
-		} else {
-			position.BlackPeaces++
 		}
 
 		if peace.IsKing() {
@@ -79,7 +63,7 @@ func CreatePosition(boardState state.State) *Position {
 }
 
 func ParsePosition(text string) *Position {
-	board, err := state.ParseState(text)
+	board, err := state.Parse(text)
 	if err != nil {
 		log.Panicf("%s", err.Error())
 	}

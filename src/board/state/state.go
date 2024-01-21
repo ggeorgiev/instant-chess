@@ -17,7 +17,7 @@ type State struct {
 	Rights move.Rights
 }
 
-func ParseState(text string) (State, error) {
+func Parse(text string) (State, error) {
 	rights, err := move.ParseRights(text)
 	if err != nil {
 		return State{}, err
@@ -34,8 +34,8 @@ func ParseState(text string) (State, error) {
 	return state, nil
 }
 
-func MustParseState(text string) State {
-	state, err := ParseState(text)
+func MustParse(text string) State {
+	state, err := Parse(text)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

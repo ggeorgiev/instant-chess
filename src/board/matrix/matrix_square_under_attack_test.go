@@ -1,4 +1,4 @@
-package chess
+package matrix
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 )
 
 func TestSquareUnderAttackLineOnLeft(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+····
 8·|   |   |   |   |   |   |   |   |·8
@@ -31,11 +31,11 @@ func TestSquareUnderAttackLineOnLeft(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -58,11 +58,11 @@ func TestSquareUnderAttackLineOnLeftObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineOnRight(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -85,11 +85,11 @@ func TestSquareUnderAttackLineOnRight(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineOnRightObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -112,11 +112,11 @@ func TestSquareUnderAttackLineOnRightObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineUnder(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -139,11 +139,11 @@ func TestSquareUnderAttackLineUnder(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -166,11 +166,11 @@ func TestSquareUnderAttackLineUnderObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineAbove(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   | ♛ |   |   |   |   |·8
@@ -193,11 +193,11 @@ func TestSquareUnderAttackLineAbove(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   | ♛ |   |   |   |   |·8
@@ -220,11 +220,11 @@ func TestSquareUnderAttackLineAboveObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalOnAboveLeft(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -247,11 +247,11 @@ func TestSquareUnderAttackDiagonalOnAboveLeft(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(2, 1))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(2, 1))))
 }
 
 func TestSquareUnderAttackDiagonalOnAboveLeftObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -274,11 +274,11 @@ func TestSquareUnderAttackDiagonalOnAboveLeftObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalOnAboveRight(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -301,11 +301,11 @@ func TestSquareUnderAttackDiagonalOnAboveRight(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalOnAboveRightObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -328,11 +328,11 @@ func TestSquareUnderAttackDiagonalOnAboveRightObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalUnderLeft(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -355,11 +355,11 @@ func TestSquareUnderAttackDiagonalUnderLeft(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalUnderLeftObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -382,11 +382,11 @@ func TestSquareUnderAttackDiagonalUnderLeftObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(4, 5))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(4, 5))))
 }
 
 func TestSquareUnderAttackDiagonalUnderRight(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -409,11 +409,11 @@ func TestSquareUnderAttackDiagonalUnderRight(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackDiagonalUnderRightObstructed(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -436,11 +436,11 @@ func TestSquareUnderAttackDiagonalUnderRightObstructed(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 0, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 0, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackKnight_m1m2(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -463,11 +463,11 @@ func TestSquareUnderAttackKnight_m1m2(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackKnight_p1m2(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -490,11 +490,11 @@ func TestSquareUnderAttackKnight_p1m2(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 1, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 1, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }
 
 func TestSquareUnderAttackMutiple(t *testing.T) {
-	position := ParsePosition(`
+	matrix := MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -517,5 +517,5 @@ func TestSquareUnderAttackMutiple(t *testing.T) {
 · O-O: --, O-O-O: --, En Passant: - ·
 `)
 
-	assert.Equal(t, 16, len(position.BoardState.Matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
+	assert.Equal(t, 16, len(matrix.AttackersOfSquareFromBlack(square.NewIndex(3, 3))))
 }

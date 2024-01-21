@@ -29,7 +29,7 @@ func TestParsePosition(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	state, err := Parse(text)
 	assert.NoError(t, err)
 
 	result := state.Sprint()

@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "batch",
+    srcs = ["batch.go"],
+    importpath = "github.com/ggeorgiev/instant-chess/src/board/batch",
+    visibility = ["//visibility:public"],
+)

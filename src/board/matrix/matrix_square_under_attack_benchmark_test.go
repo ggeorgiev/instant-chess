@@ -7,7 +7,7 @@ import (
 )
 
 var matrixes = []Matrix{
-	MustParseMatrix(`
+	MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |·8
@@ -29,7 +29,7 @@ var matrixes = []Matrix{
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `),
-	MustParseMatrix(`
+	MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8

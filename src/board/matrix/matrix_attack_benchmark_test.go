@@ -6,7 +6,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-var positionA = MustParseMatrix(`
+var positionA = MustParse(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8

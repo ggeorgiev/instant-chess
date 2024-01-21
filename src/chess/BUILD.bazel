@@ -3,10 +3,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "chess",
     srcs = [
-        "board.go",
         "generator.go",
         "position.go",
-        "result.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
@@ -23,22 +21,12 @@ go_library(
 
 go_test(
     name = "chess_test",
-    size = "enormous",
     srcs = [
-        "board_move_benchmark_test.go",
-        "board_move_test.go",
-        "board_square_under_attack_test.go",
         "generator_test.go",
-        "move_test.go",
-        "position_peaces_count_test.go",
         "position_test.go",
         "position_valid_black_king_under_attack_test.go",
         "position_valid_kings_test.go",
     ],
     embed = [":chess"],
-    deps = [
-        "//src/peace",
-        "//src/square",
-        "@com_github_stretchr_testify//assert",
-    ],
+    deps = ["@com_github_stretchr_testify//assert"],
 )
