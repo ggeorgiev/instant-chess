@@ -14,10 +14,17 @@ func preplayCommand() *cobra.Command {
 		RunE:  preplay,
 	}
 
-	cmd.PersistentFlags().StringP(
+	cmd.Flags().StringP(
+		"directory",
+		"d",
+		".",
+		"The storage directory",
+	)
+
+	cmd.Flags().StringArrayP(
 		"peaces",
 		"p",
-		"",
+		[]string{},
 		"Peaces to preplay. Example: --peaces=♔♖♖♘♘♗♗♕♙♙♙♙♙♙♙♙♚♜♜♞♞♝♝♛♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎",
 	)
 

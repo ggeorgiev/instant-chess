@@ -1,6 +1,8 @@
 package storage
 
-var cache = initCache()
+const DataBlockSize = 4096
+
+type DataBlock [DataBlockSize]Data
 
 type Persisted struct {
 	size   uint64

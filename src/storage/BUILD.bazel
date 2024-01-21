@@ -4,8 +4,11 @@ go_library(
     name = "storage",
     srcs = [
         "active.go",
+        "board_figures.go",
+        "data_block_cache.go",
         "map.go",
         "persisted.go",
+        "persisted_cache.go",
         "types.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/storage",
