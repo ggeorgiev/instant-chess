@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 	"github.com/ggeorgiev/instant-chess/src/util"
@@ -108,4 +109,12 @@ func (m *Matrix) Invalid() (bool, square.Index) {
 		}
 	}
 	return len(offenders) > 0, offenders.Max()
+}
+
+func (m *Matrix) Mask() bitboard.Mask {
+	var mask bitboard.Mask
+	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
+		mask |= square.IndexMask[s]
+	}
+	return mask
 }

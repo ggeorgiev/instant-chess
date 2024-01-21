@@ -16,6 +16,7 @@ def go_dependencies():
         sum = "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
         version = "v1.1.1",
     )
+
     go_repository(
         name = "com_github_hashicorp_golang_lru_v2",
         build_file_proto_mode = "disable_global",

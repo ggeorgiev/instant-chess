@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Testbinomial(t *testing.T) {
+func TestBinomial(t *testing.T) {
 	b := binomialInternalHelper()
 
 	str := ""
@@ -22,7 +22,7 @@ func Testbinomial(t *testing.T) {
 	assert.Equal(t, b, binomial, str)
 }
 
-func TestbinomialCount(t *testing.T) {
+func TestBinomialCount(t *testing.T) {
 	assert.Equal(t, binomialCountInternalHelper(), binomialCount)
 }
 

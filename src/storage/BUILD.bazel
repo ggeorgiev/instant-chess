@@ -4,9 +4,9 @@ go_library(
     name = "storage",
     srcs = [
         "active.go",
-        "data.go",
         "map.go",
         "persisted.go",
+        "types.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/storage",
     visibility = ["//visibility:public"],

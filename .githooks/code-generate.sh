@@ -6,3 +6,6 @@ if [ -n "$TEMPLATE_COPY_TARGETS" ]; then
     echo generate bazel workspace files ...
     echo "$TEMPLATE_COPY_TARGETS" | xargs -L 1 bazel run $RUN_PARAMETERS
 fi
+
+bazel run $RUN_PARAMETERS //:gazelle-update-repos
+bazel run $RUN_PARAMETERS //:gazelle

@@ -1,9 +1,12 @@
 package board
 
 import (
+	"fmt"
+
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
+	"github.com/ggeorgiev/instant-chess/src/storage"
 )
 
 type Snapshot struct {
@@ -83,4 +86,43 @@ func (s *State) M1s() int {
 	}
 
 	return mates
+}
+
+func (s *State) MateIn() (*storage.Data, error) {
+	whiteKing := s.Matrix.FindSinglePeace(peace.WhiteKing)
+	blackKing := s.Matrix.FindSinglePeace(peace.BlackKing)
+
+	whiteFromTos := s.Matrix.WhiteTos(whiteKing)
+	for _, whiteFromTo := range whiteFromTos {
+		for _, whiteTo := range whiteFromTo.Tos {
+			whiteSnapshot := s.DoWhite(whiteFromTo.From, whiteTo)
+
+			blackFromTos := s.Matrix.BlackTos(blackKing)
+
+			for _, blackFromTo := range blackFromTos {
+				for _, blackTo := range blackFromTo.Tos {
+					blackSnapshot := s.DoBlack(blackFromTo.From, blackTo)
+
+					figures, index := s.StorageLocation()
+
+					readMap := storage.FetchReadMap(figures)
+					if readMap == nil {
+						// unknown
+					}
+					data := readMap.Get(index)
+					if data == nil {
+						// unkown
+					}
+
+					// TODO: get max
+
+					s.UndoBlack(blackSnapshot, blackFromTo.From, blackTo)
+				}
+			}
+
+			s.UndoWhite(whiteSnapshot, whiteFromTo.From, whiteTo)
+		}
+	}
+
+	return nil, fmt.Errorf("it was not able to determine the mate moves at this time")
 }

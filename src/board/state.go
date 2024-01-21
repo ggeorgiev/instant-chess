@@ -3,10 +3,12 @@ package board
 import (
 	"log"
 
+	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceplaces"
 	"github.com/ggeorgiev/instant-chess/src/square"
+	"github.com/ggeorgiev/instant-chess/src/storage"
 )
 
 type State struct {
@@ -96,4 +98,20 @@ func (s *State) Invalid() (bool, square.Index) {
 		}
 	}
 	return len(offenders) > 0, offenders.Max()
+}
+
+func (s *State) StorageLocation() (storage.BoardFigures, storage.BoardStateIndex) {
+	var figures storage.BoardFigures
+
+	n := 0
+	for sq := square.ZeroIndex; sq <= square.LastIndex; sq++ {
+		if s.Matrix[sq] != peace.NoFigure {
+			figures[n] = s.Matrix[sq]
+			n++
+		}
+	}
+	bitmask := s.Matrix.Mask()
+	index := math.BitsetToIndex(uint64(n), uint64(bitmask))
+
+	return figures, storage.BoardStateIndex(index)
 }
