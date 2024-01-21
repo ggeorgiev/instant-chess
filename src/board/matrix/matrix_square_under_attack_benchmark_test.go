@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"testing"
@@ -6,8 +6,8 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-var states = []State{
-	MustParseState(`
+var matrixes = []Matrix{
+	MustParseMatrix(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·| ♜ | ♞ | ♝ | ♛ | ♚ | ♝ | ♞ | ♜ |·8
@@ -29,7 +29,7 @@ var states = []State{
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `),
-	MustParseState(`
+	MustParseMatrix(`
 ····a···b···c···d···e···f···g···h····
 ··+---+---+---+---+---+---+---+---+··
 8·|   |   |   |   |   |   |   |   |·8
@@ -55,18 +55,18 @@ var states = []State{
 
 func BenchmarkUnderAttackIsKing_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.IsSquareUnderAttackFromWhiteKing(s)
+				matrix.IsSquareUnderAttackFromWhiteKing(s)
 			}
 		}
 	}
 }
 func BenchmarkUnderAttackCountKing_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.CountSquareUnderAttackFromWhiteKing(s)
+				matrix.CountSquareUnderAttackFromWhiteKing(s)
 			}
 		}
 	}
@@ -74,9 +74,9 @@ func BenchmarkUnderAttackCountKing_1k(b *testing.B) {
 
 func BenchmarkUnderAttackIsKnight_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.IsSquareUnderAttackFromWhiteKnight(s)
+				matrix.IsSquareUnderAttackFromWhiteKnight(s)
 			}
 		}
 	}
@@ -84,9 +84,9 @@ func BenchmarkUnderAttackIsKnight_1k(b *testing.B) {
 
 func BenchmarkUnderAttackCountKnight_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.CountSquareUnderAttackFromWhiteKnight(s)
+				matrix.CountSquareUnderAttackFromWhiteKnight(s)
 			}
 		}
 	}
@@ -94,9 +94,9 @@ func BenchmarkUnderAttackCountKnight_1k(b *testing.B) {
 
 func BenchmarkUnderAttackIsPawn_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.IsSquareUnderAttackFromWhitePawn(s)
+				matrix.IsSquareUnderAttackFromWhitePawn(s)
 			}
 		}
 	}
@@ -104,9 +104,9 @@ func BenchmarkUnderAttackIsPawn_1k(b *testing.B) {
 
 func BenchmarkUnderAttackCountPawn_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.CountSquareUnderAttackFromWhitePawn(s)
+				matrix.CountSquareUnderAttackFromWhitePawn(s)
 			}
 		}
 	}
@@ -114,9 +114,9 @@ func BenchmarkUnderAttackCountPawn_1k(b *testing.B) {
 
 func BenchmarkUnderAttackIsDirect_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.IsSquareUnderDirectAttackFromWhite(s)
+				matrix.IsSquareUnderDirectAttackFromWhite(s)
 			}
 		}
 	}
@@ -124,9 +124,9 @@ func BenchmarkUnderAttackIsDirect_1k(b *testing.B) {
 
 func BenchmarkDirectAttackersOfSquare_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.DirectAttackersOfSquareFromWhite(s)
+				matrix.DirectAttackersOfSquareFromWhite(s)
 			}
 		}
 	}
@@ -134,9 +134,9 @@ func BenchmarkDirectAttackersOfSquare_1k(b *testing.B) {
 
 func BenchmarkUnderAttack_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.IsSquareUnderAttackFromWhite(s)
+				matrix.IsSquareUnderAttackFromWhite(s)
 			}
 		}
 	}
@@ -144,9 +144,9 @@ func BenchmarkUnderAttack_1k(b *testing.B) {
 
 func BenchmarkAttackersOfSquare_1k(b *testing.B) {
 	for i := 1; i < 1000; i++ {
-		for _, state := range states {
+		for _, matrix := range matrixes {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-				state.Matrix.BlockableAttackersOfSquareFromWhite(s)
+				matrix.BlockableAttackersOfSquareFromWhite(s)
 			}
 		}
 	}

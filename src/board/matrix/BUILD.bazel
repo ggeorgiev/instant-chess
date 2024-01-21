@@ -1,0 +1,63 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("//bzl:color_template.bzl", "generate_black")
+
+generate_black(
+    names = [
+        "matrix_attack_white",
+        "matrix_check_white",
+        "matrix_moves_white",
+        "matrix_peace_moves_white",
+        "matrix_square_under_attack_white",
+    ],
+)
+
+go_library(
+    name = "matrix",
+    srcs = [
+        "matrix.go",
+        "matrix_attack_black.go",
+        "matrix_attack_white.go",
+        "matrix_check_black.go",
+        "matrix_check_white.go",
+        "matrix_moves_black.go",
+        "matrix_moves_white.go",
+        "matrix_peace_moves_black.go",
+        "matrix_peace_moves_white.go",
+        "matrix_rights.go",
+        "matrix_square_under_attack.go",
+        "matrix_square_under_attack_black.go",
+        "matrix_square_under_attack_white.go",
+    ],
+    importpath = "github.com/ggeorgiev/instant-chess/src/board/matrix",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/bitboard",
+        "//src/move",
+        "//src/peace",
+        "//src/peacealignment",
+        "//src/peaceattacks",
+        "//src/peacemoves",
+        "//src/peaceplaces",
+        "//src/square",
+        "//src/util",
+    ],
+)
+
+go_test(
+    name = "matrix_test",
+    srcs = [
+        "matrix_attack_benchmark_test.go",
+        "matrix_attack_test.go",
+        "matrix_check_benchmark_test.go",
+        "matrix_moves_test.go",
+        "matrix_rights_test.go",
+        "matrix_square_under_attack_benchmark_test.go",
+    ],
+    embed = [":matrix"],
+    deps = [
+        "//src/peace",
+        "//src/peacemoves",
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

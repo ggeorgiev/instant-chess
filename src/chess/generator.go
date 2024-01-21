@@ -5,6 +5,7 @@ import (
 
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/board"
+	"github.com/ggeorgiev/instant-chess/src/board/matrix"
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -35,7 +36,7 @@ func Generate(peacesString string) {
 			bitset := math.IndexToBitset(n, i)
 			indexes := square.ConvertBitboardMaskIntoIndexes(bitboard.Mask(bitset))
 
-			matrix := board.Matrix{}
+			matrix := matrix.Matrix{}
 			for p, s := range indexes {
 				matrix[s] = perm[p]
 			}

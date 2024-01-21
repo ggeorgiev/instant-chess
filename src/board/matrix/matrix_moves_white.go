@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
@@ -9,47 +9,47 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func (m *Matrix) SquareBlackTos(s square.Index, kingSquare square.Index) square.Indexes {
+func (m *Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
 	figure := m[s]
-	if !figure.IsBlack() {
+	if !figure.IsWhite() {
 		return nil
 	}
 
-	if figure == peace.BlackKing {
-		return m.BlackKingTos(s)
+	if figure == peace.WhiteKing {
+		return m.WhiteKingTos(s)
 	}
 
 	original := m[s]
 	m[s] = peace.NoFigure
-	maybeCheckedVector := m.IsBlackMaybeCheckedAfterMove(kingSquare, s)
+	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
 	switch figure {
-	case peace.BlackBishop:
+	case peace.WhiteBishop:
 		if maybeCheckedVector.IsLeaniar() {
 			return nil
 		}
-		return m.BlackBishopNoCheckedTos(s, maybeCheckedVector)
-	case peace.BlackRook:
+		return m.WhiteBishopNoCheckedTos(s, maybeCheckedVector)
+	case peace.WhiteRook:
 		if maybeCheckedVector.IsDiagonalic() {
 			return nil
 		}
-		return m.BlackRookNoCheckedTos(s, maybeCheckedVector)
-	case peace.BlackKnight:
+		return m.WhiteRookNoCheckedTos(s, maybeCheckedVector)
+	case peace.WhiteKnight:
 		if maybeCheckedVector != peacealignment.NoVector {
 			return nil
 		}
-		return m.BlackKnightNoCheckedTos(s)
-	case peace.BlackQueen:
-		return m.BlackQueenNoCheckedTos(s, maybeCheckedVector)
+		return m.WhiteKnightNoCheckedTos(s)
+	case peace.WhiteQueen:
+		return m.WhiteQueenNoCheckedTos(s, maybeCheckedVector)
 	}
 
 	return nil
 }
 
-func (m *Matrix) SquareCaptureBlackTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
+func (m *Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
 	figure := m[s]
-	if !figure.IsBlack() {
+	if !figure.IsWhite() {
 		return nil
 	}
 
@@ -57,27 +57,27 @@ func (m *Matrix) SquareCaptureBlackTos(s square.Index, kingSquare square.Index, 
 		return nil
 	}
 
-	if figure == peace.BlackKing {
+	if figure == peace.WhiteKing {
 		return square.Indexes{capture}
 	}
 
 	original := m[s]
 	m[s] = peace.NoFigure
-	maybeCheckedVector := m.IsBlackMaybeCheckedAfterMove(kingSquare, s)
+	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
 	switch figure {
-	case peace.BlackBishop:
+	case peace.WhiteBishop:
 		if maybeCheckedVector.IsLeaniar() {
 			return nil
 		}
-		return m.BlackBishopCapture(s, maybeCheckedVector, capture)
-	case peace.BlackRook:
+		return m.WhiteBishopCapture(s, maybeCheckedVector, capture)
+	case peace.WhiteRook:
 		if maybeCheckedVector.IsDiagonalic() {
 			return nil
 		}
-		return m.BlackRookCapture(s, maybeCheckedVector, capture)
-	case peace.BlackKnight:
+		return m.WhiteRookCapture(s, maybeCheckedVector, capture)
+	case peace.WhiteKnight:
 		if maybeCheckedVector != peacealignment.NoVector {
 			return nil
 		}
@@ -87,9 +87,9 @@ func (m *Matrix) SquareCaptureBlackTos(s square.Index, kingSquare square.Index, 
 	return nil
 }
 
-func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
+func (m *Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
 	figure := m[s]
-	if !figure.IsBlack() || figure == peace.BlackKing {
+	if !figure.IsWhite() || figure == peace.WhiteKing {
 		return nil
 	}
 
@@ -103,7 +103,7 @@ func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, at
 
 	original := m[s]
 	m[s] = peace.NoFigure
-	maybeCheckedVector := m.IsBlackMaybeCheckedAfterMove(kingSquare, s)
+	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
 	if maybeCheckedVector != peacealignment.NoVector {
@@ -113,11 +113,11 @@ func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, at
 	return square.ConvertBitboardMaskIntoIndexes(overlap)
 }
 
-func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
+func (m *Matrix) WhiteTos(king square.Index) peacemoves.Halfs {
 	var moves peacemoves.Halfs
-	checked, attacker, block := m.IsBlackCheckedToMoveCaptureOrBlock(king)
+	checked, attacker, block := m.IsWhiteCheckedToMoveCaptureOrBlock(king)
 	if checked {
-		tos := m.BlackKingTos(king)
+		tos := m.WhiteKingTos(king)
 		if len(tos) > 0 {
 			moves = append(moves, peacemoves.Half{
 				From: king,
@@ -128,9 +128,9 @@ func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
 			for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 				var tos square.Indexes
 				if block {
-					tos = append(tos, m.SquareBlockBlackTos(s, king, attacker)...)
+					tos = append(tos, m.SquareBlockWhiteTos(s, king, attacker)...)
 				}
-				tos = append(tos, m.SquareCaptureBlackTos(s, king, attacker)...)
+				tos = append(tos, m.SquareCaptureWhiteTos(s, king, attacker)...)
 				if len(tos) > 0 {
 					moves = append(moves, peacemoves.Half{
 						From: s,
@@ -143,7 +143,7 @@ func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
 	}
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		tos := m.SquareBlackTos(s, king)
+		tos := m.SquareWhiteTos(s, king)
 		if len(tos) > 0 {
 			moves = append(moves, peacemoves.Half{
 				From: s,

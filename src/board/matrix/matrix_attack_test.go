@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"testing"
@@ -53,10 +53,10 @@ func TestAttackBitboardMaskFromNonLinear(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -107,10 +107,10 @@ func TestAttackBitboardMaskFromDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }
@@ -161,10 +161,10 @@ func TestAttackBitboardMaskFromLinears(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(matrix.AttackBitboardMaskFromWhite())
 	assert.Equal(t, expected, mask, mask)
 }
 
@@ -214,10 +214,10 @@ func TestAttackBitboardMaskFromLinearsAndDiagonals(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 `
 
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	mask := "\n" + square.SprintMask(state.Matrix.AttackBitboardMaskFromWhite())
+	mask := "\n" + square.SprintMask(matrix.AttackBitboardMaskFromWhite())
 
 	assert.Equal(t, expected, mask, mask)
 }

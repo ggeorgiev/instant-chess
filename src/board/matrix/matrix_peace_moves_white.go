@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/peace"

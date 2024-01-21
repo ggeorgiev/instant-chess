@@ -3,6 +3,7 @@ package board
 import (
 	"log"
 
+	"github.com/ggeorgiev/instant-chess/src/board/matrix"
 	"github.com/ggeorgiev/instant-chess/src/math"
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
@@ -12,7 +13,7 @@ import (
 )
 
 type State struct {
-	Matrix *Matrix
+	Matrix *matrix.Matrix
 	Rights move.Rights
 }
 
@@ -21,7 +22,7 @@ func ParseState(text string) (State, error) {
 	if err != nil {
 		return State{}, err
 	}
-	matrix, err := ParseMatrix(text)
+	matrix, err := matrix.Parse(text)
 	if err != nil {
 		return State{}, err
 	}

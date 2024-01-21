@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"testing"
@@ -32,7 +32,7 @@ func TestMatrixMovesStartPosition(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -40,8 +40,8 @@ func TestMatrixMovesStartPosition(t *testing.T) {
 		peacemoves.Half{From: 6, Tos: square.Indexes{21, 23}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -68,7 +68,7 @@ func TestMatrixMovesBishopDiagonalBlockingEachOther(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -76,8 +76,8 @@ func TestMatrixMovesBishopDiagonalBlockingEachOther(t *testing.T) {
 		peacemoves.Half{From: 18, Tos: square.Indexes{9, 27, 36, 45}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -104,7 +104,7 @@ func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -112,8 +112,8 @@ func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
 		peacemoves.Half{From: 21, Tos: square.Indexes{14, 28, 35, 42}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -140,7 +140,7 @@ func TestMatrixMovesRooksFileBlockingEachOther(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -148,8 +148,8 @@ func TestMatrixMovesRooksFileBlockingEachOther(t *testing.T) {
 		peacemoves.Half{From: 20, Tos: square.Indexes{12, 28, 36, 44}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -176,7 +176,7 @@ func TestMatrixMovesRooksRankBlockingEachOther(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -184,8 +184,8 @@ func TestMatrixMovesRooksRankBlockingEachOther(t *testing.T) {
 		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 38, 39}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -212,7 +212,7 @@ func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -220,8 +220,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
 		peacemoves.Half{From: 31, Tos: square.Indexes{13}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -248,7 +248,7 @@ func TestMatrixMovesNeedToMoveOrCaptureWithKnight(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -256,8 +256,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithKnight(t *testing.T) {
 		peacemoves.Half{From: 27, Tos: square.Indexes{21}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -284,7 +284,7 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -292,8 +292,8 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 		peacemoves.Half{From: 29, Tos: square.Indexes{21}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -320,7 +320,7 @@ func TestMatrixMovesNeedToMoveBlockOrCaptureWithKnight(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
@@ -328,8 +328,8 @@ func TestMatrixMovesNeedToMoveBlockOrCaptureWithKnight(t *testing.T) {
 		peacemoves.Half{From: 10, Tos: square.Indexes{27, 0}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -356,15 +356,15 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithBishop(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
 		peacemoves.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -391,15 +391,15 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
 		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }
 
@@ -426,14 +426,14 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 ····a···b···c···d···e···f···g···h····
 · O-O: --, O-O-O: --, En Passant: - ·
 `
-	state, err := ParseState(text)
+	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
 	expected := peacemoves.Halfs{
 		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
-	king := state.Matrix.FindSinglePeace(peace.WhiteKing)
-	result := state.Matrix.WhiteTos(king)
+	king := matrix.FindSinglePeace(peace.WhiteKing)
+	result := matrix.WhiteTos(king)
 	assert.Equal(t, expected, result)
 }

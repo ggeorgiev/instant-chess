@@ -13,10 +13,10 @@ go_library(
     deps = [
         "//src/bitboard",
         "//src/board",
+        "//src/board/matrix",
         "//src/math",
         "//src/peace",
         "//src/square",
-        "//src/storage",
         "//src/util",
     ],
 )

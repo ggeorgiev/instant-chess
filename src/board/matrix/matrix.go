@@ -1,4 +1,4 @@
-package board
+package matrix
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ var runesExpectedLength = len(util.Runes(separator)) - 1
 
 type Matrix [square.Number]peace.Figure
 
-func ParseMatrix(text string) (Matrix, error) {
+func Parse(text string) (Matrix, error) {
 	var matrix Matrix
 
 	rows := strings.Split(text, "\n")
@@ -45,7 +45,7 @@ func ParseMatrix(text string) (Matrix, error) {
 }
 
 func MustParseMatrix(text string) Matrix {
-	matrix, err := ParseMatrix(text)
+	matrix, err := Parse(text)
 	if err != nil {
 		panic(err)
 	}

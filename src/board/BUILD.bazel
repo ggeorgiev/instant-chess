@@ -3,11 +3,6 @@ load("//bzl:color_template.bzl", "generate_black")
 
 generate_black(
     names = [
-        "matrix_attack_white",
-        "matrix_check_white",
-        "matrix_moves_white",
-        "matrix_peace_moves_white",
-        "matrix_square_under_attack_white",
         "state_half_moves_white",
         "state_move_white",
     ],
@@ -16,19 +11,6 @@ generate_black(
 go_library(
     name = "board",
     srcs = [
-        "matrix.go",
-        "matrix_attack_black.go",
-        "matrix_attack_white.go",
-        "matrix_check_black.go",
-        "matrix_check_white.go",
-        "matrix_moves_black.go",
-        "matrix_moves_white.go",
-        "matrix_peace_moves_black.go",
-        "matrix_peace_moves_white.go",
-        "matrix_rights.go",
-        "matrix_square_under_attack.go",
-        "matrix_square_under_attack_black.go",
-        "matrix_square_under_attack_white.go",
         "state.go",
         "state_half_moves_black.go",
         "state_half_moves_white.go",
@@ -39,37 +21,26 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/board",
     visibility = ["//visibility:public"],
     deps = [
-        "//src/bitboard",
+        "//src/board/matrix",
         "//src/math",
         "//src/move",
         "//src/peace",
-        "//src/peacealignment",
-        "//src/peaceattacks",
         "//src/peacemoves",
         "//src/peaceplaces",
         "//src/square",
         "//src/storage",
-        "//src/util",
     ],
 )
 
 go_test(
     name = "board_test",
     srcs = [
-        "matrix_attack_benchmark_test.go",
-        "matrix_attack_test.go",
-        "matrix_check_benchmark_test.go",
-        "matrix_moves_test.go",
-        "matrix_rights_test.go",
-        "matrix_square_under_attack_benchmark_test.go",
         "state_move_test.go",
         "state_test.go",
     ],
     embed = [":board"],
     deps = [
         "//src/move",
-        "//src/peace",
-        "//src/peacemoves",
         "//src/peaceplaces",
         "//src/square",
         "@com_github_stretchr_testify//assert",
