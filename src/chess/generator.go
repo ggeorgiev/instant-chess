@@ -3,77 +3,63 @@ package chess
 import (
 	"fmt"
 
-	"github.com/ggeorgiev/instant-chess/src/bitboard"
-	"github.com/ggeorgiev/instant-chess/src/board/matrix"
-	"github.com/ggeorgiev/instant-chess/src/board/state"
-	"github.com/ggeorgiev/instant-chess/src/math"
+	"github.com/ggeorgiev/instant-chess/src/board/batch"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func Generate(peacesString string) {
+// Generate generates all possible positions for the given peaces
+func Generate(peacesString string) error {
 	peaces := peace.MustParseFigures(peacesString)
-	n := uint64(len(peaces))
-
-	rights := 0
-	states := 0
-	invalid := 0
-	m1 := 0
-	skipped := 0
 	iterator := peace.NewPermutationIterator(peaces)
+	rightsList := peaces.MoveRights()
 
-	//permutations := iterator.NumberPermutations()
-
+	var batches batch.Batches
 	for perm := iterator.Next(); perm != nil; perm = iterator.Next() {
-		for i := uint64(0); i < math.CountBitsets(n); i++ {
-			bitset := math.IndexToBitset(n, i)
-			indexes := square.ConvertBitboardMaskIntoIndexes(bitboard.Mask(bitset))
+		for _, rights := range rightsList {
+			b, err := batch.Create(perm, rights)
+			if err != nil {
+				return err
+			}
+			batches = append(batches, b)
+		}
+	}
 
-			matrix := matrix.Matrix{}
-			for p, s := range indexes {
-				matrix[s] = perm[p]
+	stats := &batch.Stats{}
+	for _, batch := range batches {
+		for i := uint64(0); i < batch.CountBitsets(); i++ {
+			boardState, bitset, offender := batch.GenerateState(i)
+			if boardState == nil {
+				i = batch.SkipOffender(i, bitset, offender, stats)
+				continue
 			}
 
-			invalidBoard, offender := matrix.Invalid()
+			invalidBoard, offender := boardState.Invalid()
 			if invalidBoard {
 				if offender != square.InvalidIndex {
-					skipTo := math.NextValidIndex(n, i, bitset, uint64(offender))
-					skip := int(skipTo - i)
-					states += skip
-					invalid += skip
-					skipped += skip
-					i = skipTo
+					i = batch.SkipOffender(i, bitset, offender, stats)
 				} else {
-					invalid++
+					stats.Invalid++
 				}
 				continue
 			}
 
-			rightsList := matrix.MoveRights()
-			rights += len(rightsList) - 1
+			stats.States++
 
-			for _, rights := range rightsList {
-				states++
-
-				boardState := state.State{
-					Matrix: &matrix,
-					Rights: rights,
-				}
-
-				if boardState.M1() {
-					m1++
-					//store.Set(permutations*i, storage.Data{MateMoves: 1})
-				}
+			if boardState.M1() {
+				stats.M1++
 			}
 		}
 	}
 
-	//fmt.Printf("Ratio: %.02f%%\n", store.Ratio()*100.0)
+	fmt.Printf("Rights positions: %d\n", len(rightsList))
+	fmt.Printf("Batches positions: %d\n", len(batches))
+	fmt.Printf("M1 positions: %d(%.02f%%)\n", stats.M1, float64(stats.M1)/float64(stats.States))
+	fmt.Printf("Skipped positions: %d(%.02f%%)\n", stats.Skipped, float64(stats.Skipped)/float64(stats.States))
+	fmt.Printf("Invalid positions: %d(%.02f%%)\n", stats.Invalid, float64(stats.Invalid)/float64(stats.States))
+	fmt.Printf("States positions: %d\n", stats.States)
 
-	fmt.Printf("M1 positions: %d/%d\n", m1, states)
-	fmt.Printf("Rights variations: %d/%d\n", rights, states)
-	fmt.Printf("Skipped positions: %d/%d\n", skipped, states)
-	fmt.Printf("Invalid positions: %d/%d\n", invalid, states)
+	return nil
 }
 
 // M1 positions: 33616/15249024

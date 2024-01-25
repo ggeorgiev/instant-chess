@@ -1,12 +1,32 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "batch",
-    srcs = ["batch.go"],
+    srcs = [
+        "batch.go",
+        "stats.go",
+    ],
     importpath = "github.com/ggeorgiev/instant-chess/src/board/batch",
     visibility = ["//visibility:public"],
     deps = [
+        "//src/bitboard",
+        "//src/board/matrix",
+        "//src/board/state",
+        "//src/math",
         "//src/move",
         "//src/peace",
+        "//src/peaceplaces",
+        "//src/square",
+    ],
+)
+
+go_test(
+    name = "batch_test",
+    srcs = ["batch_test.go"],
+    embed = [":batch"],
+    deps = [
+        "//src/move",
+        "//src/peace",
+        "@com_github_stretchr_testify//assert",
     ],
 )

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/ggeorgiev/instant-chess/src/chess"
 	"github.com/spf13/cobra"
 )
 
@@ -41,5 +42,5 @@ func preplay(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("peaces are required")
 	}
 
-	return nil
+	return chess.Generate(peaces)
 }

@@ -53,6 +53,11 @@ func MustParse(text string) Matrix {
 	return matrix
 }
 
+func (m *Matrix) Copy() *Matrix {
+	matrix := *m
+	return &matrix
+}
+
 func (m *Matrix) Sprint() string {
 	var sb strings.Builder
 	sb.Grow(len(letters)*2 + len(separator)*9 + 8*(9*4+1))

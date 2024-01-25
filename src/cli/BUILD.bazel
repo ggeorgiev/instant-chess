@@ -8,7 +8,10 @@ go_library(
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/cli",
     visibility = ["//visibility:public"],
-    deps = ["@com_github_spf13_cobra//:cobra"],
+    deps = [
+        "//src/chess",
+        "@com_github_spf13_cobra//:cobra",
+    ],
 )
 
 go_binary(

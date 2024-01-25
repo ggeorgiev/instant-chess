@@ -2,6 +2,7 @@ package peace
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -261,4 +262,29 @@ func (fs Figures) MoveRights() move.RightsList {
 	}
 
 	return move.CombineRights(whiteCasting, blackCasting, enPassantFiles)
+}
+
+func (fs Figures) Copy() Figures {
+	peaces := make(Figures, len(fs))
+	copy(peaces, fs)
+	return peaces
+}
+
+func (fs Figures) String() string {
+	var sb strings.Builder
+	for _, f := range fs {
+		sb.WriteString(f.Symbol())
+	}
+	return sb.String()
+}
+
+func (fs Figures) RemoveOne(f Figure) (Figures, error) {
+	for i, figure := range fs {
+		if figure == f {
+			newSize := len(fs) - 1
+			fs[i] = fs[newSize]
+			return fs[:newSize], nil
+		}
+	}
+	return nil, fmt.Errorf("figure %s not found in %s", f.Symbol(), fs.String())
 }

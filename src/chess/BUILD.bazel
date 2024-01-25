@@ -9,13 +9,10 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/chess",
     visibility = ["//visibility:public"],
     deps = [
-        "//src/bitboard",
-        "//src/board/matrix",
+        "//src/board/batch",
         "//src/board/state",
-        "//src/math",
         "//src/peace",
         "//src/square",
-        "//src/util",
     ],
 )
 
