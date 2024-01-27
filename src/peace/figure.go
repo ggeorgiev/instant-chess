@@ -278,13 +278,13 @@ func (fs Figures) String() string {
 	return sb.String()
 }
 
-func (fs Figures) RemoveOne(f Figure) (Figures, error) {
+func (fs Figures) RemoveOne(f Figure) Figures {
 	for i, figure := range fs {
 		if figure == f {
 			newSize := len(fs) - 1
 			fs[i] = fs[newSize]
-			return fs[:newSize], nil
+			return fs[:newSize]
 		}
 	}
-	return nil, fmt.Errorf("figure %s not found in %s", f.Symbol(), fs.String())
+	panic("Removing figure that does not exists")
 }

@@ -17,16 +17,14 @@ func Generate(peacesString string) error {
 	var batches batch.Batches
 	for perm := iterator.Next(); perm != nil; perm = iterator.Next() {
 		for _, rights := range rightsList {
-			b, err := batch.Create(perm, rights)
-			if err != nil {
-				return err
-			}
+			b := batch.Create(perm, rights)
 			batches = append(batches, b)
 		}
 	}
 
 	stats := &batch.Stats{}
-	for _, batch := range batches {
+	for b, batch := range batches {
+		fmt.Printf("Processing batch %d...\n", b)
 		for i := uint64(0); i < batch.CountBitsets(); i++ {
 			boardState, bitset, offender := batch.GenerateState(i)
 			if boardState == nil {
@@ -52,12 +50,13 @@ func Generate(peacesString string) error {
 		}
 	}
 
-	fmt.Printf("Rights positions: %d\n", len(rightsList))
-	fmt.Printf("Batches positions: %d\n", len(batches))
-	fmt.Printf("M1 positions: %d(%.02f%%)\n", stats.M1, float64(stats.M1)/float64(stats.States))
-	fmt.Printf("Skipped positions: %d(%.02f%%)\n", stats.Skipped, float64(stats.Skipped)/float64(stats.States))
-	fmt.Printf("Invalid positions: %d(%.02f%%)\n", stats.Invalid, float64(stats.Invalid)/float64(stats.States))
-	fmt.Printf("States positions: %d\n", stats.States)
+	fmt.Printf("Rights: %d\n", len(rightsList))
+	fmt.Printf("Peaces permutations: %d\n", iterator.NumberPermutations())
+	fmt.Printf("Batches: %d\n", len(batches))
+	fmt.Printf("M1: %d(%.02f%%)\n", stats.M1, float64(stats.M1)*100.0/float64(stats.States))
+	fmt.Printf("Skipped: %d(%.02f%%)\n", stats.Skipped, float64(stats.Skipped)*100.0/float64(stats.States))
+	fmt.Printf("Invalid: %d(%.02f%%)\n", stats.Invalid, float64(stats.Invalid)*100.0/float64(stats.States))
+	fmt.Printf("States: %d\n", stats.States)
 
 	return nil
 }
