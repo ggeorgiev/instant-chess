@@ -11,11 +11,11 @@ import (
 // Generate generates all possible positions for the given peaces
 func Generate(peacesString string) error {
 	peaces := peace.MustParseFigures(peacesString)
-	iterator := peace.NewPermutationIterator(peaces)
 	rightsList := peaces.MoveRights()
 
 	var batches batch.Batches
-	for perm := iterator.Next(); perm != nil; perm = iterator.Next() {
+	iterator, perm := peace.NewPermutationIterator(peaces)
+	for ; perm != nil; perm = iterator.Next() {
 		for _, rights := range rightsList {
 			b := batch.Create(perm, rights)
 			batches = append(batches, b)

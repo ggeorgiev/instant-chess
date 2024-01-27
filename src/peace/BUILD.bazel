@@ -31,5 +31,8 @@ go_test(
         "rights_figure_test.go",
     ],
     embed = [":peace"],
-    deps = ["@com_github_stretchr_testify//assert"],
+    deps = [
+        "//src/square",
+        "@com_github_stretchr_testify//assert",
+    ],
 )

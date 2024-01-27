@@ -11,6 +11,7 @@ generate_black(
 go_library(
     name = "state",
     srcs = [
+        "identifier.go",
         "state.go",
         "state_half_moves_black.go",
         "state_half_moves_white.go",

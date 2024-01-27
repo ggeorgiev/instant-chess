@@ -8,11 +8,10 @@ import (
 type PermutationIterator struct {
 	figures     Figures
 	permutation Figures
-	first       bool
 }
 
 // NewPermutationIterator creates a new PermutationIterator
-func NewPermutationIterator(figures Figures) *PermutationIterator {
+func NewPermutationIterator(figures Figures) (*PermutationIterator, Figures) {
 	perm := make(Figures, len(figures))
 	copy(perm, figures)
 
@@ -21,8 +20,7 @@ func NewPermutationIterator(figures Figures) *PermutationIterator {
 	return &PermutationIterator{
 		figures:     figures,
 		permutation: perm,
-		first:       true,
-	}
+	}, perm
 }
 
 func (it *PermutationIterator) NumberPermutations() uint64 {
@@ -45,17 +43,6 @@ func (it *PermutationIterator) NumberPermutations() uint64 {
 // Next advances the iterator to the next unique permutation and returns it.
 // If there are no more permutations, it returns nil.
 func (it *PermutationIterator) Next() Figures {
-	if it.first {
-		it.first = false
-		return it.permutation
-	}
-
-	return it.nextPermutation()
-}
-
-// nextPermutation generates the next unique permutation in lexicographical order
-// and returns it. If there is no next permutation, it returns nil.
-func (it *PermutationIterator) nextPermutation() Figures {
 	array := it.permutation
 	// Find the largest index k such that a[k] < a[k + 1]
 	var k int = -1
