@@ -1,4 +1,4 @@
-package peaceattacks
+package attack
 
 import (
 	"testing"

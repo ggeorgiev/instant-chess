@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "peaceattacks",
+    name = "attack",
     srcs = [
         "diagonal.go",
         "diagonal_helper.go",
@@ -17,7 +17,7 @@ go_library(
         "pawn_helper.go",
         "peace.go",
     ],
-    importpath = "github.com/ggeorgiev/instant-chess/src/peaceattacks",
+    importpath = "github.com/ggeorgiev/instant-chess/src/attack",
     visibility = ["//visibility:public"],
     deps = [
         "//src/bitboard",
@@ -28,7 +28,7 @@ go_library(
 )
 
 go_test(
-    name = "peaceattacks_test",
+    name = "attack_test",
     srcs = [
         "diagonal_test.go",
         "direct_test.go",
@@ -37,7 +37,7 @@ go_test(
         "linear_test.go",
         "pawn_test.go",
     ],
-    embed = [":peaceattacks"],
+    embed = [":attack"],
     deps = [
         "//src/peace",
         "//src/square",

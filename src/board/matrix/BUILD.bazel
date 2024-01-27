@@ -32,10 +32,10 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//src/alignment",
+        "//src/attack",
         "//src/bitboard",
         "//src/move",
         "//src/peace",
-        "//src/peaceattacks",
         "//src/place",
         "//src/square",
         "//src/util",

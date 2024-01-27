@@ -1,8 +1,8 @@
 package alignment
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/attack"
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
-	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -22,14 +22,14 @@ func blockRelationBitboardMasksInternalHelper() bitboard.MasksList {
 		for j := square.ZeroIndex; j <= square.LastIndex; j++ {
 			mask := bitboard.Empty
 			if i != j {
-				mask |= overlap(peaceattacks.RiseBitboardMasks[i], peaceattacks.RiseBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.FallBitboardMasks[i], peaceattacks.FallBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.LeftBitboardMasks[i], peaceattacks.LeftBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.RightBitboardMasks[i], peaceattacks.RightBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.RiseLeftBitboardMasks[i], peaceattacks.RiseLeftBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.RiseRightBitboardMasks[i], peaceattacks.RiseRightBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.FallLeftBitboardMasks[i], peaceattacks.FallLeftBitboardMasks[j], square.IndexMask[j]) |
-					overlap(peaceattacks.FallRightBitboardMasks[i], peaceattacks.FallRightBitboardMasks[j], square.IndexMask[j])
+				mask |= overlap(attack.RiseBitboardMasks[i], attack.RiseBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.FallBitboardMasks[i], attack.FallBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.LeftBitboardMasks[i], attack.LeftBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.RightBitboardMasks[i], attack.RightBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.RiseLeftBitboardMasks[i], attack.RiseLeftBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.RiseRightBitboardMasks[i], attack.RiseRightBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.FallLeftBitboardMasks[i], attack.FallLeftBitboardMasks[j], square.IndexMask[j]) |
+					overlap(attack.FallRightBitboardMasks[i], attack.FallRightBitboardMasks[j], square.IndexMask[j])
 			}
 			masks = append(masks, mask)
 		}

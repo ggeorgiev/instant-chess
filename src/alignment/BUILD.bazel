@@ -14,8 +14,8 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/alignment",
     visibility = ["//visibility:public"],
     deps = [
+        "//src/attack",
         "//src/bitboard",
-        "//src/peaceattacks",
         "//src/square",
     ],
 )

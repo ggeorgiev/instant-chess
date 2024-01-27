@@ -1,14 +1,14 @@
 package matrix
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/attack"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 func (m *Matrix) CountSquareUnderAttackFromWhiteKing(s square.Index) int {
 	count := 0
-	attackedFromKing := peaceattacks.FromKing[s]
+	attackedFromKing := attack.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if m[kingSquare] == peace.WhiteKing {
 			count++
@@ -18,7 +18,7 @@ func (m *Matrix) CountSquareUnderAttackFromWhiteKing(s square.Index) int {
 }
 
 func (m *Matrix) IsSquareUnderAttackFromWhiteKing(s square.Index) bool {
-	attackedFromKing := peaceattacks.FromKing[s]
+	attackedFromKing := attack.FromKing[s]
 	for _, kingSquare := range attackedFromKing {
 		if m[kingSquare] == peace.WhiteKing {
 			return true
@@ -29,7 +29,7 @@ func (m *Matrix) IsSquareUnderAttackFromWhiteKing(s square.Index) bool {
 
 func (m *Matrix) CountSquareUnderAttackFromWhiteKnight(s square.Index) int {
 	count := 0
-	attackedFromKnight := peaceattacks.FromKnight[s]
+	attackedFromKnight := attack.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
 		if m[knightSquare] == peace.WhiteKnight {
 			count++
@@ -39,7 +39,7 @@ func (m *Matrix) CountSquareUnderAttackFromWhiteKnight(s square.Index) int {
 }
 
 func (m *Matrix) IsSquareUnderAttackFromWhiteKnight(s square.Index) bool {
-	attackedFromKnight := peaceattacks.FromKnight[s]
+	attackedFromKnight := attack.FromKnight[s]
 	for _, knightSquare := range attackedFromKnight {
 		if m[knightSquare] == peace.WhiteKnight {
 			return true
@@ -50,7 +50,7 @@ func (m *Matrix) IsSquareUnderAttackFromWhiteKnight(s square.Index) bool {
 
 func (m *Matrix) CountSquareUnderAttackFromWhitePawn(s square.Index) int {
 	count := 0
-	attackedFromPawn := peaceattacks.FromWhitePawn[s]
+	attackedFromPawn := attack.FromWhitePawn[s]
 	for _, pawnSquare := range attackedFromPawn {
 		if m[pawnSquare] == peace.WhitePawn {
 			count++
@@ -60,7 +60,7 @@ func (m *Matrix) CountSquareUnderAttackFromWhitePawn(s square.Index) int {
 }
 
 func (m *Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
-	attackedFromPawn := peaceattacks.FromWhitePawn[s]
+	attackedFromPawn := attack.FromWhitePawn[s]
 	for _, pawnSquare := range attackedFromPawn {
 		if m[pawnSquare] == peace.WhitePawn {
 			return true
@@ -71,7 +71,7 @@ func (m *Matrix) IsSquareUnderAttackFromWhitePawn(s square.Index) bool {
 
 func (m *Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes {
 	var attackers square.Indexes
-	attackedDirectly := peaceattacks.WhiteDirectsList[s]
+	attackedDirectly := attack.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
 		if m[direct.Index] == direct.Peace {
 			attackers = append(attackers, direct.Index)
@@ -83,7 +83,7 @@ func (m *Matrix) DirectAttackersOfSquareFromWhite(s square.Index) square.Indexes
 func (m *Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, square.Index) {
 	attacker := square.InvalidIndex
 	count := 0
-	attackedDirectly := peaceattacks.WhiteDirectsList[s]
+	attackedDirectly := attack.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
 		if m[direct.Index] == direct.Peace {
 			attacker = direct.Index
@@ -97,7 +97,7 @@ func (m *Matrix) SquareUnderDirectAttackExactlyFromWhite(s square.Index) (bool, 
 }
 
 func (m *Matrix) IsSquareUnderDirectAttackFromWhite(s square.Index) bool {
-	attackedDirectly := peaceattacks.WhiteDirectsList[s]
+	attackedDirectly := attack.WhiteDirectsList[s]
 	for _, direct := range attackedDirectly {
 		if m[direct.Index] == direct.Peace {
 			return true

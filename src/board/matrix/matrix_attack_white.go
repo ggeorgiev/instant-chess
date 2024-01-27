@@ -1,9 +1,9 @@
 package matrix
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/attack"
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -24,22 +24,22 @@ func (m *Matrix) AttackBitboardMaskFromWhite() bitboard.Mask {
 		}
 
 		if figure == peace.WhitePawn {
-			attackMask |= peaceattacks.WhitePawnBitboardMasks[s]
+			attackMask |= attack.WhitePawnBitboardMasks[s]
 		} else if figure == peace.WhiteKnight {
-			attackMask |= peaceattacks.KnightBitboardMasks[s]
+			attackMask |= attack.KnightBitboardMasks[s]
 		} else if figure == peace.WhiteBishop {
-			attackMask |= peaceattacks.DiagonalsFallBitboardMasks[s] & ^fallShadowMask
+			attackMask |= attack.DiagonalsFallBitboardMasks[s] & ^fallShadowMask
 		} else if figure == peace.WhiteRook {
-			attackMask |= peaceattacks.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask
+			attackMask |= attack.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask
 		} else if figure == peace.WhiteQueen {
-			attackMask |= (peaceattacks.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask) |
-				(peaceattacks.DiagonalsFallBitboardMasks[s] & ^fallShadowMask)
+			attackMask |= (attack.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask) |
+				(attack.DiagonalsFallBitboardMasks[s] & ^fallShadowMask)
 		} else if figure == peace.WhiteKing {
-			attackMask |= peaceattacks.KingBitboardMasks[s]
+			attackMask |= attack.KingBitboardMasks[s]
 		}
 
-		fallShadowMask |= peaceattacks.DiagonalsFallBitboardMasks[s]
-		fallLeftShadowMask |= peaceattacks.LinearsFallLeftBitboardMasks[s]
+		fallShadowMask |= attack.DiagonalsFallBitboardMasks[s]
+		fallLeftShadowMask |= attack.LinearsFallLeftBitboardMasks[s]
 	}
 
 	riseShadowMask := bitboard.Empty
@@ -52,16 +52,16 @@ func (m *Matrix) AttackBitboardMaskFromWhite() bitboard.Mask {
 
 		if figure.Color() == peace.WhiteColor {
 			if figure == peace.WhiteBishop {
-				attackMask |= peaceattacks.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask
+				attackMask |= attack.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask
 			} else if figure == peace.WhiteRook {
-				attackMask |= peaceattacks.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask
+				attackMask |= attack.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask
 			} else if figure == peace.WhiteQueen {
-				attackMask |= (peaceattacks.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask) |
-					(peaceattacks.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask)
+				attackMask |= (attack.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask) |
+					(attack.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask)
 			}
 		}
-		riseShadowMask |= peaceattacks.DiagonalsRiseBitboardMasks[s]
-		riseRightShadowMask |= peaceattacks.LinearsRiseRightBitboardMasks[s]
+		riseShadowMask |= attack.DiagonalsRiseBitboardMasks[s]
+		riseRightShadowMask |= attack.LinearsRiseRightBitboardMasks[s]
 	}
 
 	return attackMask & ^attackerOccupiedMask

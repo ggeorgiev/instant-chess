@@ -2,10 +2,10 @@ package matrix
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/alignment"
+	"github.com/ggeorgiev/instant-chess/src/attack"
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -94,7 +94,7 @@ func (m *Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, at
 	}
 
 	mask := alignment.BlockRelationMasksList[attacker][kingSquare]
-	peaceMask := peaceattacks.PeaceBitboardMasks(figure)[s]
+	peaceMask := attack.PeaceBitboardMasks(figure)[s]
 
 	overlap := mask & peaceMask
 	if overlap == bitboard.Empty {
