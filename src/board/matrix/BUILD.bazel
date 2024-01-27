@@ -31,10 +31,10 @@ go_library(
     importpath = "github.com/ggeorgiev/instant-chess/src/board/matrix",
     visibility = ["//visibility:public"],
     deps = [
+        "//src/alignment",
         "//src/bitboard",
         "//src/move",
         "//src/peace",
-        "//src/peacealignment",
         "//src/peaceattacks",
         "//src/peacemoves",
         "//src/place",

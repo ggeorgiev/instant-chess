@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "peacealignment",
+    name = "alignment",
     srcs = [
         "alignment.go",
         "block_releation_bitboard.go",
@@ -11,7 +11,7 @@ go_library(
         "vector.go",
         "vector_helper.go",
     ],
-    importpath = "github.com/ggeorgiev/instant-chess/src/peacealignment",
+    importpath = "github.com/ggeorgiev/instant-chess/src/alignment",
     visibility = ["//visibility:public"],
     deps = [
         "//src/bitboard",
@@ -21,13 +21,13 @@ go_library(
 )
 
 go_test(
-    name = "peacealignment_test",
+    name = "alignment_test",
     srcs = [
         "block_releation_bitboard_test.go",
         "releation_test.go",
         "vector_test.go",
     ],
-    embed = [":peacealignment"],
+    embed = [":alignment"],
     deps = [
         "//src/square",
         "@com_github_stretchr_testify//assert",

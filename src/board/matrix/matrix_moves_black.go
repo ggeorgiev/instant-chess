@@ -1,9 +1,9 @@
 package matrix
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/alignment"
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peacealignment"
 	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
@@ -36,7 +36,7 @@ func (m *Matrix) SquareBlackTos(s square.Index, kingSquare square.Index) square.
 		}
 		return m.BlackRookNoCheckedTos(s, maybeCheckedVector)
 	case peace.BlackKnight:
-		if maybeCheckedVector != peacealignment.NoVector {
+		if maybeCheckedVector != alignment.NoVector {
 			return nil
 		}
 		return m.BlackKnightNoCheckedTos(s)
@@ -78,7 +78,7 @@ func (m *Matrix) SquareCaptureBlackTos(s square.Index, kingSquare square.Index, 
 		}
 		return m.BlackRookCapture(s, maybeCheckedVector, capture)
 	case peace.BlackKnight:
-		if maybeCheckedVector != peacealignment.NoVector {
+		if maybeCheckedVector != alignment.NoVector {
 			return nil
 		}
 		return square.Indexes{capture}
@@ -93,7 +93,7 @@ func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, at
 		return nil
 	}
 
-	mask := peacealignment.BlockRelationMasksList[attacker][kingSquare]
+	mask := alignment.BlockRelationMasksList[attacker][kingSquare]
 	peaceMask := peaceattacks.PeaceBitboardMasks(figure)[s]
 
 	overlap := mask & peaceMask
@@ -106,7 +106,7 @@ func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, at
 	maybeCheckedVector := m.IsBlackMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
-	if maybeCheckedVector != peacealignment.NoVector {
+	if maybeCheckedVector != alignment.NoVector {
 		return nil
 	}
 

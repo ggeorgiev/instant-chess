@@ -1,8 +1,8 @@
 package matrix
 
 import (
+	"github.com/ggeorgiev/instant-chess/src/alignment"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peacealignment"
 	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
@@ -38,7 +38,7 @@ func (m *Matrix) BlackKnightNoCheckedTos(s square.Index) square.Indexes {
 	return tos
 }
 
-func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector alignment.Vector) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
@@ -53,7 +53,7 @@ func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector peacealignment.V
 	file := s.File()
 	rank := s.Rank()
 
-	if vector != peacealignment.CounterDiagonal {
+	if vector != alignment.CounterDiagonal {
 		f := file - 1
 		r := rank - 1
 		for f >= square.ZeroFile && r >= square.ZeroRank {
@@ -75,7 +75,7 @@ func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector peacealignment.V
 		}
 	}
 
-	if vector != peacealignment.Diagonal {
+	if vector != alignment.Diagonal {
 		f := file + 1
 		r := rank - 1
 		for f <= square.LastFile && r >= square.ZeroRank {
@@ -100,7 +100,7 @@ func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector peacealignment.V
 	return tos
 }
 
-func (m *Matrix) BlackBishopCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+func (m *Matrix) BlackBishopCapture(s square.Index, vector alignment.Vector, capture square.Index) square.Indexes {
 	var tos square.Indexes
 
 	check := func(sq square.Index) bool {
@@ -117,7 +117,7 @@ func (m *Matrix) BlackBishopCapture(s square.Index, vector peacealignment.Vector
 	file := s.File()
 	rank := s.Rank()
 
-	if vector != peacealignment.CounterDiagonal {
+	if vector != alignment.CounterDiagonal {
 		f := file - 1
 		r := rank - 1
 		for f >= square.ZeroFile && r >= square.ZeroRank {
@@ -139,7 +139,7 @@ func (m *Matrix) BlackBishopCapture(s square.Index, vector peacealignment.Vector
 		}
 	}
 
-	if vector != peacealignment.Diagonal {
+	if vector != alignment.Diagonal {
 		f := file + 1
 		r := rank - 1
 		for f <= square.LastFile && r >= square.ZeroRank {
@@ -164,7 +164,7 @@ func (m *Matrix) BlackBishopCapture(s square.Index, vector peacealignment.Vector
 	return tos
 }
 
-func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector alignment.Vector) square.Indexes {
 	// TODO: optimize
 	var tos square.Indexes
 
@@ -180,7 +180,7 @@ func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector peacealignment.Vec
 	file := s.File()
 	rank := s.Rank()
 
-	if vector != peacealignment.File {
+	if vector != alignment.File {
 		for f := file - 1; f >= square.ZeroFile; f-- {
 			if !check(square.NewIndex(f, rank)) {
 				break
@@ -193,7 +193,7 @@ func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector peacealignment.Vec
 		}
 	}
 
-	if vector != peacealignment.Rank {
+	if vector != alignment.Rank {
 		for r := rank - 1; r >= square.ZeroRank; r-- {
 			if !check(square.NewIndex(file, r)) {
 				break
@@ -209,7 +209,7 @@ func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector peacealignment.Vec
 	return tos
 }
 
-func (m *Matrix) BlackRookCapture(s square.Index, vector peacealignment.Vector, capture square.Index) square.Indexes {
+func (m *Matrix) BlackRookCapture(s square.Index, vector alignment.Vector, capture square.Index) square.Indexes {
 	// TODO: optimize
 	var tos square.Indexes
 
@@ -227,7 +227,7 @@ func (m *Matrix) BlackRookCapture(s square.Index, vector peacealignment.Vector, 
 	file := s.File()
 	rank := s.Rank()
 
-	if vector != peacealignment.File {
+	if vector != alignment.File {
 		for f := file - 1; f >= square.ZeroFile; f-- {
 			if !check(square.NewIndex(f, rank)) {
 				break
@@ -240,7 +240,7 @@ func (m *Matrix) BlackRookCapture(s square.Index, vector peacealignment.Vector, 
 		}
 	}
 
-	if vector != peacealignment.Rank {
+	if vector != alignment.Rank {
 		for r := rank - 1; r >= square.ZeroRank; r-- {
 			if !check(square.NewIndex(file, r)) {
 				break
@@ -256,7 +256,7 @@ func (m *Matrix) BlackRookCapture(s square.Index, vector peacealignment.Vector, 
 	return tos
 }
 
-func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector peacealignment.Vector) square.Indexes {
+func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector alignment.Vector) square.Indexes {
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
@@ -271,7 +271,7 @@ func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector peacealignment.Ve
 	file := s.File()
 	rank := s.Rank()
 
-	if vector != peacealignment.File {
+	if vector != alignment.File {
 		for f := file - 1; f >= square.ZeroFile; f-- {
 			if !check(square.NewIndex(f, rank)) {
 				break
@@ -284,7 +284,7 @@ func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector peacealignment.Ve
 		}
 	}
 
-	if vector != peacealignment.Rank {
+	if vector != alignment.Rank {
 		for r := rank - 1; r >= square.ZeroRank; r-- {
 			if !check(square.NewIndex(file, r)) {
 				break
@@ -297,7 +297,7 @@ func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector peacealignment.Ve
 		}
 	}
 
-	if vector != peacealignment.CounterDiagonal {
+	if vector != alignment.CounterDiagonal {
 		f := file - 1
 		r := rank - 1
 		for f >= square.ZeroFile && r >= square.ZeroRank {
@@ -319,7 +319,7 @@ func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector peacealignment.Ve
 		}
 	}
 
-	if vector != peacealignment.Diagonal {
+	if vector != alignment.Diagonal {
 		f := file + 1
 		r := rank - 1
 		for f <= square.LastFile && r >= square.ZeroRank {

@@ -1,4 +1,4 @@
-package peacealignment
+package alignment
 
 import (
 	"testing"

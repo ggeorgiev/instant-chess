@@ -1,4 +1,4 @@
-package peacealignment
+package alignment
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"

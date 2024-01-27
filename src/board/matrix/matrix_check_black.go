@@ -1,7 +1,7 @@
 package matrix
 
 import (
-	"github.com/ggeorgiev/instant-chess/src/peacealignment"
+	"github.com/ggeorgiev/instant-chess/src/alignment"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -118,59 +118,59 @@ func (m *Matrix) IsBlackCheckedToMoveCaptureOrBlock(kingSquare square.Index) (bo
 	return attacker != square.InvalidIndex, attacker, true
 }
 
-func (m *Matrix) IsBlackMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) peacealignment.Vector {
-	sq := peacealignment.SquareRelations[kingSquare][movedFrom]
-	if sq == peacealignment.NotAligned {
-		return peacealignment.NoVector
+func (m *Matrix) IsBlackMaybeCheckedAfterMove(kingSquare square.Index, movedFrom square.Index) alignment.Vector {
+	sq := alignment.SquareRelations[kingSquare][movedFrom]
+	if sq == alignment.NotAligned {
+		return alignment.NoVector
 	}
 
-	if sq == peacealignment.RankLeft {
+	if sq == alignment.RankLeft {
 		if m.IsSquareUnderAttackFromWhiteFromLeft(kingSquare) != square.InvalidIndex {
-			return peacealignment.Rank
+			return alignment.Rank
 		}
 	}
 
-	if sq == peacealignment.RankRight {
+	if sq == alignment.RankRight {
 		if m.IsSquareUnderAttackFromWhiteFromRight(kingSquare) != square.InvalidIndex {
-			return peacealignment.Rank
+			return alignment.Rank
 		}
 	}
 
-	if sq == peacealignment.FileUnder {
+	if sq == alignment.FileUnder {
 		if m.IsSquareUnderAttackFromWhiteFromUnder(kingSquare) != square.InvalidIndex {
-			return peacealignment.File
+			return alignment.File
 		}
 	}
 
-	if sq == peacealignment.FileAbove {
+	if sq == alignment.FileAbove {
 		if m.IsSquareUnderAttackFromWhiteFromAbove(kingSquare) != square.InvalidIndex {
-			return peacealignment.File
+			return alignment.File
 		}
 	}
 
-	if sq == peacealignment.DiagonalUnder {
+	if sq == alignment.DiagonalUnder {
 		if m.IsSquareUnderAttackFromWhiteFromLeftUnder(kingSquare) != square.InvalidIndex {
-			return peacealignment.Diagonal
+			return alignment.Diagonal
 		}
 	}
 
-	if sq == peacealignment.DiagonalAbove {
+	if sq == alignment.DiagonalAbove {
 		if m.IsSquareUnderAttackFromWhiteFromRightAbove(kingSquare) != square.InvalidIndex {
-			return peacealignment.Diagonal
+			return alignment.Diagonal
 		}
 	}
 
-	if sq == peacealignment.CounterDiagonalUnder {
+	if sq == alignment.CounterDiagonalUnder {
 		if m.IsSquareUnderAttackFromWhiteFromRightUnder(kingSquare) != square.InvalidIndex {
-			return peacealignment.CounterDiagonal
+			return alignment.CounterDiagonal
 		}
 	}
 
-	if sq == peacealignment.CounterDiagonalAbove {
+	if sq == alignment.CounterDiagonalAbove {
 		if m.IsSquareUnderAttackFromWhiteFromLeftAbove(kingSquare) != square.InvalidIndex {
-			return peacealignment.CounterDiagonal
+			return alignment.CounterDiagonal
 		}
 	}
 
-	return peacealignment.NoVector
+	return alignment.NoVector
 }
