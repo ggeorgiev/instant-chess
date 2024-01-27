@@ -8,7 +8,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/util"
 )
 
-type Codes []Figure
+type Codes []Code
 
 // Provide the sort interface for Codes
 func (codes Codes) Len() int           { return len(codes) }
@@ -107,13 +107,13 @@ func (fs Codes) String() string {
 	return sb.String()
 }
 
-func (fs Codes) RemoveOne(f Figure) Codes {
-	for i, figure := range fs {
-		if figure == f {
+func (fs Codes) RemoveOne(f Code) Codes {
+	for i, pc := range fs {
+		if pc == f {
 			newSize := len(fs) - 1
 			fs[i] = fs[newSize]
 			return fs[:newSize]
 		}
 	}
-	panic("Removing figure that does not exists")
+	panic("Removing pc that does not exists")
 }

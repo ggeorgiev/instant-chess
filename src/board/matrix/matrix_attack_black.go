@@ -14,27 +14,27 @@ func (m *Matrix) AttackBitboardMaskFromBlack() bitboard.Mask {
 	fallShadowMask := bitboard.Empty
 	fallLeftShadowMask := bitboard.Empty
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
-		figure := m[s]
-		if figure == peace.NoFigure {
+		pc := m[s]
+		if pc == peace.Null {
 			continue
 		}
 
-		if figure.Color() == peace.BlackColor {
+		if pc.Color() == peace.BlackColor {
 			attackerOccupiedMask |= square.IndexMask[s]
 		}
 
-		if figure == peace.BlackPawn {
+		if pc == peace.BlackPawn {
 			attackMask |= attack.BlackPawnBitboardMasks[s]
-		} else if figure == peace.BlackKnight {
+		} else if pc == peace.BlackKnight {
 			attackMask |= attack.KnightBitboardMasks[s]
-		} else if figure == peace.BlackBishop {
+		} else if pc == peace.BlackBishop {
 			attackMask |= attack.DiagonalsFallBitboardMasks[s] & ^fallShadowMask
-		} else if figure == peace.BlackRook {
+		} else if pc == peace.BlackRook {
 			attackMask |= attack.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask
-		} else if figure == peace.BlackQueen {
+		} else if pc == peace.BlackQueen {
 			attackMask |= (attack.LinearsFallLeftBitboardMasks[s] & ^fallLeftShadowMask) |
 				(attack.DiagonalsFallBitboardMasks[s] & ^fallShadowMask)
-		} else if figure == peace.BlackKing {
+		} else if pc == peace.BlackKing {
 			attackMask |= attack.KingBitboardMasks[s]
 		}
 
@@ -45,17 +45,17 @@ func (m *Matrix) AttackBitboardMaskFromBlack() bitboard.Mask {
 	riseShadowMask := bitboard.Empty
 	riseRightShadowMask := bitboard.Empty
 	for s := square.LastIndex; s >= square.ZeroIndex; s-- {
-		figure := m[s]
-		if figure == peace.NoFigure {
+		pc := m[s]
+		if pc == peace.Null {
 			continue
 		}
 
-		if figure.Color() == peace.BlackColor {
-			if figure == peace.BlackBishop {
+		if pc.Color() == peace.BlackColor {
+			if pc == peace.BlackBishop {
 				attackMask |= attack.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask
-			} else if figure == peace.BlackRook {
+			} else if pc == peace.BlackRook {
 				attackMask |= attack.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask
-			} else if figure == peace.BlackQueen {
+			} else if pc == peace.BlackQueen {
 				attackMask |= (attack.LinearsRiseRightBitboardMasks[s] & ^riseRightShadowMask) |
 					(attack.DiagonalsRiseBitboardMasks[s] & ^riseShadowMask)
 			}

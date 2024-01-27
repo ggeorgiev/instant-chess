@@ -44,7 +44,7 @@ func (b *Batch) GenerateState(index uint64) (*state.State, uint64, square.Index)
 	}
 
 	for s, f := range peace.GetRightsMap(b.Rights) {
-		if matrix[s] != peace.NoFigure {
+		if matrix[s] != peace.Null {
 			return nil, bitset, s
 		}
 		matrix[s] = f

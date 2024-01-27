@@ -14,7 +14,7 @@ const (
 	bp = BlackPawn
 )
 
-type RightsMap map[square.Index]Figure
+type RightsMap map[square.Index]Code
 
 var rightsMapList = []RightsMap{
 	{},

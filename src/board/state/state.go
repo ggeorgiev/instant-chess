@@ -62,11 +62,11 @@ func (s *State) Invalid() (bool, square.Index) {
 
 	var offenders square.Indexes
 	for i := square.ZeroIndex; i <= square.LastIndex; i++ {
-		figure := s.Matrix[i]
-		if figure.IsNoFigure() {
+		pc := s.Matrix[i]
+		if pc.IsNull() {
 			continue
 		}
-		if figure == peace.WhiteRook {
+		if pc == peace.WhiteRook {
 			if whiteRookIsMisplaced {
 				if i == place.WhiteRookKingsideStarting && s.Rights.IsWhiteKingsideCastling() {
 					continue
@@ -76,7 +76,7 @@ func (s *State) Invalid() (bool, square.Index) {
 				}
 				return true, i
 			}
-		} else if figure == peace.BlackRook {
+		} else if pc == peace.BlackRook {
 			if blackRookIsMisplaced {
 				if i == place.BlackRookKingsideStarting && s.Rights.IsBlackKingsideCastling() {
 					continue
@@ -86,12 +86,12 @@ func (s *State) Invalid() (bool, square.Index) {
 				}
 				return true, i
 			}
-		} else if figure == peace.WhiteKing {
+		} else if pc == peace.WhiteKing {
 			if i != place.WhiteKingStarting &&
 				s.Rights.IsWhiteAnyCastling() {
 				offenders = append(offenders, i)
 			}
-		} else if figure == peace.BlackKing {
+		} else if pc == peace.BlackKing {
 			if i != place.BlackKingStarting &&
 				s.Rights.IsBlackAnyCastling() {
 				offenders = append(offenders, i)
@@ -106,7 +106,7 @@ func (s *State) StorageLocation() (storage.BoardPeaces, storage.BoardStateIndex)
 
 	n := 0
 	for sq := square.ZeroIndex; sq <= square.LastIndex; sq++ {
-		if s.Matrix[sq] != peace.NoFigure {
+		if s.Matrix[sq] != peace.Null {
 			peaces[n] = s.Matrix[sq]
 			n++
 		}

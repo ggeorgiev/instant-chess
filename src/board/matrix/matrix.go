@@ -17,7 +17,7 @@ const (
 
 var runesExpectedLength = len(util.Runes(separator)) - 1
 
-type Matrix [square.Number]peace.Figure
+type Matrix [square.Number]peace.Code
 
 func Parse(text string) (Matrix, error) {
 	var matrix Matrix
@@ -38,8 +38,8 @@ func Parse(text string) (Matrix, error) {
 		}
 
 		for f := square.ZeroFile; f <= square.LastFile; f++ {
-			figure, _ := peace.FromSymbol(runes[4+f*4])
-			matrix[square.NewIndex(f, r)] = figure
+			pc, _ := peace.FromSymbol(runes[4+f*4])
+			matrix[square.NewIndex(f, r)] = pc
 		}
 	}
 	return matrix, nil
@@ -78,7 +78,7 @@ func (m *Matrix) Sprint() string {
 	return sb.String()
 }
 
-func (m *Matrix) FindSinglePeace(peace peace.Figure) square.Index {
+func (m *Matrix) FindSinglePeace(peace peace.Code) square.Index {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		if m[s] == peace {
 			return s
@@ -93,17 +93,17 @@ func (m *Matrix) Invalid() (bool, square.Index) {
 
 	var offenders square.Indexes
 	for i := square.ZeroIndex; i <= square.LastIndex; i++ {
-		figure := m[i]
-		if figure.IsNoFigure() {
+		pc := m[i]
+		if pc.IsNull() {
 			continue
 		}
 
-		if figure == peace.WhiteKing {
+		if pc == peace.WhiteKing {
 			whiteKings++
 			if whiteKings > 1 {
 				return true, square.InvalidIndex
 			}
-		} else if figure == peace.BlackKing {
+		} else if pc == peace.BlackKing {
 			blackKings++
 			if blackKings > 1 {
 				return true, square.InvalidIndex

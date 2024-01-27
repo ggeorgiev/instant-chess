@@ -21,10 +21,10 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 		s.Rights = s.Rights.ResetWhiteBothCastling()
 
 		if to == place.WhiteKingKingsideCastling {
-			s.Matrix[place.WhiteRookKingsideStarting] = peace.NoFigure
+			s.Matrix[place.WhiteRookKingsideStarting] = peace.Null
 			s.Matrix[place.WhiteRookKingsideCastling] = peace.WhiteRook
 		} else if to == place.WhiteKingQueensideCastling {
-			s.Matrix[place.WhiteRookQueensideStarting] = peace.NoFigure
+			s.Matrix[place.WhiteRookQueensideStarting] = peace.Null
 			s.Matrix[place.WhiteRookQueensideCastling] = peace.WhiteRook
 		}
 	}
@@ -46,7 +46,7 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 	}
 
 	s.Matrix[to] = s.Matrix[from]
-	s.Matrix[from] = peace.NoFigure
+	s.Matrix[from] = peace.Null
 
 	return snapshot
 }
@@ -57,10 +57,10 @@ func (s *State) UndoWhite(snapshot Snapshot, from square.Index, to square.Index)
 	if from == place.WhiteKingStarting && s.Matrix[to] == peace.WhiteKing {
 		if to == place.WhiteKingKingsideCastling {
 			s.Matrix[place.WhiteRookKingsideStarting] = peace.WhiteRook
-			s.Matrix[place.WhiteRookKingsideCastling] = peace.NoFigure
+			s.Matrix[place.WhiteRookKingsideCastling] = peace.Null
 		} else if to == place.WhiteKingQueensideCastling {
 			s.Matrix[place.WhiteRookQueensideStarting] = peace.WhiteRook
-			s.Matrix[place.WhiteRookQueensideCastling] = peace.NoFigure
+			s.Matrix[place.WhiteRookQueensideCastling] = peace.Null
 		}
 	}
 

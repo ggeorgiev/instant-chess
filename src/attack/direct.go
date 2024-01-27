@@ -7,7 +7,7 @@ import (
 
 type Direct struct {
 	Index square.Index
-	Peace peace.Figure
+	Peace peace.Code
 }
 
 type Directs []Direct

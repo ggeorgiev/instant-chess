@@ -6,7 +6,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func rightsFigureInternalHelper() []RightsMap {
+func rightsInternalHelper() []RightsMap {
 	var peacesList []RightsMap
 	for r := move.NoRights; r < move.Rights(0xFF); r++ {
 		codes := make(RightsMap)

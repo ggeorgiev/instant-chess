@@ -6,7 +6,7 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/peace"
 )
 
-type BoardPeaces [32]peace.Figure
+type BoardPeaces [32]peace.Code
 
 func (bf BoardPeaces) String() string {
 	var sb strings.Builder

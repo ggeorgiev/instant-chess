@@ -5,8 +5,8 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/peace"
 )
 
-func PeaceBitboardMasks(figure peace.Figure) bitboard.Masks {
-	switch figure {
+func PeaceBitboardMasks(pc peace.Code) bitboard.Masks {
+	switch pc {
 	case peace.WhitePawn:
 		return WhitePawnBitboardMasks
 	case peace.BlackPawn:

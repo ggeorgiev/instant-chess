@@ -11,7 +11,7 @@ import (
 )
 
 func TestRights(t *testing.T) {
-	rf := rightsFigureInternalHelper()
+	rf := rightsInternalHelper()
 
 	sb := &strings.Builder{}
 	for _, codes := range rf {

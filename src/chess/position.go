@@ -34,7 +34,7 @@ func CreatePosition(boardState state.State) *Position {
 
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		peace := boardState.Matrix[s]
-		if peace.IsNoFigure() {
+		if peace.IsNull() {
 			continue
 		}
 

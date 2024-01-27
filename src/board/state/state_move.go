@@ -9,7 +9,7 @@ import (
 )
 
 type Snapshot struct {
-	Captured peace.Figure
+	Captured peace.Code
 	Rights   move.Rights
 }
 

@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFigureColor(t *testing.T) {
+func TestCodeColor(t *testing.T) {
 	assert.Equal(t, WhitePawn.Color(), WhiteColor)
 	assert.Equal(t, WhiteBishop.Color(), WhiteColor)
 	assert.Equal(t, WhiteKnight.Color(), WhiteColor)
@@ -22,8 +22,8 @@ func TestFigureColor(t *testing.T) {
 	assert.Equal(t, BlackKing.Color(), BlackColor)
 }
 
-func TestFigureIsWhite(t *testing.T) {
-	assert.False(t, NoFigure.IsWhite())
+func TestCodeIsWhite(t *testing.T) {
+	assert.False(t, Null.IsWhite())
 	assert.True(t, WhitePawn.IsWhite())
 	assert.True(t, WhiteBishop.IsWhite())
 	assert.True(t, WhiteKnight.IsWhite())
@@ -38,8 +38,8 @@ func TestFigureIsWhite(t *testing.T) {
 	assert.False(t, BlackKing.IsWhite())
 }
 
-func TestFigureIsBlack(t *testing.T) {
-	assert.False(t, NoFigure.IsBlack())
+func TestCodeIsBlack(t *testing.T) {
+	assert.False(t, Null.IsBlack())
 	assert.False(t, WhitePawn.IsBlack())
 	assert.False(t, WhiteBishop.IsBlack())
 	assert.False(t, WhiteKnight.IsBlack())
@@ -54,66 +54,66 @@ func TestFigureIsBlack(t *testing.T) {
 	assert.True(t, BlackKing.IsBlack())
 }
 
-func TestFigureIsNoFigureOrNot(t *testing.T) {
-	assert.True(t, NoFigure.IsNoFigureOrWhite())
-	assert.True(t, WhitePawn.IsNoFigureOrWhite())
-	assert.True(t, WhiteBishop.IsNoFigureOrWhite())
-	assert.True(t, WhiteKnight.IsNoFigureOrWhite())
-	assert.True(t, WhiteRook.IsNoFigureOrWhite())
-	assert.True(t, WhiteQueen.IsNoFigureOrWhite())
-	assert.True(t, WhiteKing.IsNoFigureOrWhite())
-	assert.False(t, BlackPawn.IsNoFigureOrWhite())
-	assert.False(t, BlackBishop.IsNoFigureOrWhite())
-	assert.False(t, BlackKnight.IsNoFigureOrWhite())
-	assert.False(t, BlackRook.IsNoFigureOrWhite())
-	assert.False(t, BlackQueen.IsNoFigureOrWhite())
-	assert.False(t, BlackKing.IsNoFigureOrWhite())
+func TestCodeIsNullOrNot(t *testing.T) {
+	assert.True(t, Null.IsNullOrWhite())
+	assert.True(t, WhitePawn.IsNullOrWhite())
+	assert.True(t, WhiteBishop.IsNullOrWhite())
+	assert.True(t, WhiteKnight.IsNullOrWhite())
+	assert.True(t, WhiteRook.IsNullOrWhite())
+	assert.True(t, WhiteQueen.IsNullOrWhite())
+	assert.True(t, WhiteKing.IsNullOrWhite())
+	assert.False(t, BlackPawn.IsNullOrWhite())
+	assert.False(t, BlackBishop.IsNullOrWhite())
+	assert.False(t, BlackKnight.IsNullOrWhite())
+	assert.False(t, BlackRook.IsNullOrWhite())
+	assert.False(t, BlackQueen.IsNullOrWhite())
+	assert.False(t, BlackKing.IsNullOrWhite())
 
-	assert.True(t, NoFigure.IsNoFigureOrBlack())
-	assert.False(t, WhitePawn.IsNoFigureOrBlack())
-	assert.False(t, WhiteBishop.IsNoFigureOrBlack())
-	assert.False(t, WhiteKnight.IsNoFigureOrBlack())
-	assert.False(t, WhiteRook.IsNoFigureOrBlack())
-	assert.False(t, WhiteQueen.IsNoFigureOrBlack())
-	assert.False(t, WhiteKing.IsNoFigureOrBlack())
-	assert.True(t, BlackPawn.IsNoFigureOrBlack())
-	assert.True(t, BlackBishop.IsNoFigureOrBlack())
-	assert.True(t, BlackKnight.IsNoFigureOrBlack())
-	assert.True(t, BlackRook.IsNoFigureOrBlack())
-	assert.True(t, BlackQueen.IsNoFigureOrBlack())
-	assert.True(t, BlackKing.IsNoFigureOrBlack())
+	assert.True(t, Null.IsNullOrBlack())
+	assert.False(t, WhitePawn.IsNullOrBlack())
+	assert.False(t, WhiteBishop.IsNullOrBlack())
+	assert.False(t, WhiteKnight.IsNullOrBlack())
+	assert.False(t, WhiteRook.IsNullOrBlack())
+	assert.False(t, WhiteQueen.IsNullOrBlack())
+	assert.False(t, WhiteKing.IsNullOrBlack())
+	assert.True(t, BlackPawn.IsNullOrBlack())
+	assert.True(t, BlackBishop.IsNullOrBlack())
+	assert.True(t, BlackKnight.IsNullOrBlack())
+	assert.True(t, BlackRook.IsNullOrBlack())
+	assert.True(t, BlackQueen.IsNullOrBlack())
+	assert.True(t, BlackKing.IsNullOrBlack())
 
-	assert.True(t, NoFigure.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhitePawn.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhiteBishop.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhiteKnight.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhiteRook.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhiteQueen.IsNoFigureOrNot(WhiteColor))
-	assert.False(t, WhiteKing.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackPawn.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackBishop.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackKnight.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackRook.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackQueen.IsNoFigureOrNot(WhiteColor))
-	assert.True(t, BlackKing.IsNoFigureOrNot(WhiteColor))
+	assert.True(t, Null.IsNullOrNot(WhiteColor))
+	assert.False(t, WhitePawn.IsNullOrNot(WhiteColor))
+	assert.False(t, WhiteBishop.IsNullOrNot(WhiteColor))
+	assert.False(t, WhiteKnight.IsNullOrNot(WhiteColor))
+	assert.False(t, WhiteRook.IsNullOrNot(WhiteColor))
+	assert.False(t, WhiteQueen.IsNullOrNot(WhiteColor))
+	assert.False(t, WhiteKing.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackPawn.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackBishop.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackKnight.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackRook.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackQueen.IsNullOrNot(WhiteColor))
+	assert.True(t, BlackKing.IsNullOrNot(WhiteColor))
 
-	assert.True(t, NoFigure.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhitePawn.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhiteBishop.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhiteKnight.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhiteRook.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhiteQueen.IsNoFigureOrNot(BlackColor))
-	assert.True(t, WhiteKing.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackPawn.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackBishop.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackKnight.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackRook.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackQueen.IsNoFigureOrNot(BlackColor))
-	assert.False(t, BlackKing.IsNoFigureOrNot(BlackColor))
+	assert.True(t, Null.IsNullOrNot(BlackColor))
+	assert.True(t, WhitePawn.IsNullOrNot(BlackColor))
+	assert.True(t, WhiteBishop.IsNullOrNot(BlackColor))
+	assert.True(t, WhiteKnight.IsNullOrNot(BlackColor))
+	assert.True(t, WhiteRook.IsNullOrNot(BlackColor))
+	assert.True(t, WhiteQueen.IsNullOrNot(BlackColor))
+	assert.True(t, WhiteKing.IsNullOrNot(BlackColor))
+	assert.False(t, BlackPawn.IsNullOrNot(BlackColor))
+	assert.False(t, BlackBishop.IsNullOrNot(BlackColor))
+	assert.False(t, BlackKnight.IsNullOrNot(BlackColor))
+	assert.False(t, BlackRook.IsNullOrNot(BlackColor))
+	assert.False(t, BlackQueen.IsNullOrNot(BlackColor))
+	assert.False(t, BlackKing.IsNullOrNot(BlackColor))
 }
 
-func TestFigureIsLinearMover(t *testing.T) {
-	assert.False(t, NoFigure.IsLinearMover())
+func TestCodeIsLinearMover(t *testing.T) {
+	assert.False(t, Null.IsLinearMover())
 	assert.False(t, WhitePawn.IsLinearMover())
 	assert.False(t, WhiteBishop.IsLinearMover())
 	assert.False(t, WhiteKnight.IsLinearMover())
@@ -127,7 +127,7 @@ func TestFigureIsLinearMover(t *testing.T) {
 	assert.True(t, BlackQueen.IsLinearMover())
 	assert.False(t, BlackKing.IsLinearMover())
 
-	assert.False(t, NoFigure.IsLinearMoverFrom(WhiteColor))
+	assert.False(t, Null.IsLinearMoverFrom(WhiteColor))
 	assert.False(t, WhitePawn.IsLinearMoverFrom(WhiteColor))
 	assert.False(t, WhiteBishop.IsLinearMoverFrom(WhiteColor))
 	assert.False(t, WhiteKnight.IsLinearMoverFrom(WhiteColor))
@@ -141,7 +141,7 @@ func TestFigureIsLinearMover(t *testing.T) {
 	assert.False(t, BlackQueen.IsLinearMoverFrom(WhiteColor))
 	assert.False(t, BlackKing.IsLinearMoverFrom(WhiteColor))
 
-	assert.False(t, NoFigure.IsLinearMoverFrom(BlackColor))
+	assert.False(t, Null.IsLinearMoverFrom(BlackColor))
 	assert.False(t, WhitePawn.IsLinearMoverFrom(BlackColor))
 	assert.False(t, WhiteBishop.IsLinearMoverFrom(BlackColor))
 	assert.False(t, WhiteKnight.IsLinearMoverFrom(BlackColor))
@@ -155,7 +155,7 @@ func TestFigureIsLinearMover(t *testing.T) {
 	assert.True(t, BlackQueen.IsLinearMoverFrom(BlackColor))
 	assert.False(t, BlackKing.IsLinearMoverFrom(BlackColor))
 
-	assert.False(t, NoFigure.IsWhiteLinearMover())
+	assert.False(t, Null.IsWhiteLinearMover())
 	assert.False(t, WhitePawn.IsWhiteLinearMover())
 	assert.False(t, WhiteBishop.IsWhiteLinearMover())
 	assert.False(t, WhiteKnight.IsWhiteLinearMover())
@@ -169,7 +169,7 @@ func TestFigureIsLinearMover(t *testing.T) {
 	assert.False(t, BlackQueen.IsWhiteLinearMover())
 	assert.False(t, BlackKing.IsWhiteLinearMover())
 
-	assert.False(t, NoFigure.IsBlackLinearMover())
+	assert.False(t, Null.IsBlackLinearMover())
 	assert.False(t, WhitePawn.IsBlackLinearMover())
 	assert.False(t, WhiteBishop.IsBlackLinearMover())
 	assert.False(t, WhiteKnight.IsBlackLinearMover())
@@ -185,8 +185,8 @@ func TestFigureIsLinearMover(t *testing.T) {
 
 }
 
-func TestFigureIsDiagonalMover(t *testing.T) {
-	assert.False(t, NoFigure.IsDiagonalMover())
+func TestCodeIsDiagonalMover(t *testing.T) {
+	assert.False(t, Null.IsDiagonalMover())
 	assert.False(t, WhitePawn.IsDiagonalMover())
 	assert.True(t, WhiteBishop.IsDiagonalMover())
 	assert.False(t, WhiteKnight.IsDiagonalMover())
@@ -200,7 +200,7 @@ func TestFigureIsDiagonalMover(t *testing.T) {
 	assert.True(t, BlackQueen.IsDiagonalMover())
 	assert.False(t, BlackKing.IsDiagonalMover())
 
-	assert.False(t, NoFigure.IsDiagonalMoverFrom(WhiteColor))
+	assert.False(t, Null.IsDiagonalMoverFrom(WhiteColor))
 	assert.False(t, WhitePawn.IsDiagonalMoverFrom(WhiteColor))
 	assert.True(t, WhiteBishop.IsDiagonalMoverFrom(WhiteColor))
 	assert.False(t, WhiteKnight.IsDiagonalMoverFrom(WhiteColor))
@@ -214,7 +214,7 @@ func TestFigureIsDiagonalMover(t *testing.T) {
 	assert.False(t, BlackQueen.IsDiagonalMoverFrom(WhiteColor))
 	assert.False(t, BlackKing.IsDiagonalMoverFrom(WhiteColor))
 
-	assert.False(t, NoFigure.IsDiagonalMoverFrom(BlackColor))
+	assert.False(t, Null.IsDiagonalMoverFrom(BlackColor))
 	assert.False(t, WhitePawn.IsDiagonalMoverFrom(BlackColor))
 	assert.False(t, WhiteBishop.IsDiagonalMoverFrom(BlackColor))
 	assert.False(t, WhiteKnight.IsDiagonalMoverFrom(BlackColor))
@@ -229,8 +229,8 @@ func TestFigureIsDiagonalMover(t *testing.T) {
 	assert.False(t, BlackKing.IsDiagonalMoverFrom(BlackColor))
 }
 
-func TestFigureIsBishop(t *testing.T) {
-	assert.False(t, NoFigure.IsBishop())
+func TestCodeIsBishop(t *testing.T) {
+	assert.False(t, Null.IsBishop())
 	assert.False(t, WhitePawn.IsBishop())
 	assert.True(t, WhiteBishop.IsBishop())
 	assert.False(t, WhiteKnight.IsBishop())
@@ -245,8 +245,8 @@ func TestFigureIsBishop(t *testing.T) {
 	assert.False(t, BlackKing.IsBishop())
 }
 
-func TestFigureIsKnight(t *testing.T) {
-	assert.False(t, NoFigure.IsKnight())
+func TestCodeIsKnight(t *testing.T) {
+	assert.False(t, Null.IsKnight())
 	assert.False(t, WhitePawn.IsKnight())
 	assert.False(t, WhiteBishop.IsKnight())
 	assert.True(t, WhiteKnight.IsKnight())
@@ -261,8 +261,8 @@ func TestFigureIsKnight(t *testing.T) {
 	assert.False(t, BlackKing.IsKnight())
 }
 
-func TestFigureIsRook(t *testing.T) {
-	assert.False(t, NoFigure.IsRook())
+func TestCodeIsRook(t *testing.T) {
+	assert.False(t, Null.IsRook())
 	assert.False(t, WhitePawn.IsRook())
 	assert.False(t, WhiteBishop.IsRook())
 	assert.False(t, WhiteKnight.IsRook())
@@ -277,8 +277,8 @@ func TestFigureIsRook(t *testing.T) {
 	assert.False(t, BlackKing.IsRook())
 }
 
-func TestFigureIsQueen(t *testing.T) {
-	assert.False(t, NoFigure.IsQueen())
+func TestCodeIsQueen(t *testing.T) {
+	assert.False(t, Null.IsQueen())
 	assert.False(t, WhitePawn.IsQueen())
 	assert.False(t, WhiteBishop.IsQueen())
 	assert.False(t, WhiteKnight.IsQueen())
@@ -293,8 +293,8 @@ func TestFigureIsQueen(t *testing.T) {
 	assert.False(t, BlackKing.IsQueen())
 }
 
-func TestFigureIsKing(t *testing.T) {
-	assert.False(t, NoFigure.IsKing())
+func TestCodeIsKing(t *testing.T) {
+	assert.False(t, Null.IsKing())
 	assert.False(t, WhitePawn.IsKing())
 	assert.False(t, WhiteBishop.IsKing())
 	assert.False(t, WhiteKnight.IsKing())

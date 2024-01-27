@@ -10,21 +10,21 @@ import (
 )
 
 func (m *Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.Indexes {
-	figure := m[s]
-	if !figure.IsWhite() {
+	pc := m[s]
+	if !pc.IsWhite() {
 		return nil
 	}
 
-	if figure == peace.WhiteKing {
+	if pc == peace.WhiteKing {
 		return m.WhiteKingTos(s)
 	}
 
 	original := m[s]
-	m[s] = peace.NoFigure
+	m[s] = peace.Null
 	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
-	switch figure {
+	switch pc {
 	case peace.WhiteBishop:
 		if maybeCheckedVector.IsLeaniar() {
 			return nil
@@ -48,8 +48,8 @@ func (m *Matrix) SquareWhiteTos(s square.Index, kingSquare square.Index) square.
 }
 
 func (m *Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, capture square.Index) square.Indexes {
-	figure := m[s]
-	if !figure.IsWhite() {
+	pc := m[s]
+	if !pc.IsWhite() {
 		return nil
 	}
 
@@ -57,16 +57,16 @@ func (m *Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, 
 		return nil
 	}
 
-	if figure == peace.WhiteKing {
+	if pc == peace.WhiteKing {
 		return square.Indexes{capture}
 	}
 
 	original := m[s]
-	m[s] = peace.NoFigure
+	m[s] = peace.Null
 	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 
-	switch figure {
+	switch pc {
 	case peace.WhiteBishop:
 		if maybeCheckedVector.IsLeaniar() {
 			return nil
@@ -88,13 +88,13 @@ func (m *Matrix) SquareCaptureWhiteTos(s square.Index, kingSquare square.Index, 
 }
 
 func (m *Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, attacker square.Index) square.Indexes {
-	figure := m[s]
-	if !figure.IsWhite() || figure == peace.WhiteKing {
+	pc := m[s]
+	if !pc.IsWhite() || pc == peace.WhiteKing {
 		return nil
 	}
 
 	mask := alignment.BlockRelationMasksList[attacker][kingSquare]
-	peaceMask := attack.PeaceBitboardMasks(figure)[s]
+	peaceMask := attack.PeaceBitboardMasks(pc)[s]
 
 	overlap := mask & peaceMask
 	if overlap == bitboard.Empty {
@@ -102,7 +102,7 @@ func (m *Matrix) SquareBlockWhiteTos(s square.Index, kingSquare square.Index, at
 	}
 
 	original := m[s]
-	m[s] = peace.NoFigure
+	m[s] = peace.Null
 	maybeCheckedVector := m.IsWhiteMaybeCheckedAfterMove(kingSquare, s)
 	m[s] = original
 

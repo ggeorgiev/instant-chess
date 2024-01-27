@@ -4,115 +4,115 @@ import (
 	"fmt"
 )
 
-type Figure uint8
+type Code uint8
 
-func Combine(color Color, tp Kind) Figure {
-	return Figure(uint8(color) | uint8(tp))
+func Combine(color Color, tp Kind) Code {
+	return Code(uint8(color) | uint8(tp))
 }
 
 const (
-	NoFigure    Figure = 0
-	WhitePawn   Figure = Figure(uint8(White) | uint8(Pawn))
-	WhiteBishop Figure = Figure(uint8(White) | uint8(Bishop))
-	WhiteKnight Figure = Figure(uint8(White) | uint8(Knight))
-	WhiteRook   Figure = Figure(uint8(White) | uint8(Rook))
-	WhiteQueen  Figure = Figure(uint8(White) | uint8(Queen))
-	WhiteKing   Figure = Figure(uint8(White) | uint8(King))
-	BlackPawn   Figure = Figure(uint8(Black) | uint8(Pawn))
-	BlackBishop Figure = Figure(uint8(Black) | uint8(Bishop))
-	BlackKnight Figure = Figure(uint8(Black) | uint8(Knight))
-	BlackRook   Figure = Figure(uint8(Black) | uint8(Rook))
-	BlackQueen  Figure = Figure(uint8(Black) | uint8(Queen))
-	BlackKing   Figure = Figure(uint8(Black) | uint8(King))
+	Null        Code = 0
+	WhitePawn   Code = Code(uint8(White) | uint8(Pawn))
+	WhiteBishop Code = Code(uint8(White) | uint8(Bishop))
+	WhiteKnight Code = Code(uint8(White) | uint8(Knight))
+	WhiteRook   Code = Code(uint8(White) | uint8(Rook))
+	WhiteQueen  Code = Code(uint8(White) | uint8(Queen))
+	WhiteKing   Code = Code(uint8(White) | uint8(King))
+	BlackPawn   Code = Code(uint8(Black) | uint8(Pawn))
+	BlackBishop Code = Code(uint8(Black) | uint8(Bishop))
+	BlackKnight Code = Code(uint8(Black) | uint8(Knight))
+	BlackRook   Code = Code(uint8(Black) | uint8(Rook))
+	BlackQueen  Code = Code(uint8(Black) | uint8(Queen))
+	BlackKing   Code = Code(uint8(Black) | uint8(King))
 )
 
-func (f Figure) Color() Color {
+func (f Code) Color() Color {
 	return Color(uint8(f) & ColorMask)
 }
 
-func (f Figure) IsWhite() bool {
+func (f Code) IsWhite() bool {
 	return f&White == White
 }
 
-func (f Figure) IsBlack() bool {
+func (f Code) IsBlack() bool {
 	return f&Black == Black
 }
 
-func (f Figure) IsLinearMover() bool {
+func (f Code) IsLinearMover() bool {
 	return uint8(f)&LinearMoverMask != 0
 }
 
-func (f Figure) IsLinearMoverFrom(color Color) bool {
+func (f Code) IsLinearMoverFrom(color Color) bool {
 	return uint8(f)&(LinearMoverMask|ColorMask) == LinearMoverMask|uint8(color)
 }
 
-func (f Figure) IsWhiteLinearMover() bool {
+func (f Code) IsWhiteLinearMover() bool {
 	return uint8(f)&(LinearMoverMask|ColorMask) == LinearMoverMask|White
 }
 
-func (f Figure) IsBlackLinearMover() bool {
+func (f Code) IsBlackLinearMover() bool {
 	return uint8(f)&(LinearMoverMask|ColorMask) == LinearMoverMask|Black
 }
 
-func (f Figure) IsDiagonalMover() bool {
+func (f Code) IsDiagonalMover() bool {
 	return uint8(f)&DiagonalMoverMask != 0
 }
 
-func (f Figure) IsDiagonalMoverFrom(color Color) bool {
+func (f Code) IsDiagonalMoverFrom(color Color) bool {
 	return uint8(f)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|uint8(color)
 }
 
-func (f Figure) IsWhiteDiagonalMover() bool {
+func (f Code) IsWhiteDiagonalMover() bool {
 	return uint8(f)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|White
 }
 
-func (f Figure) IsBlackDiagonalMover() bool {
+func (f Code) IsBlackDiagonalMover() bool {
 	return uint8(f)&(DiagonalMoverMask|ColorMask) == DiagonalMoverMask|Black
 }
 
-func (f Figure) IsBishop() bool {
+func (f Code) IsBishop() bool {
 	return f == WhiteBishop || f == BlackBishop
 }
 
-func (f Figure) IsKnight() bool {
+func (f Code) IsKnight() bool {
 	return f == WhiteKnight || f == BlackKnight
 }
 
-func (f Figure) IsRook() bool {
+func (f Code) IsRook() bool {
 	return f == WhiteRook || f == BlackRook
 }
 
-func (f Figure) IsQueen() bool {
+func (f Code) IsQueen() bool {
 	return f == WhiteQueen || f == BlackQueen
 }
 
-func (f Figure) IsKing() bool {
+func (f Code) IsKing() bool {
 	return f == WhiteKing || f == BlackKing
 }
 
-func (f Figure) IsNoFigure() bool {
-	return f == NoFigure
+func (f Code) IsNull() bool {
+	return f == Null
 }
 
-func (f Figure) IsNoFigureOr(color Color) bool {
+func (f Code) IsNullOr(color Color) bool {
 	return uint8(f)&ColorMask != uint8(color.Oponent())
 }
 
-func (f Figure) IsNoFigureOrNot(color Color) bool {
+func (f Code) IsNullOrNot(color Color) bool {
 	return uint8(f)&ColorMask != uint8(color)
 }
 
-func (f Figure) IsNoFigureOrWhite() bool {
+func (f Code) IsNullOrWhite() bool {
 	return uint8(f)&Black == 0
 }
 
-func (f Figure) IsNoFigureOrBlack() bool {
+func (f Code) IsNullOrBlack() bool {
 	return uint8(f)&White == 0
 }
 
-func (f Figure) Symbol() string {
+func (f Code) Symbol() string {
 	switch f {
-	case NoFigure:
+	case Null:
 		return ` `
 	case WhitePawn:
 		return `♙`
@@ -142,10 +142,10 @@ func (f Figure) Symbol() string {
 	panic("impossible")
 }
 
-func FromSymbol(symbol rune) (Figure, error) {
+func FromSymbol(symbol rune) (Code, error) {
 	switch symbol {
 	case 32:
-		return NoFigure, nil
+		return Null, nil
 	case 9820:
 		return BlackRook, nil
 	case 9822:
@@ -172,5 +172,5 @@ func FromSymbol(symbol rune) (Figure, error) {
 		return WhiteKing, nil
 	}
 
-	return NoFigure, fmt.Errorf("unacceptable symbol: %d", symbol)
+	return Null, fmt.Errorf("unacceptable symbol: %d", symbol)
 }

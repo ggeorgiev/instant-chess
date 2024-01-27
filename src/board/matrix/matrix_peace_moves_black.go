@@ -10,12 +10,12 @@ import (
 func (m *Matrix) BlackKingTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
-	m[s] = peace.NoFigure
+	m[s] = peace.Null
 
 	kingMoves := move.KingSquareIndexes[s]
 	for _, square := range kingMoves {
-		figure := m[square]
-		if figure.IsNoFigureOrWhite() && !m.IsBlackChecked(square) {
+		pc := m[square]
+		if pc.IsNullOrWhite() && !m.IsBlackChecked(square) {
 			tos = append(tos, square)
 		}
 	}
@@ -42,12 +42,12 @@ func (m *Matrix) BlackBishopNoCheckedTos(s square.Index, vector alignment.Vector
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
-		figure := m[square]
-		if figure.IsBlack() {
+		pc := m[square]
+		if pc.IsBlack() {
 			return false
 		}
 		tos = append(tos, square)
-		return figure.IsNoFigure()
+		return pc.IsNull()
 	}
 
 	file := s.File()
@@ -104,14 +104,14 @@ func (m *Matrix) BlackBishopCapture(s square.Index, vector alignment.Vector, cap
 	var tos square.Indexes
 
 	check := func(sq square.Index) bool {
-		figure := m[sq]
-		if figure.IsBlack() {
+		pc := m[sq]
+		if pc.IsBlack() {
 			return false
 		}
 		if sq == capture {
 			tos = square.Indexes{capture}
 		}
-		return figure.IsNoFigure()
+		return pc.IsNull()
 	}
 
 	file := s.File()
@@ -169,12 +169,12 @@ func (m *Matrix) BlackRookNoCheckedTos(s square.Index, vector alignment.Vector) 
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
-		figure := m[square]
-		if figure.IsBlack() {
+		pc := m[square]
+		if pc.IsBlack() {
 			return false
 		}
 		tos = append(tos, square)
-		return figure.IsNoFigure()
+		return pc.IsNull()
 	}
 
 	file := s.File()
@@ -214,14 +214,14 @@ func (m *Matrix) BlackRookCapture(s square.Index, vector alignment.Vector, captu
 	var tos square.Indexes
 
 	check := func(sq square.Index) bool {
-		figure := m[sq]
-		if figure.IsBlack() {
+		pc := m[sq]
+		if pc.IsBlack() {
 			return false
 		}
 		if sq == capture {
 			tos = square.Indexes{capture}
 		}
-		return figure.IsNoFigure()
+		return pc.IsNull()
 	}
 
 	file := s.File()
@@ -260,12 +260,12 @@ func (m *Matrix) BlackQueenNoCheckedTos(s square.Index, vector alignment.Vector)
 	var tos square.Indexes
 
 	check := func(square square.Index) bool {
-		figure := m[square]
-		if figure.IsBlack() {
+		pc := m[square]
+		if pc.IsBlack() {
 			return false
 		}
 		tos = append(tos, square)
-		return figure.IsNoFigure()
+		return pc.IsNull()
 	}
 
 	file := s.File()

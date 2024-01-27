@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFigurePermutations(t *testing.T) {
+func TestCodePermutations(t *testing.T) {
 	peaces := MustParse("♚♔♖♖")
 
 	iterator, perm := NewPermutationIterator(peaces)
