@@ -6,33 +6,33 @@ import (
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
-func rightsFigureInternalHelper() []FigureMap {
-	var peacesList []FigureMap
+func rightsFigureInternalHelper() []RightsMap {
+	var peacesList []RightsMap
 	for r := move.NoRights; r < move.Rights(0xFF); r++ {
-		figures := make(FigureMap)
+		codes := make(RightsMap)
 		if r.IsWhiteAnyCastling() {
-			figures[place.WhiteKingStarting] = WhiteKing
+			codes[place.WhiteKingStarting] = WhiteKing
 		}
 		if r.IsWhiteKingsideCastling() {
-			figures[place.WhiteRookKingsideStarting] = WhiteRook
+			codes[place.WhiteRookKingsideStarting] = WhiteRook
 		}
 		if r.IsWhiteQueensideCastling() {
-			figures[place.WhiteRookQueensideStarting] = WhiteRook
+			codes[place.WhiteRookQueensideStarting] = WhiteRook
 		}
 		if r.IsBlackAnyCastling() {
-			figures[place.BlackKingStarting] = BlackKing
+			codes[place.BlackKingStarting] = BlackKing
 		}
 		if r.IsBlackKingsideCastling() {
-			figures[place.BlackRookKingsideStarting] = BlackRook
+			codes[place.BlackRookKingsideStarting] = BlackRook
 		}
 		if r.IsBlackQueensideCastling() {
-			figures[place.BlackRookQueensideStarting] = BlackRook
+			codes[place.BlackRookQueensideStarting] = BlackRook
 		}
 		if r.EnPassantFile() != square.InvalidFile {
-			figures[square.NewIndex(r.EnPassantFile(), place.BlackPawnsJumpRank)] = WhitePawn
+			codes[square.NewIndex(r.EnPassantFile(), place.BlackPawnsJumpRank)] = WhitePawn
 		}
 
-		peacesList = append(peacesList, figures)
+		peacesList = append(peacesList, codes)
 	}
 
 	return peacesList

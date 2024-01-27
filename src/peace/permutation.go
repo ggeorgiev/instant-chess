@@ -6,19 +6,19 @@ import (
 
 // PermutationIterator is an iterator for permutations
 type PermutationIterator struct {
-	figures     Figures
-	permutation Figures
+	codes       Codes
+	permutation Codes
 }
 
 // NewPermutationIterator creates a new PermutationIterator
-func NewPermutationIterator(figures Figures) (*PermutationIterator, Figures) {
-	perm := make(Figures, len(figures))
-	copy(perm, figures)
+func NewPermutationIterator(codes Codes) (*PermutationIterator, Codes) {
+	perm := make(Codes, len(codes))
+	copy(perm, codes)
 
 	sort.Sort(perm)
 
 	return &PermutationIterator{
-		figures:     figures,
+		codes:       codes,
 		permutation: perm,
 	}, perm
 }
@@ -27,7 +27,7 @@ func (it *PermutationIterator) NumberPermutations() uint64 {
 	totalPermutations := uint64(1)
 	repCount := uint64(1)
 
-	for i := 1; i < len(it.figures); i++ {
+	for i := 1; i < len(it.codes); i++ {
 		totalPermutations *= uint64(i + 1)
 		if it.permutation[i] == it.permutation[i-1] {
 			repCount++
@@ -42,7 +42,7 @@ func (it *PermutationIterator) NumberPermutations() uint64 {
 
 // Next advances the iterator to the next unique permutation and returns it.
 // If there are no more permutations, it returns nil.
-func (it *PermutationIterator) Next() Figures {
+func (it *PermutationIterator) Next() Codes {
 	array := it.permutation
 	// Find the largest index k such that a[k] < a[k + 1]
 	var k int = -1

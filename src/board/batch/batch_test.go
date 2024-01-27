@@ -9,21 +9,21 @@ import (
 )
 
 func TestBatchCreateNoRights(t *testing.T) {
-	batch := Create(peace.MustParseFigures("♚♔♖♖"), move.NoRights)
+	batch := Create(peace.MustParse("♚♔♖♖"), move.NoRights)
 	assert.Equal(t, uint64(635376), batch.CountBitsets())
 }
 
 func TestBatchCreateWhiteBothCastlingRights(t *testing.T) {
-	batch := Create(peace.MustParseFigures("♚♔♖♖"), move.WhiteBothCastlingRights)
+	batch := Create(peace.MustParse("♚♔♖♖"), move.WhiteBothCastlingRights)
 	assert.Equal(t, uint64(64), batch.CountBitsets())
 }
 
 func TestBatchCreateWhiteKingsideCastlingRights(t *testing.T) {
-	batch := Create(peace.MustParseFigures("♚♔♖♖"), move.WhiteKingsideCastlingRights)
+	batch := Create(peace.MustParse("♚♔♖♖"), move.WhiteKingsideCastlingRights)
 	assert.Equal(t, uint64(2016), batch.CountBitsets())
 }
 
 func TestBatchCreateBlackBothCastlingRights(t *testing.T) {
-	batch := Create(peace.MustParseFigures("♚♔♜♜"), move.BlackBothCastlingRights)
+	batch := Create(peace.MustParse("♚♔♜♜"), move.BlackBothCastlingRights)
 	assert.Equal(t, uint64(64), batch.CountBitsets())
 }

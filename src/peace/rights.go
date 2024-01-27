@@ -14,9 +14,9 @@ const (
 	bp = BlackPawn
 )
 
-type FigureMap map[square.Index]Figure
+type RightsMap map[square.Index]Figure
 
-var rightsFigures = []FigureMap{
+var rightsMapList = []RightsMap{
 	{},
 	{},
 	{},
@@ -274,6 +274,6 @@ var rightsFigures = []FigureMap{
 	{00: wr, 04: wk, 07: wr, 38: wp, 56: br, 60: bk, 63: br},
 }
 
-func RightsFigures(rights move.Rights) FigureMap {
-	return rightsFigures[int(rights)]
+func GetRightsMap(rights move.Rights) RightsMap {
+	return rightsMapList[int(rights)]
 }

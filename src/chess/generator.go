@@ -10,7 +10,7 @@ import (
 
 // Generate generates all possible positions for the given peaces
 func Generate(peacesString string) error {
-	peaces := peace.MustParseFigures(peacesString)
+	peaces := peace.MustParse(peacesString)
 	rightsList := peaces.MoveRights()
 
 	var batches batch.Batches

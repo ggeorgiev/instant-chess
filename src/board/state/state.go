@@ -101,18 +101,18 @@ func (s *State) Invalid() (bool, square.Index) {
 	return len(offenders) > 0, offenders.Max()
 }
 
-func (s *State) StorageLocation() (storage.BoardFigures, storage.BoardStateIndex) {
-	var figures storage.BoardFigures
+func (s *State) StorageLocation() (storage.BoardPeaces, storage.BoardStateIndex) {
+	var peaces storage.BoardPeaces
 
 	n := 0
 	for sq := square.ZeroIndex; sq <= square.LastIndex; sq++ {
 		if s.Matrix[sq] != peace.NoFigure {
-			figures[n] = s.Matrix[sq]
+			peaces[n] = s.Matrix[sq]
 			n++
 		}
 	}
 	bitmask := s.Matrix.Mask()
 	index := math.BitsetToIndex(uint64(n), uint64(bitmask))
 
-	return figures, storage.BoardStateIndex(index)
+	return peaces, storage.BoardStateIndex(index)
 }

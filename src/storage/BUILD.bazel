@@ -4,7 +4,7 @@ go_library(
     name = "storage",
     srcs = [
         "active.go",
-        "board_figures.go",
+        "board_peaces.go",
         "data_block_cache.go",
         "map.go",
         "persisted.go",

@@ -7,7 +7,7 @@ import (
 
 // Chess guid
 type CGUID struct {
-	Rights            move.Rights
-	Figures           peace.Figures
-	FigurePermutation uint64
+	Rights           move.Rights
+	Peaces           peace.Codes
+	PeacePermutation uint64
 }

@@ -9,18 +9,18 @@ import (
 const arraySize = 128
 
 type Active struct {
-	figures BoardFigures
-	size    uint64
-	items   uint64
-	arrays  map[uint64][arraySize]Data
+	peaces BoardPeaces
+	size   uint64
+	items  uint64
+	arrays map[uint64][arraySize]Data
 }
 
-func NewActive(boardFigures BoardFigures, size uint64) *Active {
+func NewActive(peaces BoardPeaces, size uint64) *Active {
 	return &Active{
-		figures: boardFigures,
-		size:    size,
-		items:   0,
-		arrays:  make(map[uint64][arraySize]Data),
+		peaces: peaces,
+		size:   size,
+		items:  0,
+		arrays: make(map[uint64][arraySize]Data),
 	}
 }
 
@@ -45,7 +45,7 @@ func (a *Active) Ratio() float64 {
 }
 
 func (a *Active) Persist(directory string) error {
-	filename := a.figures.String()
+	filename := a.peaces.String()
 
 	fullFilePath := filepath.Join(directory, filename)
 

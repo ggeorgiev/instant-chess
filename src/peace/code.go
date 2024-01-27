@@ -2,20 +2,9 @@ package peace
 
 import (
 	"fmt"
-	"strings"
-
-	"github.com/ggeorgiev/instant-chess/src/move"
-	"github.com/ggeorgiev/instant-chess/src/square"
-	"github.com/ggeorgiev/instant-chess/src/util"
 )
 
 type Figure uint8
-type Figures []Figure
-
-// Provide the sort interface for Figures
-func (figures Figures) Len() int           { return len(figures) }
-func (figures Figures) Less(i, j int) bool { return figures[i] < figures[j] }
-func (figures Figures) Swap(i, j int)      { figures[i], figures[j] = figures[j], figures[i] }
 
 func Combine(color Color, tp Kind) Figure {
 	return Figure(uint8(color) | uint8(tp))
@@ -184,107 +173,4 @@ func FromSymbol(symbol rune) (Figure, error) {
 	}
 
 	return NoFigure, fmt.Errorf("unacceptable symbol: %d", symbol)
-}
-
-func ParseFigures(text string) (Figures, error) {
-	runes := util.Runes(text)
-	position := make([]int, len(runes))
-	peaces := make(Figures, len(runes))
-	for i, symbol := range runes {
-		position[i] = 0
-		var err error
-		peaces[i], err = FromSymbol(symbol)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return peaces, nil
-}
-
-func MustParseFigures(text string) Figures {
-	figures, err := ParseFigures(text)
-	if err != nil {
-		panic(err.Error())
-	}
-	return figures
-}
-
-func (fs Figures) MoveRights() move.RightsList {
-	whiteKing := false
-	blackKing := false
-	whiteRooks := 0
-	blackRooks := 0
-	whitePawn := false
-	blackPawn := false
-
-	for _, f := range fs {
-		switch f {
-		case WhiteKing:
-			whiteKing = true
-		case BlackKing:
-			blackKing = true
-		case WhiteRook:
-			whiteRooks++
-		case BlackRook:
-			blackRooks++
-		case WhitePawn:
-			whitePawn = true
-		case BlackPawn:
-			blackPawn = true
-		}
-	}
-
-	whiteCasting := move.RightsList{move.NoRights}
-	if whiteKing {
-		if whiteRooks >= 1 {
-			whiteCasting = append(whiteCasting, move.WhiteKingsideCastlingRights, move.WhiteQueensideCastlingRights)
-		}
-		if whiteRooks >= 2 {
-			whiteCasting = append(whiteCasting, move.WhiteBothCastlingRights)
-		}
-	}
-
-	blackCasting := move.RightsList{move.NoRights}
-	if blackKing {
-		if blackRooks >= 1 {
-			blackCasting = append(blackCasting, move.BlackKingsideCastlingRights, move.BlackQueensideCastlingRights)
-		}
-		if blackRooks >= 2 {
-			blackCasting = append(blackCasting, move.BlackBothCastlingRights)
-		}
-	}
-
-	enPassantFiles := move.RightsList{move.NoEnPassantFile}
-	if whitePawn && blackPawn {
-		for f := square.ZeroFile; f <= square.LastFile; f++ {
-			enPassantFiles = append(enPassantFiles, move.NoRights.SetEnPassantFile(f))
-		}
-	}
-
-	return move.CombineRights(whiteCasting, blackCasting, enPassantFiles)
-}
-
-func (fs Figures) Copy() Figures {
-	peaces := make(Figures, len(fs))
-	copy(peaces, fs)
-	return peaces
-}
-
-func (fs Figures) String() string {
-	var sb strings.Builder
-	for _, f := range fs {
-		sb.WriteString(f.Symbol())
-	}
-	return sb.String()
-}
-
-func (fs Figures) RemoveOne(f Figure) Figures {
-	for i, figure := range fs {
-		if figure == f {
-			newSize := len(fs) - 1
-			fs[i] = fs[newSize]
-			return fs[:newSize]
-		}
-	}
-	panic("Removing figure that does not exists")
 }

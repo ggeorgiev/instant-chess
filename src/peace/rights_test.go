@@ -10,13 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRightsFigures(t *testing.T) {
+func TestRights(t *testing.T) {
 	rf := rightsFigureInternalHelper()
 
 	sb := &strings.Builder{}
-	for _, figures := range rf {
+	for _, codes := range rf {
 		var indexes []int
-		for s := range figures {
+		for s := range codes {
 			indexes = append(indexes, int(s))
 		}
 		sort.Ints(indexes)
@@ -25,7 +25,7 @@ func TestRightsFigures(t *testing.T) {
 
 		for _, i := range indexes {
 			sb.WriteString(fmt.Sprintf("%02d: ", i))
-			switch figures[square.Index(i)] {
+			switch codes[square.Index(i)] {
 			case wk:
 				sb.WriteString("wk")
 			case wr:
@@ -44,5 +44,5 @@ func TestRightsFigures(t *testing.T) {
 		sb.WriteString("},\n")
 	}
 
-	assert.Equal(t, rightsFigures, rf, sb.String())
+	assert.Equal(t, rightsMapList, rf, sb.String())
 }

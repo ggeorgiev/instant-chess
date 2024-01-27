@@ -102,9 +102,9 @@ func (s *State) MateIn() (*storage.Data, error) {
 				for _, blackTo := range blackFromTo.Tos {
 					blackSnapshot := s.DoBlack(blackFromTo.From, blackTo)
 
-					figures, index := s.StorageLocation()
+					peaces, index := s.StorageLocation()
 
-					readMap := storage.FetchReadMap(figures)
+					readMap := storage.FetchReadMap(peaces)
 					if readMap == nil {
 						// unknown
 					}

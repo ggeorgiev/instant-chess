@@ -4,6 +4,7 @@ go_library(
     name = "peace",
     srcs = [
         "code.go",
+        "code_list.go",
         "color.go",
         "kind.go",
         "permutation.go",
@@ -24,6 +25,7 @@ go_test(
     name = "peace_test",
     srcs = [
         "code_benchmark_test.go",
+        "code_list_test.go",
         "code_test.go",
         "color_test.go",
         "kind_test.go",
