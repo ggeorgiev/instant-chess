@@ -3,12 +3,12 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "peace",
     srcs = [
+        "code.go",
         "color.go",
-        "figure.go",
-        "figure_permutation.go",
         "kind.go",
-        "rights_figure.go",
-        "rights_figure_helper.go",
+        "permutation.go",
+        "rights.go",
+        "rights_helper.go",
     ],
     importpath = "github.com/ggeorgiev/instant-chess/src/peace",
     visibility = ["//visibility:public"],
@@ -23,12 +23,12 @@ go_library(
 go_test(
     name = "peace_test",
     srcs = [
+        "code_benchmark_test.go",
+        "code_test.go",
         "color_test.go",
-        "figure_benchmark_test.go",
-        "figure_permutation_test.go",
-        "figure_test.go",
         "kind_test.go",
-        "rights_figure_test.go",
+        "permutation_test.go",
+        "rights_test.go",
     ],
     embed = [":peace"],
     deps = [
