@@ -2,10 +2,10 @@ package peaceattacks
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
+	"github.com/ggeorgiev/instant-chess/src/move"
 )
 
-var FromKnight = peacemoves.KnightSquareIndexes
+var FromKnight = move.KnightSquareIndexes
 
 var KnightBitboardMasks = bitboard.Masks{
 	0b0000000000000000000000000000000000000000000000100000010000000000,

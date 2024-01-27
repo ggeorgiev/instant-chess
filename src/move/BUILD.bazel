@@ -2,7 +2,15 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "move",
-    srcs = ["rights.go"],
+    srcs = [
+        "full.go",
+        "half.go",
+        "king.go",
+        "king_helper.go",
+        "knight.go",
+        "knight_helper.go",
+        "rights.go",
+    ],
     importpath = "github.com/ggeorgiev/instant-chess/src/move",
     visibility = ["//visibility:public"],
     deps = [
@@ -13,7 +21,11 @@ go_library(
 
 go_test(
     name = "move_test",
-    srcs = ["rights_test.go"],
+    srcs = [
+        "king_test.go",
+        "knight_test.go",
+        "rights_test.go",
+    ],
     embed = [":move"],
     deps = ["@com_github_stretchr_testify//assert"],
 )

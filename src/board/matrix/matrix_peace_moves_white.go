@@ -2,8 +2,8 @@ package matrix
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/alignment"
+	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -12,7 +12,7 @@ func (m *Matrix) WhiteKingTos(s square.Index) square.Indexes {
 
 	m[s] = peace.NoFigure
 
-	kingMoves := peacemoves.KingSquareIndexes[s]
+	kingMoves := move.KingSquareIndexes[s]
 	for _, square := range kingMoves {
 		figure := m[square]
 		if figure.IsNoFigureOrBlack() && !m.IsWhiteChecked(square) {
@@ -27,7 +27,7 @@ func (m *Matrix) WhiteKingTos(s square.Index) square.Indexes {
 func (m *Matrix) WhiteKnightNoCheckedTos(s square.Index) square.Indexes {
 	var tos square.Indexes
 
-	knightMoves := peacemoves.KnightSquareIndexes[s]
+	knightMoves := move.KnightSquareIndexes[s]
 	for _, square := range knightMoves {
 		if m[square].IsWhite() {
 			continue

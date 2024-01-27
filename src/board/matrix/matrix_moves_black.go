@@ -3,9 +3,9 @@ package matrix
 import (
 	"github.com/ggeorgiev/instant-chess/src/alignment"
 	"github.com/ggeorgiev/instant-chess/src/bitboard"
+	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
 	"github.com/ggeorgiev/instant-chess/src/peaceattacks"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
@@ -113,13 +113,13 @@ func (m *Matrix) SquareBlockBlackTos(s square.Index, kingSquare square.Index, at
 	return square.ConvertBitboardMaskIntoIndexes(overlap)
 }
 
-func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
-	var moves peacemoves.Halfs
+func (m *Matrix) BlackTos(king square.Index) move.Halfs {
+	var moves move.Halfs
 	checked, attacker, block := m.IsBlackCheckedToMoveCaptureOrBlock(king)
 	if checked {
 		tos := m.BlackKingTos(king)
 		if len(tos) > 0 {
-			moves = append(moves, peacemoves.Half{
+			moves = append(moves, move.Half{
 				From: king,
 				Tos:  tos,
 			})
@@ -132,7 +132,7 @@ func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
 				}
 				tos = append(tos, m.SquareCaptureBlackTos(s, king, attacker)...)
 				if len(tos) > 0 {
-					moves = append(moves, peacemoves.Half{
+					moves = append(moves, move.Half{
 						From: s,
 						Tos:  tos,
 					})
@@ -145,7 +145,7 @@ func (m *Matrix) BlackTos(king square.Index) peacemoves.Halfs {
 	for s := square.ZeroIndex; s <= square.LastIndex; s++ {
 		tos := m.SquareBlackTos(s, king)
 		if len(tos) > 0 {
-			moves = append(moves, peacemoves.Half{
+			moves = append(moves, move.Half{
 				From: s,
 				Tos:  tos,
 			})

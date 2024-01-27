@@ -5,7 +5,6 @@ import (
 
 	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/storage"
 )
 
@@ -14,20 +13,20 @@ type Snapshot struct {
 	Rights   move.Rights
 }
 
-func (s *State) Moves() peacemoves.Fulls {
-	var moves peacemoves.Fulls
+func (s *State) Moves() move.Fulls {
+	var moves move.Fulls
 
 	whiteKing := s.Matrix.FindSinglePeace(peace.WhiteKing)
 	blackKing := s.Matrix.FindSinglePeace(peace.BlackKing)
 
 	whiteFromTos := s.Matrix.WhiteTos(whiteKing)
 	for _, fromTos := range whiteFromTos {
-		var answers peacemoves.Answers
+		var answers move.Answers
 		for _, to := range fromTos.Tos {
 			snapshot := s.DoWhite(fromTos.From, to)
 
 			blackFromTos := s.Matrix.BlackTos(blackKing)
-			answers = append(answers, peacemoves.Answer{
+			answers = append(answers, move.Answer{
 				WhiteTo:      to,
 				BlackAnswers: blackFromTos,
 			})
@@ -35,7 +34,7 @@ func (s *State) Moves() peacemoves.Fulls {
 			s.UndoWhite(snapshot, fromTos.From, to)
 		}
 
-		moves = append(moves, peacemoves.Full{
+		moves = append(moves, move.Full{
 			WhiteForm: fromTos.From,
 			Answers:   answers,
 		})

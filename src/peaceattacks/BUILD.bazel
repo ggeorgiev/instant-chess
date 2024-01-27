@@ -21,8 +21,8 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//src/bitboard",
+        "//src/move",
         "//src/peace",
-        "//src/peacemoves",
         "//src/square",
     ],
 )

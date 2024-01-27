@@ -1,4 +1,4 @@
-package peacemoves
+package move
 
 import "github.com/ggeorgiev/instant-chess/src/square"
 

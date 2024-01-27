@@ -1,4 +1,4 @@
-package peacemoves
+package move
 
 import (
 	"testing"

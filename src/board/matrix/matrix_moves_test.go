@@ -3,8 +3,8 @@ package matrix
 import (
 	"testing"
 
+	"github.com/ggeorgiev/instant-chess/src/move"
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peacemoves"
 	"github.com/ggeorgiev/instant-chess/src/square"
 	"github.com/stretchr/testify/assert"
 )
@@ -35,9 +35,9 @@ func TestMatrixMovesStartPosition(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 1, Tos: square.Indexes{16, 18}},
-		peacemoves.Half{From: 6, Tos: square.Indexes{21, 23}},
+	expected := move.Halfs{
+		move.Half{From: 1, Tos: square.Indexes{16, 18}},
+		move.Half{From: 6, Tos: square.Indexes{21, 23}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -71,9 +71,9 @@ func TestMatrixMovesBishopDiagonalBlockingEachOther(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 0, Tos: square.Indexes{1, 8, 9}},
-		peacemoves.Half{From: 18, Tos: square.Indexes{9, 27, 36, 45}},
+	expected := move.Halfs{
+		move.Half{From: 0, Tos: square.Indexes{1, 8, 9}},
+		move.Half{From: 18, Tos: square.Indexes{9, 27, 36, 45}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -107,9 +107,9 @@ func TestMatrixMovesBishopCounterDiagonalBlockingEachOther(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
-		peacemoves.Half{From: 21, Tos: square.Indexes{14, 28, 35, 42}},
+	expected := move.Halfs{
+		move.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
+		move.Half{From: 21, Tos: square.Indexes{14, 28, 35, 42}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -143,9 +143,9 @@ func TestMatrixMovesRooksFileBlockingEachOther(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 4, Tos: square.Indexes{3, 5, 11, 12, 13}},
-		peacemoves.Half{From: 20, Tos: square.Indexes{12, 28, 36, 44}},
+	expected := move.Halfs{
+		move.Half{From: 4, Tos: square.Indexes{3, 5, 11, 12, 13}},
+		move.Half{From: 20, Tos: square.Indexes{12, 28, 36, 44}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -179,9 +179,9 @@ func TestMatrixMovesRooksRankBlockingEachOther(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 29, Tos: square.Indexes{28, 27, 26, 30}},
-		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 38, 39}},
+	expected := move.Halfs{
+		move.Half{From: 29, Tos: square.Indexes{28, 27, 26, 30}},
+		move.Half{From: 31, Tos: square.Indexes{22, 23, 30, 38, 39}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -215,9 +215,9 @@ func TestMatrixMovesNeedToMoveOrCaptureWithBishop(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
-		peacemoves.Half{From: 31, Tos: square.Indexes{13}},
+	expected := move.Halfs{
+		move.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
+		move.Half{From: 31, Tos: square.Indexes{13}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -251,9 +251,9 @@ func TestMatrixMovesNeedToMoveOrCaptureWithKnight(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
-		peacemoves.Half{From: 27, Tos: square.Indexes{21}},
+	expected := move.Halfs{
+		move.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+		move.Half{From: 27, Tos: square.Indexes{21}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -287,9 +287,9 @@ func TestMatrixMovesNeedToMoveOrCaptureWithRook(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
-		peacemoves.Half{From: 29, Tos: square.Indexes{21}},
+	expected := move.Halfs{
+		move.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+		move.Half{From: 29, Tos: square.Indexes{21}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -323,9 +323,9 @@ func TestMatrixMovesNeedToMoveBlockOrCaptureWithKnight(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 63, Tos: square.Indexes{55, 62}},
-		peacemoves.Half{From: 10, Tos: square.Indexes{27, 0}},
+	expected := move.Halfs{
+		move.Half{From: 63, Tos: square.Indexes{55, 62}},
+		move.Half{From: 10, Tos: square.Indexes{27, 0}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -359,8 +359,8 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithBishop(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
+	expected := move.Halfs{
+		move.Half{From: 7, Tos: square.Indexes{6, 14, 15}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -394,8 +394,8 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithKnight(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+	expected := move.Halfs{
+		move.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
@@ -429,8 +429,8 @@ func TestMatrixMovesNeedToMoveButCannotCaptureWithRook(t *testing.T) {
 	matrix, err := Parse(text)
 	assert.NoError(t, err)
 
-	expected := peacemoves.Halfs{
-		peacemoves.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
+	expected := move.Halfs{
+		move.Half{From: 31, Tos: square.Indexes{22, 23, 30, 39}},
 	}
 
 	king := matrix.FindSinglePeace(peace.WhiteKing)
