@@ -1,12 +1,12 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "peaceplaces",
+    name = "place",
     srcs = [
         "en_passand.go",
-        "places.go",
+        "place.go",
     ],
-    importpath = "github.com/ggeorgiev/instant-chess/src/peaceplaces",
+    importpath = "github.com/ggeorgiev/instant-chess/src/place",
     visibility = ["//visibility:public"],
     deps = ["//src/square"],
 )

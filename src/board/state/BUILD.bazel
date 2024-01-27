@@ -27,7 +27,7 @@ go_library(
         "//src/move",
         "//src/peace",
         "//src/peacemoves",
-        "//src/peaceplaces",
+        "//src/place",
         "//src/square",
         "//src/storage",
     ],
@@ -42,7 +42,7 @@ go_test(
     embed = [":state"],
     deps = [
         "//src/move",
-        "//src/peaceplaces",
+        "//src/place",
         "//src/square",
         "@com_github_stretchr_testify//assert",
     ],

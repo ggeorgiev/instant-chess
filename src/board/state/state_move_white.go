@@ -2,13 +2,13 @@ package state
 
 import (
 	"github.com/ggeorgiev/instant-chess/src/peace"
-	"github.com/ggeorgiev/instant-chess/src/peaceplaces"
+	"github.com/ggeorgiev/instant-chess/src/place"
 	"github.com/ggeorgiev/instant-chess/src/square"
 )
 
 func (s *State) CanBlackEnPassant(file square.File) bool {
-	return file > 0 && s.Matrix[square.NewIndex(file-1, peaceplaces.WhitePawnsJumpRank)] == peace.BlackPawn ||
-		file < square.LastFile && s.Matrix[square.NewIndex(file+1, peaceplaces.WhitePawnsJumpRank)] == peace.BlackPawn
+	return file > 0 && s.Matrix[square.NewIndex(file-1, place.WhitePawnsJumpRank)] == peace.BlackPawn ||
+		file < square.LastFile && s.Matrix[square.NewIndex(file+1, place.WhitePawnsJumpRank)] == peace.BlackPawn
 }
 
 func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
@@ -17,27 +17,27 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 		Rights:   s.Rights,
 	}
 
-	if from == peaceplaces.WhiteKingStartingPlace && s.Matrix[from] == peace.WhiteKing {
+	if from == place.WhiteKingStarting && s.Matrix[from] == peace.WhiteKing {
 		s.Rights = s.Rights.ResetWhiteBothCastling()
 
-		if to == peaceplaces.WhiteKingKingsideCastlingPlace {
-			s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] = peace.NoFigure
-			s.Matrix[peaceplaces.WhiteRookKingsideCastlingPlace] = peace.WhiteRook
-		} else if to == peaceplaces.WhiteKingQueensideCastlingPlace {
-			s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] = peace.NoFigure
-			s.Matrix[peaceplaces.WhiteRookQueensideCastlingPlace] = peace.WhiteRook
+		if to == place.WhiteKingKingsideCastling {
+			s.Matrix[place.WhiteRookKingsideStarting] = peace.NoFigure
+			s.Matrix[place.WhiteRookKingsideCastling] = peace.WhiteRook
+		} else if to == place.WhiteKingQueensideCastling {
+			s.Matrix[place.WhiteRookQueensideStarting] = peace.NoFigure
+			s.Matrix[place.WhiteRookQueensideCastling] = peace.WhiteRook
 		}
 	}
 
-	if from == peaceplaces.WhiteRookKingsideStartingPlace && s.Matrix[from] == peace.WhiteRook {
+	if from == place.WhiteRookKingsideStarting && s.Matrix[from] == peace.WhiteRook {
 		s.Rights = s.Rights.ResetWhiteKingsideCastling()
 	}
-	if from == peaceplaces.WhiteRookQueensideStartingPlace && s.Matrix[from] == peace.WhiteRook {
+	if from == place.WhiteRookQueensideStarting && s.Matrix[from] == peace.WhiteRook {
 		s.Rights = s.Rights.ResetWhiteQueensideCastling()
 	}
 
-	if from.Rank() == peaceplaces.WhitePawnsStartingRank &&
-		to.Rank() == peaceplaces.WhitePawnsJumpRank &&
+	if from.Rank() == place.WhitePawnsStartingRank &&
+		to.Rank() == place.WhitePawnsJumpRank &&
 		s.Matrix[from] == peace.WhitePawn &&
 		s.CanBlackEnPassant(to.File()) {
 		s.Rights = s.Rights.SetEnPassantFile(from.File())
@@ -54,13 +54,13 @@ func (s *State) DoWhite(from square.Index, to square.Index) Snapshot {
 func (s *State) UndoWhite(snapshot Snapshot, from square.Index, to square.Index) {
 	s.Rights = snapshot.Rights
 
-	if from == peaceplaces.WhiteKingStartingPlace && s.Matrix[to] == peace.WhiteKing {
-		if to == peaceplaces.WhiteKingKingsideCastlingPlace {
-			s.Matrix[peaceplaces.WhiteRookKingsideStartingPlace] = peace.WhiteRook
-			s.Matrix[peaceplaces.WhiteRookKingsideCastlingPlace] = peace.NoFigure
-		} else if to == peaceplaces.WhiteKingQueensideCastlingPlace {
-			s.Matrix[peaceplaces.WhiteRookQueensideStartingPlace] = peace.WhiteRook
-			s.Matrix[peaceplaces.WhiteRookQueensideCastlingPlace] = peace.NoFigure
+	if from == place.WhiteKingStarting && s.Matrix[to] == peace.WhiteKing {
+		if to == place.WhiteKingKingsideCastling {
+			s.Matrix[place.WhiteRookKingsideStarting] = peace.WhiteRook
+			s.Matrix[place.WhiteRookKingsideCastling] = peace.NoFigure
+		} else if to == place.WhiteKingQueensideCastling {
+			s.Matrix[place.WhiteRookQueensideStarting] = peace.WhiteRook
+			s.Matrix[place.WhiteRookQueensideCastling] = peace.NoFigure
 		}
 	}
 

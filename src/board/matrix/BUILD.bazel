@@ -37,7 +37,7 @@ go_library(
         "//src/peacealignment",
         "//src/peaceattacks",
         "//src/peacemoves",
-        "//src/peaceplaces",
+        "//src/place",
         "//src/square",
         "//src/util",
     ],

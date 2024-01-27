@@ -1,4 +1,4 @@
-package peaceplaces
+package place
 
 import "github.com/ggeorgiev/instant-chess/src/square"
 
